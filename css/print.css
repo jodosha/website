@@ -1,0 +1,36 @@
+/* Print Style Sheet */
+@media print {
+body {background:white; 
+     font-size:10pt; 
+     margin:0 }
+#sidebar { display:none }
+#header { height:75px }
+#content{ margin-left:0; 
+     float:none; 
+     width:auto }
+#content a { font-weight:bold;}
+#content{ margin-left:0; 
+     float:none; 
+     width:auto }
+#footer, .ad { display:none }
+h1, h2, h3, h4, h5, h6 { page-break-after:avoid; 
+     page-break-inside:avoid }
+h3 { margin-left:10px; 
+     margin-bottom:0px; 
+     padding-bottom:0px }
+blockquote, table, pre { page-break-inside:avoid }
+ul, ol, dl  { page-break-before:avoid }
+img.centered { display: block; 
+     margin-left: auto; 
+     margin-right: auto; }
+img.right { padding: 4px; 
+     margin: 0 0 2px 7px; 
+     display: inline; }
+img.left { padding: 4px; 
+     margin: 0 7px 2px 0; 
+     display: inline; }
+.right { float: right; }
+.left { float: left }
+img { page-break-inside:avoid; 
+     page-break-after:avoid; }
+}

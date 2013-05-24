@@ -1,45 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>luca guidi</title>
-    <link href="/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="http://github.com/jodosha.atom" rel="alternate" title="atom" type="application/atom+xml" />
-  </head>
-  <body>
-    <a href="http://github.com/jodosha"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub" /></a>
-    <ul>
-      <li><a href="http://twitter.com/jodosha">twitter.com/jodosha</a></li>
-      <li><a href="http://github.com/jodosha">github.com/jodosha</a></li>
-      <li><a href="mailto:guidi.luca@gmail.com">contact me</a></li>
-      <li><a href="http://lucaguidi.com">blog</a></li>
-    </ul>
-    <ul id="projects">
-      <li><h3>projects</h3></li>
-      <li><a href="http://github.com/jodosha/click-to-globalize" title="Globalization made easy with interface in place translations">click-to-globalize</a></li>
-      <li><a href="http://github.com/jodosha/acts-as-resource" title="ActsAsResource combines ActiveRecord and ActiveResource features in *one* class">acts-as-resource</a></li>
-      <li><a href="http://github.com/jodosha/assets_packager" title="JavaScripts and stylesheets compresser">assets_packager</a></li>
-      <li><a href="http://github.com/jodosha/cached-models" title="CachedModels provides to your ActiveRecord objects a transparent approach to use ActiveSupport caching mechanism.">cached-models</a></li>
-      <li><a href="http://github.com/jodosha/more_paginate" title="Twitter like pagination for Rails">more_paginate</a></li>
-      <li><a href="http://github.com/jodosha/redis-store" title="Rack::Session, Rack::Cache and cache Redis stores for Ruby web frameworks">redis-store</a></li>
-      <li><a href="http://github.com/svenfuchs/adva_cms" title="Cutting edge CMS blog, wiki, forum, etc..">adva_cms</a></li>
-      <li><a href="http://github.com/jodosha/memoria" title="Web application statistics for Redis">memoria</a></li>
-      <li><a href="http://github.com/ezmobius/redis-rb" title="Redis library">redis-rb</a></li>
-      <li><a href="http://github.com/jodosha/sashimi" title="Local repository for Rails plugins">sashimi</a></li>
-      <li><a href="http://github.com/jodosha/hanoi" title="Automated jQuery tests with QUnit">hanoi</a></li>
-      <li><a href="http://github.com/net7/talia" title="Web Semantic platform for philosophers">talia</a></li>
-      <li><a href="http://github.com/rails/rails" title="Full stack web framework">rails</a></li>
-    </ul>
-    <script type="text/javascript">
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-      </script>
-      <script type="text/javascript">
-      try {
-      var pageTracker = _gat._getTracker("UA-235843-7");
-      pageTracker._trackPageview();
-      } catch(err) {}
-    </script>
-  </body>
-</html>
+---
+layout: default
+title: Luca Guidi
+---
+<div class="post-list">
+  <h2>Writings</h2>
+  <ul>
+  {% for post in site.posts %}
+    {% unless post.path contains '_posts/archive' %}
+    <li>
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
+
+      <p>
+      <br />
+      {{ post.excerpt }}
+      <a href="{{ post.url }}" class="continue-reading" title="Continue reading &quot;{{ post.title }}&quot;">&raquo;<a>
+      </p>
+    </li>
+    {% endunless %}
+  {% endfor %}
+  </ul>
+</div>

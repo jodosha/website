@@ -1,0 +1,32 @@
+---
+layout: post
+title: ActiveForm 0.2.0 released
+tags:
+- javascript
+- form
+- prototype
+- activeform
+---
+<p><strong>ActiveForm</strong> is a <strong>JavaScript</strong> library, based on <a href="http://prototypejs.org/">Prototype</a>, useful to validate
+your forms in an automagically and pluggable way.</p>
+
+<p><strong>Automagically?</strong> Simply, You have to declare your fields, eventually your error messages, and.. <strong>nothing else!!</strong></p>
+
+<p><strong>Pluggable? ActiveForm</strong> contains most common validations (regular expressions, presence, conditional presence..),
+and it performs them in a certain order. If you don&#8217;t like this, you can simply redeclare a method, or exclude it from validation process.</p>
+
+<p>Features:
+</p><ul><li>Prototype based</li>
+  <li>100% <acronym title="Object Oriented Programming">OOP</acronym></li>
+  <li>Total/partial inheriterance</li>
+  <li>Non-Obtrusive scripting</li>
+  <li>Validation modulatity</li>
+  <li>Validation customization</li>
+  <li>Blocking/Non-Blocking validation</li>
+  <li>Dynamic visual style customization for each form element</li>
+  <li>Most common regexps already included (you can extend/override them)</li>
+  <li>Most common validation (you can extend/overrider them)</li>
+  <li>Crossbrowser: tested on IE 6+, FF 2+, NS 8+, Op 9+ on Windows XP and Linux (sorry, for Mac people, but i haven&#8217;t access to a Mac OS X machine)</li>
+</ul><p><strong>ActiveForm</strong><strong> is </strong><strong>Free Software</strong>, released under the <a href="http://www.gnu.org/licenses/lgpl.html">LGPL License</a>.</p>
+
+<p>Read more about <a href="/pages/activeform"><strong>ActiveForm</strong></a>.</p>

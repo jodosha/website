@@ -1,0 +1,32 @@
+---
+layout: default
+title: Archive
+---
+
+<div class="post-list">
+  <h2>Archive</h2>
+  <ul>
+  {% for post in site.posts %}
+    {% unless post.path contains '_posts/archive' %}
+    <li>
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
+    </li>
+    {% endunless %}
+  {% endfor %}
+  </ul>
+</div>
+
+<div class="post-list old-posts">
+  <h2>Ol' and unmaintained</h2>
+  <ul>
+  {% for post in site.posts %}
+    {% if post.path contains '_posts/archive' %}
+    <li>
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
+    </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+</div>

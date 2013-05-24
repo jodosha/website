@@ -1,8 +1,0 @@
-* {margin: 0;padding: 0;}
-html {background-image: url(/images/background.jpg);}
-body {background: url(/images/jodosha.jpg) no-repeat;height: 800px;font-family: Lucida Grande;color: #666;}
-ul {position: absolute; left: 65%; top: 30px; list-style-type: none;}
-img {position: absolute; top: 0; right: 0; border: 0;}
-a:link, a:visited {color: #669; line-height: 18px;}
-a:hover, a:active {background-color: #669; color: #fff; line-height: 18px; text-decoration: none;}
-#projects {top: 130px;}

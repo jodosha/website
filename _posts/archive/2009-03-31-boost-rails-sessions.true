@@ -1,0 +1,43 @@
+---
+layout: post
+title: Boost Rails Sessions
+tags:
+- rails
+- ruby on rails
+- session store
+- performances
+---
+<p>There are many dark corners and hidden features in a big framework like **Rails**.  </p>
+
+<p>Digging inside the code of **ActiveRecord** I discovered an interesting class: **SqlBypass**. When you set your session store on ActiveRecord it will use a **Base** subclass for deal with database store. This configuration adds an useless overhead for your application, because each session read/write will go through the complex callbacks system of ActiveRecord.  </p>
+
+<p>For these reason is highly advisable to use **SqlBypass**. As the name suggest it bypasses all the callbacks and simply performs read/write operations.</p>
+
+<p>## Try It By Yourself ##<br/>
+In `session_store.rb`:<br/><code class="ruby"><br/>
+    # config/initializers/session_store.rb<br/>
+    ActionController::Base.session_store = :active_record_store<br/>
+    ActiveRecord::SessionStore.session_class = ActiveRecord::SessionStore::SqlBypass<br/></code></p>
+
+<p>.. then in `session_controller.rb`<br/><code class="ruby"><br/>
+    # app/controllers/session_controller.rb<br/>
+    class SessionController  session[:user_id], :status =&gt; :ok<br/>
+      end</code></p>
+
+<p>      def write<br/>
+        render :text =&gt; session[:user_id] = 23, :status =&gt; :ok<br/>
+      end<br/>
+    end<br/></p>
+
+<p>I ran raw benchmarks with one Mongrel instance in production mode:<br/>
+* read:<br/>
+    - Session: 93.05 reqs/sec<br/>
+    - SqlBypass: 132.78 reqs/sec</p>
+
+<p>* write:<br/>
+    - Session: 99.89 reqs/sec<br/>
+    - SqlBypass: 128.17 reqs/sec</p>
+
+<p>You can find the whole benchmark results at the dedicated <a href="http://gist.github.com/88239">gist</a>.</p>
+
+<p>**UPDATE**: Unfortunately there is a bug in **SqlBypass**, just apply <a href="http://bit.ly/FGiaD">[this patch]</a> for make it working.</p>

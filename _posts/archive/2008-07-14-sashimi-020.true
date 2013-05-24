@@ -1,0 +1,13 @@
+---
+layout: post
+title: Sashimi 0.2.0!
+tags:
+- ruby
+- rails
+- ruby on rails
+- gem
+- plugins
+- sashimi
+---
+<p><a href="http://lucaguidi.com/pages/sashimi">Sashimi</a> has just hit <a href="http://github.com/jodosha/sashimi/commits/v0.2.0">0.2.0</a>!</p>
+<p>This release has no sugar for you! No new features, just test improvements and code robustness.</p>

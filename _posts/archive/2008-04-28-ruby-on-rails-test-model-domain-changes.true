@@ -1,0 +1,85 @@
+---
+layout: post
+title: 'Ruby on Rails: Test Model Domain Changes'
+tags:
+- ruby on rails
+- rails
+- activerecord
+- tdd
+---
+<p>You know how tests are fundamental for a well-developed project, for this reason we should create step-by-step a net of test cases. Of course we also should be able to change rapidly our tests as the same we do with our code. <a href="http://rubyonrails.org">Ruby on Rails</a> is a great framework, because its shortcuts, the wide usage of <acronym title="Domain Specific Language">DSL</acronym> etc.. All this stuff can save a lot of time, but what about tests? Are we really able to <em>follow</em> our code?</p>
+
+<h3>Create and Destroy</h3>
+<p><strong>ActiveSupport</strong> provides few useful tools to improve our test, I really appreciate <code>assert_difference</code> and <code>assert_no_difference</code>.</p>
+
+<p>Basically, this two methods accepts as arguments a code chunk (as string) and a block. When the test run, it binds the block first, then it assert if the changements caused by the block call are the same expected by first argument.</p>
+
+<code class="ruby">
+def test_should_be_created
+  assert_difference 'Person.count' do
+    create_person
+  end
+end
+</code>
+
+<p>We are testing a <code>Person</code> creation, we pass as first argument <code>'Person.count'</code>, and the code that should correctly save the person. If the model will be saved, a new record should exists into the database table. At this moment <code>assert_difference</code> evaluates the first argument, and assert if there are <strong>differences</strong> in the <code>Person</code> count.</p>
+
+<code class="ruby">
+def test_should_be_destroyed
+  assert_difference 'Person.count', -1 do
+    destroy_person
+  end
+end
+</code>
+
+<p>This example is just a bit different, we are also passing a <code>Fixnum</code> as argument. This because we want assert another difference from the default one, which is <strong>+1</strong>. So, if the model will be correctly saved, we will have a negative difference, of one, into the <code>Person</code> count.</p>
+
+<code class="ruby">
+def test_should_require_first_name_on_create
+  assert_no_difference 'Person.count' do
+    create_person
+    assert person.errors.on(:first_name)
+  end
+end
+</code>
+
+<p>The third example uses <code>assert_no_difference</code>, to test aganist model validations. <strong>ActiveRecord</strong>, by default, prevents the creation of a model if a validation doesn&#8217;t pass. In this case our model requires <code>first_name</code> as mandatory attribute, but unfortunately it&#8217;s nil, so the creation fails and the brand new record will be not created.</p>
+
+<h3>Update</h3>
+<p>As you can see, those two methods are very useful for test creation and destruction of models, but totally missing the goal of the update. In fact, the update process of a record, doesn&#8217;t produces numerical differences.</p>
+
+<p>I created two methods to supply this lack.</p>
+<code class="ruby">
+def assert_updated(model, message = nil, &amp;block) 
+  yield
+  assert_not_equal model.attributes, model.reload.attributes, message
+end
+</code><br/><code class="ruby">
+def assert_not_updated(model, message = nil, &amp;block)
+  yield
+  assert_equal model.attributes, model.reload.attributes, message
+end
+</code><br/><p>Just add them to your <code>test/test_helper.rb</code>, and they will be available in all your test cases.</p>
+
+<code class="ruby">
+def test_should_update
+  assert_updated person do
+    update_person
+  end
+end
+</code><br/><p>First, you should notice that the first argument it isn&#8217;t a string but an <code>ActiveRecord</code>. The behaviour of this method is similar to the previous I illustrated, it first bind the block, then assert if the attributes of the model are different.
+It internally uses <code>ActiveRecord::Base#attributes</code> which returns an hash of model attributes, then assert the differences with <strong>Ruby</strong>&#8217;s <code>assert_not_equal</code>.</p>
+
+<code class="ruby">
+def test_should_require_first_name_on_update
+  assert_not_updated person do
+    update_person
+    assert person.errors.on(:first_name)
+  end
+end
+</code><br/><p>Similarly to all other examples, it first performs the block, call then assert there are no changes in the model attributes.</p>
+
+<h3>Conclusion</h3>
+<p>Those methods should provide a rapid way to write and mantain your test cases.</p>
+
+<p>If you enjoyed this post, feel free to recommend me on <a href="http://www.workingwithrails.com/recommendation/new/person/8829-luca-guidi">Working With Rails</a>.</p>
