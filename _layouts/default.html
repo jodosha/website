@@ -9,8 +9,11 @@
     <meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,oop,tdd,bdd,unix,open source">
     <meta name="author" content="Luca Guidi">
 
-    <!-- meta -->
+    <!-- title -->
     <title>Luca Guidi - {{ page.title }}</title>
+
+    <!-- atom -->
+    <link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
 
     <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -48,13 +51,8 @@
           <li><a href="/">Home</a></li>
           <li><a href="/about.html">About</a></li>
           <li><a href="/archive.html">Archive</a></li>
-          <li><a href="https://github.com/jodosha" target="_blank">Code</a>
-          <li><a href="http://theplayli.st" target="_blank">Music</a>
-          <ul>
-            <li><a href="gallery.html">Gallery no ajax</a></li>
-            <li><a href="gallery-single-ajax.html">Gallery single ajax</a></li>
-            <li><a href="gallery-single.html">Gallery single no ajax</a></li>
-          </ul>
+          <li><a href="https://github.com/jodosha" target="_blank">Code</a></li>
+          <li><a href="http://theplayli.st" target="_blank">Music</a></li>
           </li>
         </ul>
       </nav>
@@ -96,9 +94,10 @@
 
       <!-- .site-footer -->
       <footer class="site-footer wrapper" role="contentinfo"> 
-
         <div class="row">
-          <div class="site-info">&copy; {{ site.time | date: "%Y" }} LG</div>
+          <div class="site-info">&copy; {{ site.time | date: "%Y" }} LG &dash; 
+            <a href="http://feeds.feedburner.com/LucaGuidi" target="_blank">Feed</a>
+          </div>
         </div>
       </footer>
       <!-- .site-footer -->
