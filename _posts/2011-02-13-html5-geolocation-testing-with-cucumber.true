@@ -1,10 +1,18 @@
 ---
 layout: post
-title: HTML5 Geolocation Testing with Cucumber
-tags: programming
-excerpt: "In the past months our geolocation service has been changed from a somewhat flaky IP lookup to the new HTML5 W3C draft. Our users noticed the difference and they are happier of the new level of precision."
----
 
+title: HTML5 Geolocation Testing with Cucumber
+cover_image: html5-geolocation-testing-with-cucumber.jpg
+tags: programming
+
+excerpt: "In the past months our geolocation service has been changed from a somewhat flaky IP lookup to the new HTML5 W3C draft. Our users noticed the difference and they are happier of the new level of precision."
+
+author:
+  name: Luca Guidi
+  twitter: jodosha
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
+---
 <p><strong>[ I wrote this post for <a href="http://frestyl.com" target="_blank">frestyl</a>, you can find the original article <a href="http://frestyl.wordpress.com/2011/01/24/html5-geolocation-testing-with-cucumber/">here</a>. ]</strong></p>
 
 <p>

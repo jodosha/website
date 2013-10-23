@@ -1,4 +1,12 @@
 ---
+excerpt: ""
+cover_image: cover.jpg
+
+author:
+  name: Luca Guidi
+  twitter: jodosha
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
 layout: post
 title: 'Click to Globalize: rewritten and moved to GitHub'
 tags:

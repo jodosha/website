@@ -1,23 +1,50 @@
 ---
-layout: default
-title: Luca Guidi
+layout: base
 ---
-<div class="post-list">
-  <h2>Writings</h2>
-  <ul>
-  {% for post in site.posts %}
-    {% unless post.path contains '_posts/archive' %}
-    <li>
-      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-      <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
+<div class="blog-cover" style="background-image:url(/images/{{ site.inc.cover_image }});">
+  <section>
+    <div class="container">
+      <h1>{{ site.inc.title }}</h1>
+      {% if site.inc.subtitle %}<h3>{{ site.inc.subtitle }}</h3>{% endif %}
 
-      <p>
-      <br />
-      {{ post.excerpt }}
-      <a href="{{ post.url }}" class="continue-reading" title="Continue reading &quot;{{ post.title }}&quot;">&raquo;<a>
-      </p>
-    </li>
-    {% endunless %}
-  {% endfor %}
-  </ul>
+      {% if site.inc.twitter %}
+      <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter"></i></a>
+      {% endif %}
+      {% if site.inc.facebook %}
+      <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i class="icon icon-facebook"></i></a>
+      {% endif %}
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss"></i>
+      </a>
+    </div>
+  </section>
 </div>
+
+<article class="container">
+  {% for post in paginator.posts %}
+  {% unless post.draft or post.path contains '_posts/archive' %}
+  <section class="index">
+    <div>
+      <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
+      <p>{{ post.excerpt }}</p>
+      <div class="meta">
+        <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
+      </div>
+    </div>
+    <hr>
+  </section>
+  {% endunless %}
+  {% endfor %}
+  <section class="pagination" style="text-align:center">
+    {% if paginator.previous_page %}
+    {% if paginator.previous_page == 1 %}
+    <a href="/" class="btn btn-outline">&lsaquo; Newer</a>
+    {% else %}
+    <a href="/page/{{ paginator.previous_page }}" class="btn btn-outline">&lsaquo; Newer</a>
+    {% endif %}
+    {% endif %}
+    {% if paginator.next_page %}
+    <a href="/page/{{ paginator.next_page }}" class="btn btn-outline">Older &rsaquo;</a>
+    {% endif %}
+  </section>
+</article>

@@ -1,10 +1,18 @@
 ---
 layout: post
-title: Introducing Redis Store
-tags: programming
-excerpt: "Redis Store aims to be a toolkit for your Ruby applications, it natively supports sharding, master/slave replication, marshalling, timeouts and namespaces. Plus, it's really easy to use with the most popular frameworks, such as Ruby on Rails."
----
 
+title: Introducing Redis Store
+cover_image: introducing-redis-store.jpg
+tags: programming
+
+excerpt: "Redis Store aims to be a toolkit for your Ruby applications, it natively supports sharding, master/slave replication, marshalling, timeouts and namespaces. Plus, it's really easy to use with the most popular frameworks, such as Ruby on Rails."
+
+author:
+  name: Luca Guidi
+  twitter: jodosha
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
+---
 <p><strong>[ I wrote this post for Redis ToGo, you can find the original article <a href="http://blog.togo.io/introducing/redis-store/">here</a> and the related discussion on <a href="http://news.ycombinator.com/item?id=4124246">Hacker News</a>. ]</strong></p>
 
 <p>Redis Store aims to be a toolkit for your Ruby applications, it natively supports sharding, master/slave replication, marshalling, timeouts and namespaces. Plus, it&#8217;s really easy to use with the most popular frameworks, such as Ruby on Rails.</p>

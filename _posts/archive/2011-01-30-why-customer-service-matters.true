@@ -1,9 +1,14 @@
 ---
+excerpt: ""
+cover_image: cover.jpg
+
+author:
+  name: Luca Guidi
+  twitter: jodosha
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
 layout: post
 title: Why Customer Service Matters
-tags:
-- customer service
-- business
 ---
 <p>A few months ago I bought a flash music player for my <a href="http://theplayli.st">music blog</a>.<br/><br/>
 
