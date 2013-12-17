@@ -32,3 +32,38 @@ namespace :site do
     end
   end
 end
+
+desc 'write a blog post'
+task :write do
+  require 'fileutils'
+
+  date      = Time.now.strftime "%Y-%m-%d"
+  title     = ENV['title']
+  permalink = title.scan(/[[:alnum:][:space:]]/i).flatten.join.downcase.gsub(' ', '-')
+
+  metadata = <<-YAML
+---
+layout: post
+
+title: "#{ title }"
+cover_image: #{ permalink }.jpg
+tags: programming
+
+excerpt: ""
+
+author:
+  name: Luca Guidi
+  twitter: jodosha
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
+---
+
+Text
+
+YAML
+
+  FileUtils.mkdir_p '_posts'
+  File.open("_posts/#{date}-#{ permalink }.md", 'w+') do |file|
+    file.write metadata
+  end
+end
