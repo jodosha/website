@@ -29,6 +29,7 @@ inc:
   google_font: 'Lato:400,900'
 
 url:         http://lucaguidi.com
+domain:      lucaguidi.com
 source:      .
 destination: ./_site
 plugins:     ./_plugins
