@@ -33,7 +33,7 @@ namespace :site do
   end
 end
 
-desc 'write a blog post'
+desc 'write a blog post. (Use title="An Awesome Article")'
 task :write do
   require 'fileutils'
 
