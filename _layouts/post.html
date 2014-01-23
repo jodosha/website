@@ -35,6 +35,12 @@ layout: base
 
         </footer>
 
+        {% if page.cover_copyright %}
+        <section>
+          <p class="muted cover-copyright">{{ page.cover_copyright }}</p>
+        </section>
+        {% endif %}
+
         {% if site.inc.disqus.shortname %}
         <section>
             {% include _disqus.html %}
