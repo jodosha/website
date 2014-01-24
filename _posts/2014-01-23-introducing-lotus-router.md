@@ -19,7 +19,7 @@ author:
   image: lg.png
 ---
 
-For me, the first step in the long path of building a web framework was an HTTP router.
+For me, the first step in the long path of [building a web framework](/2014/01/01/announcing-lotus.html) was an HTTP router.
 By understanding requests coming from an user, it pays back with an immediate gratification: start it, open a browser and see a result.
 
 My hope was to embark on a short journey, and reuse as much as possible existing libraries.
