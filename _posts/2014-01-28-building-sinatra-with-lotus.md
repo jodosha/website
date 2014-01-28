@@ -7,7 +7,7 @@ cover_copyright: 'Photo Credit: <a href="http://lcweb2.loc.gov/diglib/ihas/loc.n
 tags: lotus
 
 excerpt: >
-  The beauty of Lotus are its components. Each of them is well designed to achieve one and only one goal.
+  The beauty of Lotus is the composition of its frameworks. Each of them is well designed to achieve one and only one goal.
   The main advantage of this architecture is that delevopers can easily use and reuse those frameworks in countless ways.
   Lotus::Router accepts anonymous functions as endpoints. This feature can be used to build Sinatra with it.
 
@@ -19,7 +19,7 @@ author:
   image: lg.png
 ---
 
-The beauty of [Lotus](http://lotusrb.org) are its components. Each of them is well designed to achieve one and only one goal.
+The beauty of [Lotus](http://lotusrb.org) is the composition of its frameworks. Each of them is well designed to achieve one and only one goal.
 The main advantage of this architecture is that delevopers can easily use and reuse those frameworks in countless ways.
 
 [Lotus::Router](/2014/01/23/introducing-lotus-router.html) accepts anonymous functions as endpoints.
@@ -34,7 +34,7 @@ source 'https://rubygems.org'
 gem 'lotus-router'
 {% endhighlight %}
 
-As second step, we create an _Hello World_ application (`app.rb`) with Lotus::Router:
+As second step, we create an _Hello World_ application with Lotus::Router (run with `rackup app.rb`):
 
 {% highlight ruby %}
 require 'rubygems'
