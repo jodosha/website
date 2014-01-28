@@ -99,6 +99,4 @@ This is only a taste of what __Lotus::Router__ can do: please have a look at the
 
 The experiment of releasing a [Lotus](http://lotusrb.org) component __on the 23rd of every month__ is going well. On February will be the turn of __Lotus::Controller__.
 
-To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus [mailing list](http://lotusrb.org/mailing-list):
-
 {% include _lotusml.html %}
