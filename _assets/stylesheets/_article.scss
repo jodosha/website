@@ -17,9 +17,13 @@ article {
         }
     }
 
-    .cover-copyright {
+    .cover-copyright,
+    .code-caption {
       font-size: .6em;
       margin-top: -1em;
+    }
+    .code-caption {
+      font-style: italic;
     }
 
     .container > footer {
