@@ -98,22 +98,22 @@ Lotus::View.load!
 
 articles = ArticleRepository.all
 
-Articles::Index.render({format: :html}, {articles: articles})
+Articles::Index.render(format: :html, articles: articles)
   # => This will use Articles::Index
   #    and "articles/index.html.erb"
 
-Articles::Index.render({format: :atom}, {articles: articles})
+Articles::Index.render(format: :atom, articles: articles)
   # => This will use Articles::AtomIndex
   #    and "articles/index.atom.erb"
 
-Articles::Index.render({format: :xml}, {articles: articles})
+Articles::Index.render(format: :xml, articles: articles)
   # => This will raise a Lotus::View::MissingTemplateError
 {% endhighlight %}
 
 First of all, we are preloading templates according to the above conventions, they are **cached internally** for future use.
 This is a huge performance improvement.
 
-A view is able to lookup the given context `{format: :html}` and decide which class or subclass to use.
+A view is able to lookup the given context and decide which class or subclass to use.
 
 All the objects passed as locals (second argument) are available both in the view and in the template:
 
@@ -163,7 +163,7 @@ module Articles
   end
 end
 
-Articles::Show.render({format: :json}, {article: article})
+Articles::Show.render({format: :json, article: article})
   # => This will render from ArticleSerializer,
   #    without the need of a template
 {% endhighlight %}
