@@ -170,7 +170,7 @@ Articles::Show.render({format: :json, article: article})
 
 ## Other features
 
-Lotus::View supports layouts, partials and has lightweight presenters.
+Lotus::View supports countless rendering engines, layouts, partials and it has lightweight presenters.
 They are explained in detail in the [README](https://github.com/lotus/view#lotusview) and the [API documentation](http://rdoc.info/gems/lotus-view).
 
 ## Roadmap
