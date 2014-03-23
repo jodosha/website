@@ -8,7 +8,7 @@ tags: programming
 
 excerpt: >
   The missing part of all the Ruby web frameworks is the distinction between views and templates.
-  Keeking things separated, helps to declutter templates and models from presentation logic.
+  Keeping things separated, helps to declutter templates and models from presentation logic.
   Also, since views are objects they are easily testable.
   If you ever used Mustache, you are already aware of the advantages.
 
@@ -26,7 +26,7 @@ A _view_ is an object that encapsulates the presentation logic of a page.
 A _template_ is a file that defines the semantic and visual elements of a page.
 In order to show a result to an user, a template must be _rendered_ by a view.
 
-Keeking things separated, helps to declutter templates and models from presentation logic.
+Keeping things separated, helps to declutter templates and models from presentation logic.
 Also, since views are objects they are easily testable.
 If you ever used [Mustache](http://mustache.github.io/), you are already aware of the advantages.
 
@@ -113,36 +113,35 @@ Articles::Index.render(format: :xml, articles: articles)
 First of all, we are preloading templates according to the above conventions, they are **cached internally** for future use.
 This is a huge performance improvement.
 
-A view is able to lookup the given context and decide which class or subclass to use.
+A view is able to understand the given context and decide if render by itself or delegate to a subclass.
 
-All the objects passed as locals (second argument) are available both in the view and in the template:
+All the objects passed in the context are called locals, they are available both in the view and in the template:
 
 {% highlight ruby %}
 require 'lotus/view'
 
 module Articles
-  class Index
+  class Show
     include Lotus::View
 
-    def titles
-      articles.map(&:title).join ', '
+    def authors
+      article.map(&:author).join ', '
     end
   end
 end
 {% endhighlight %}
 
 {% highlight html %}
-<ul>
-  <% articles.each do |article| %>
-    <li><%= article.title %></li>
-  <% end %>
-</ul>
+<h1><%= article.title %></h1>
+<article>
+  <%= article.content %>
+</article>
 {% endhighlight %}
 
 All the methods defined in the view are accessible in the template:
 
 {% highlight html %}
-<h2><%= titles %></h2>
+<h2><%= authors %></h2>
 {% endhighlight %}
 
 ## Custom rendering
