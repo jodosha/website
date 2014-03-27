@@ -3,6 +3,7 @@ layout: post
 
 title: "Thread Safety With Ruby"
 cover_image: thread-safety-with-ruby.jpg
+cover_copyright: 'Photo Credit: <a href="https://www.flickr.com/photos/7516749@N07/3403830890/">Cyril Caton</a> via <a href="http://compfight.com">Compfight</a> <a href="http://www.flickr.com/help/general/#147">cc</a>'
 tags: software
 
 excerpt: >
