@@ -77,7 +77,7 @@ But how the framework knows how to handle these objects?
 ## Data Mapper
 
 We use a data mapper for the job.
-It's a persistence mapper that keep entities unaware of schema details.
+It's a persistence mapper that keeps entities unaware of schema details.
 Good news are that it's **database independent**, it can work with SQL, document, and even with key/value stores.
 
 The role of a data mapper is to translate database columns into the corresponding attribute of an entity.
@@ -129,7 +129,8 @@ class ArticleRepository
 end
 {% endhighlight %}
 
-When a class includes `Lotus::Repository` it will expose [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete) methods such as `.create`, `.update`, `.find`, and a powerful **private** query API.
+When a class includes `Lotus::Repository` it will expose [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete) methods such as `.create`, `.update`, `.find`.
+Aside from that, it offers a powerful **private** query API.
 This decision forces developers to define **intention revealing APIs**, instead leak storage details outside of a repository.
 
 Look at the following code:
@@ -142,7 +143,7 @@ ArticleRepository.
 {% endhighlight %}
 
 This is an example of _implicit API_, it means nothing in terms of the behavior of the domain model.
-It's just a chain of method calls, from the caller, that should be aware of the internal query mechanisms.
+It's just a chain of method calls. From the caller perspective, it should be aware of the internal query mechanisms.
 
 There is a better way to write it:
 
@@ -177,7 +178,7 @@ The framework is shipped with two adapters:
   * `MemoryAdapter`
 
 An adapter can be associated to one or multiple repositories and different repositories can have different data sources.
-For instance an application can have `ArticleAdapter` that uses a SQL database and `TweetRepository` that talks to a third part JSON service.
+For instance an application can have `ArticleRepository` that uses a SQL database and `TweetRepository` that talks to a third part JSON service.
 
 ## Roadmap
 
