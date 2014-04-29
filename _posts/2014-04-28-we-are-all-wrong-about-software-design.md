@@ -73,3 +73,9 @@ Look at me, I'm a pragmatist.
 I proved this by ruining the multi-millionaire software I work on.
 
 This isn't an argument, just nonsense.
+
+<hr />
+
+**UPDATE 1:** That last paragraph is **sarcasm**.
+
+**UPDATE 2:** No, I won't use that code for real.
