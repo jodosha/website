@@ -19,6 +19,11 @@ $relevant: #e74c3c;
 $relevant_text: #ecf0f1;
 $relevant_link: #f1c40f;
 
+blockquote:before,
+blockquote:after {
+  content: none;
+}
+
 /* Customizations */
 .about blockquote {
   text-align: center;
