@@ -34,7 +34,7 @@ source 'https://rubygems.org'
 gem 'lotus-router'
 {% endhighlight %}
 
-As second step, we create an _Hello World_ application with Lotus::Router (run with `rackup app.rb`):
+As second step, we create an _Hello World_ application with Lotus::Router (run with `rackup application.rb`):
 
 {% highlight ruby %}
 require 'rubygems'
