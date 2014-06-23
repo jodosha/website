@@ -18,17 +18,17 @@ author:
 ---
 
 A year and a half ago I felt frustrated by the state of the art of web development with Ruby.
-Secretly, in my spare time, I started hacking with new ideas, taking nothing for grantend, destroying and starting from scratch several times, until the software was distilled in a beautiful API.
+Secretly, in my spare time, I started hacking with new ideas, taking nothing for granted, destroying and starting from scratch several times, until the software was distilled in a beautiful API.
 
 It took me a decade to get here, by following a process of **subtraction of what isn't essential**.
-Countless refinements to achieve modularity, to balance elegance with performance, convenience with solid design.
+Countless refinements to achieve modularity, to balance elegance with performance, and convenience with solid design.
 
 Each alternative was ponderated according to real world scenarios.
 Use cases that have been pain points or good choices in my and other developers' experience.
 
 But this project was sitting on my computer for too long.
 
-For this reason, at the beginning of the year, I've [announced](http://lucaguidi.com/2014/01/01/announcing-lotus.html) the project and a slow release schedule.
+For this reason, at the beginning of the year, I [announced](http://lucaguidi.com/2014/01/01/announcing-lotus.html) the project and a slow release schedule.
 Each month I've released a library because I wanted to share with other developers the result of this effort, and create a discussion in the Ruby community.
 Now, six monhts and six frameworks later, I'm proud to introduce the main element: **Lotus**.
 
@@ -49,7 +49,7 @@ The power of these frameworks is combined together in Lotus applications.
 Microservices are at the core. Several independent applications can live together in the same Ruby process.
 
 Lotus has a smart mechanism of _framework duplication_, where all the libraries can be employed several times.
-When the code base will grow up it can be easily split in smaller deliverables.
+As the code base grows up it can be easily split in smaller deliverables.
 
 Lotus has an [extensive](http://rdoc.info/gems/lotusrb) [documentation](https://github.com/lotus/lotus/blob/master/README.md), that covers all the supported architectures.
 
