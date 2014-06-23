@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Sinatra with Lotus &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Building Sinatra with Lotus ">
+<link rel="canonical" href="http://lucaguidi.com/2014/01/28/building-sinatra-with-lotus.html">
+
+
+<meta property="og:title" content="Building Sinatra with Lotus "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/01/28/building-sinatra-with-lotus.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/building-sinatra-with-lotus.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="The beauty of Lotus is the composition of its frameworks. Each of them is well designed to achieve one and only one goal. The main advantage of this architecture is that delevopers can easily use and reuse those frameworks in countless ways. Lotus::Router accepts anonymous functions as endpoints. This feature can be used to build Sinatra with it.
+"/>
+<meta name="description" content="The beauty of Lotus is the composition of its frameworks. Each of them is well designed to achieve one and only one goal. The main advantage of this architecture is that delevopers can easily use and reuse those frameworks in countless ways. Lotus::Router accepts anonymous functions as endpoints. This feature can be used to build Sinatra with it.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/building-sinatra-with-lotus.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-28-January" title="January 28, 2014">January 28, 2014</time>
+            </div>
+            <h1 class="title">Building Sinatra with Lotus</h1>
+            
+        </header>
+
+        <section>
+            <p>The beauty of <a href="http://lotusrb.org">Lotus</a> is the composition of its frameworks. Each of them is well designed to achieve one and only one goal. The main advantage of this architecture is that delevopers can easily use and reuse those frameworks in countless ways.</p>
+
+<p><a href="/2014/01/23/introducing-lotus-router.html">Lotus::Router</a> accepts anonymous functions as endpoints. This feature can be used to build <a href="http://sinatrarb.com">Sinatra</a> with it.</p>
+
+<h2 id="initial_setup">Initial setup</h2>
+
+<p>We need to setup a <code>Gemfile</code> with:</p>
+<div class='highlight'><pre><code class='ruby'><span class='n'>source</span> <span class='s1'>&#39;https://rubygems.org&#39;</span>
+<span class='n'>gem</span> <span class='s1'>&#39;lotus-router&#39;</span>
+</code></pre></div>
+<p>As second step, we create an <em>Hello World</em> application with Lotus::Router (run with <code>rackup application.rb</code>):</p>
+<div class='highlight'><pre><code class='ruby'><span class='nb'>require</span> <span class='s1'>&#39;rubygems&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;bundler/setup&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;lotus/router&#39;</span>
+
+<span class='no'>Application</span> <span class='o'>=</span> <span class='no'>Rack</span><span class='o'>::</span><span class='no'>Builder</span><span class='o'>.</span><span class='n'>new</span> <span class='k'>do</span>
+  <span class='n'>app</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Router</span><span class='o'>.</span><span class='n'>new</span> <span class='k'>do</span>
+    <span class='n'>get</span> <span class='s1'>&#39;/&#39;</span> <span class='k'>do</span>
+      <span class='o'>[</span><span class='mi'>200</span><span class='p'>,</span> <span class='p'>{},</span> <span class='o'>[</span><span class='s1'>&#39;Hello, World!&#39;</span><span class='o'>]]</span>
+    <span class='k'>end</span>
+  <span class='k'>end</span>
+  <span class='n'>run</span> <span class='n'>app</span>
+<span class='k'>end</span><span class='o'>.</span><span class='n'>to_app</span>
+</code></pre></div>
+<h2 id="return_value_of_the_block_as_response_body">Return value of the block as response body</h2>
+
+<p>You may have noticed a discrepancy between the typical Sinatra usage and the example above: <strong>the framework sets the return value of that endpoint as the body of the response</strong>, here we’re returning a serialized Rack response.</p>
+
+<p>Internally, Lotus::Router uses <a href="http://rdoc.info/gems/lotus-router/Lotus/Routing/Endpoint">Lotus::Routing::Endpoint</a> to wrap application’s endpoints. They can be any type of object that respond to <code>#call</code>, and it’s up to us to return a <code>Rack::Response</code>. In our case, we have just a string, if we inherit from that class, we can wrap the body in a proper response:</p>
+<div class='highlight'><pre><code class='ruby'><span class='k'>class</span> <span class='nc'>Endpoint</span> <span class='o'>&lt;</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Routing</span><span class='o'>::</span><span class='no'>Endpoint</span>
+  <span class='k'>def</span> <span class='nf'>call</span><span class='p'>(</span><span class='n'>env</span><span class='p'>)</span>
+    <span class='o'>[</span><span class='mi'>200</span><span class='p'>,</span> <span class='p'>{},</span> <span class='o'>[</span><span class='k'>super</span><span class='o'>]]</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+</code></pre></div>
+<p>The next step is to use this endpoint.</p>
+
+<p>Lotus::Router uses a <strong>specific set of rules</strong> to understand which endpoint needs to be associated with a given path. For instance, when you write <code>get &#39;/dashboard&#39;, to: &#39;dashboard#index&#39;</code>, that <code>:to</code> option is processed and the router will look for a <code>DashboardController::Index</code> class.</p>
+
+<p><a href="https://github.com/lotus/router#duck-typed-endpoints">Those</a> <a href="http://rdoc.info/gems/lotus-router/Lotus/Routing/EndpointResolver#resolve-instance_method">conventions</a> are implemented by <a href="http://rdoc.info/gems/lotus-router/Lotus/Routing/EndpointResolver">Lotus::Routing::EndpointResolver</a>, which is <a href="https://github.com/lotus/router/blob/master/lib/lotus/routing/http_router.rb#L43">used as default resolver</a>. If you want to use <strong>a different policy</strong>, or <strong>customize</strong> the way it works, pass your own resolver to the router constructor (<code>:resolver</code> option). We want to use the defaults, and only specify to usa of our custom endpoint.</p>
+<div class='highlight'><pre><code class='ruby'><span class='nb'>require</span> <span class='s1'>&#39;rubygems&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;bundler/setup&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;lotus/router&#39;</span>
+
+<span class='k'>class</span> <span class='nc'>Endpoint</span> <span class='o'>&lt;</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Routing</span><span class='o'>::</span><span class='no'>Endpoint</span>
+  <span class='k'>def</span> <span class='nf'>call</span><span class='p'>(</span><span class='n'>env</span><span class='p'>)</span>
+    <span class='o'>[</span><span class='mi'>200</span><span class='p'>,</span> <span class='p'>{},</span> <span class='o'>[</span><span class='k'>super</span><span class='o'>]]</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+
+<span class='n'>r</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Routing</span><span class='o'>::</span><span class='no'>EndpointResolver</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>endpoint</span><span class='p'>:</span> <span class='no'>Endpoint</span><span class='p'>)</span>
+
+<span class='no'>Application</span> <span class='o'>=</span> <span class='no'>Rack</span><span class='o'>::</span><span class='no'>Builder</span><span class='o'>.</span><span class='n'>new</span> <span class='k'>do</span>
+  <span class='n'>app</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Router</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>resolver</span><span class='p'>:</span> <span class='n'>r</span><span class='p'>)</span> <span class='k'>do</span>
+    <span class='n'>get</span> <span class='s1'>&#39;/&#39;</span> <span class='k'>do</span>
+      <span class='s1'>&#39;Hello, World!&#39;</span>
+    <span class='k'>end</span>
+  <span class='k'>end</span>
+  <span class='n'>run</span> <span class='n'>app</span>
+<span class='k'>end</span><span class='o'>.</span><span class='n'>to_app</span>
+</code></pre></div>
+<h2 id="request_params">Request params</h2>
+
+<p>Now that we have mimicked the simplest Sinatra usage, let’s have a look at the next example: request params. <code>Endpoint</code> is agnostic, it’s part of an HTTP router, that’s why it passes the complete Rack <code>env</code> to the real endpoint that it wraps. Instead, we want to use only the tokens coming from the URL. This is really simple to do:</p>
+<div class='highlight'><pre><code class='ruby'><span class='nb'>require</span> <span class='s1'>&#39;rubygems&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;bundler/setup&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;lotus/router&#39;</span>
+
+<span class='k'>class</span> <span class='nc'>Endpoint</span> <span class='o'>&lt;</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Routing</span><span class='o'>::</span><span class='no'>Endpoint</span>
+  <span class='k'>def</span> <span class='nf'>call</span><span class='p'>(</span><span class='n'>env</span><span class='p'>)</span>
+    <span class='o'>[</span><span class='mi'>200</span><span class='p'>,</span> <span class='p'>{},</span> <span class='o'>[</span><span class='k'>super</span><span class='p'>(</span><span class='n'>params</span><span class='p'>(</span><span class='n'>env</span><span class='p'>))</span><span class='o'>]]</span>
+  <span class='k'>end</span>
+
+  <span class='kp'>private</span>
+  <span class='k'>def</span> <span class='nf'>params</span><span class='p'>(</span><span class='n'>env</span><span class='p'>)</span>
+    <span class='n'>env</span><span class='o'>.</span><span class='n'>fetch</span><span class='p'>(</span><span class='s1'>&#39;router.params&#39;</span><span class='p'>)</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+
+<span class='n'>r</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Routing</span><span class='o'>::</span><span class='no'>EndpointResolver</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>endpoint</span><span class='p'>:</span> <span class='no'>Endpoint</span><span class='p'>)</span>
+
+<span class='no'>Application</span> <span class='o'>=</span> <span class='no'>Rack</span><span class='o'>::</span><span class='no'>Builder</span><span class='o'>.</span><span class='n'>new</span> <span class='k'>do</span>
+  <span class='n'>app</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Router</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>resolver</span><span class='p'>:</span> <span class='n'>r</span><span class='p'>)</span> <span class='k'>do</span>
+    <span class='n'>get</span> <span class='s1'>&#39;/&#39;</span> <span class='k'>do</span>
+      <span class='s1'>&#39;Hello, World!&#39;</span>
+    <span class='k'>end</span>
+
+    <span class='n'>get</span> <span class='s1'>&#39;/greet/:planet&#39;</span> <span class='k'>do</span> <span class='o'>|</span><span class='n'>params</span><span class='o'>|</span>
+      <span class='s2'>&quot;Hello from the </span><span class='si'>#{</span> <span class='n'>params</span><span class='o'>[</span><span class='ss'>:planet</span><span class='o'>]</span> <span class='si'>}</span><span class='s2'>!&quot;</span>
+    <span class='k'>end</span>
+  <span class='k'>end</span>
+  <span class='n'>run</span> <span class='n'>app</span>
+<span class='k'>end</span><span class='o'>.</span><span class='n'>to_app</span>
+</code></pre></div>
+<h2 id="a_step_further">A step further</h2>
+
+<p>What we did until now it’s great but noisy. We want to extract the boilerplate code into a separated file. I’ve prepared a <a href="http://jeffkreeftmeijer.com/2011/microgems-five-minute-rubygems/">microgem</a> to be used with our <code>Gemfile</code>.</p>
+<div class='highlight'><pre><code class='ruby'><span class='n'>source</span> <span class='s1'>&#39;https://rubygems.org&#39;</span>
+<span class='n'>gem</span> <span class='s1'>&#39;lotus-sinatra&#39;</span><span class='p'>,</span> <span class='ss'>git</span><span class='p'>:</span> <span class='s1'>&#39;https://gist.github.com/8665228.git&#39;</span>
+</code></pre></div>
+<p>Now we can leave that beautiful DSL alone.</p>
+<div class='highlight'><pre><code class='ruby'><span class='nb'>require</span> <span class='s1'>&#39;rubygems&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;bundler/setup&#39;</span>
+<span class='nb'>require</span> <span class='s1'>&#39;lotus-sinatra&#39;</span>
+
+<span class='n'>get</span> <span class='s1'>&#39;/&#39;</span> <span class='k'>do</span>
+  <span class='s1'>&#39;Hello, World!&#39;</span>
+<span class='k'>end</span>
+
+<span class='n'>get</span> <span class='s1'>&#39;/greet/:planet&#39;</span> <span class='k'>do</span> <span class='o'>|</span><span class='n'>params</span><span class='o'>|</span>
+  <span class='s2'>&quot;Hello from the </span><span class='si'>#{</span> <span class='n'>params</span><span class='o'>[</span><span class='ss'>:planet</span><span class='o'>]</span> <span class='si'>}</span><span class='s2'>!&quot;</span>
+<span class='k'>end</span>
+</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This example confirms how valuable is the separation between Lotus frameworks and that Dependency Injection <strong>is</strong> a <a href="http://solnic.eu/2013/12/17/the-world-needs-another-post-about-dependency-injection-in-ruby.html">virtue</a>.</p>
+<p>To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus <a href='http://lotusrb.org/mailing-list' target='_blank' title='Lotus mailing list'>mailing list</a>.</p><!-- Begin MailChimp Signup Form --><link href='//cdn-images.mailchimp.com/embedcode/slim-081711.css' rel='stylesheet' type='text/css' /><div id='mc_embed_signup'>
+  <form action='http://lotusrb.us3.list-manage1.com/subscribe/post?u=dcbeefa4ba1ea9ae043857005&amp;id=fb3873a90f' class='validate' id='mc-embedded-subscribe-form' method='post' name='mc-embedded-subscribe-form' novalidate='novalidate' target='_blank'>
+    <label for='mce-EMAIL'>Subscribe to the Lotus mailing list</label>
+    <input class='email' id='mce-EMAIL' name='EMAIL' placeholder='email address' required='required' type='email' value='' />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style='position: absolute; left: -5000px;'><input name='b_dcbeefa4ba1ea9ae043857005_fb3873a90f' type='text' value='' /></div>
+    <div class='clear'><input class='button' id='mc-embedded-subscribe' name='subscribe' type='submit' value='Subscribe' /></div>
+  </form>
+</div><!--End mc_embed_signup-->
+<p><br /></p>
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Building Sinatra with Lotus" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="http://lcweb2.loc.gov/diglib/ihas/loc.natlib.gottlieb.07791/default.html">William P Gottlieb</a> via <a href="http://en.wikipedia.org/wiki/File:Frank_Sinatra_by_Gottlieb_c1947-_2.jpg">Wikimedia Commons</a></p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2014 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Things To Know About Composition &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Three Things To Know About Composition ">
+<link rel="canonical" href="http://lucaguidi.com/2014/06/09/three-things-to-know-about-composition.html">
+
+
+<meta property="og:title" content="Three Things To Know About Composition "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/06/09/three-things-to-know-about-composition.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/three-things-to-know-about-composition.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Inheriting from Ruby's classes can be harmful. Composition should be preferred over inheritance, but beware of the unexpected behaviors.
+"/>
+<meta name="description" content="Inheriting from Ruby's classes can be harmful. Composition should be preferred over inheritance, but beware of the unexpected behaviors.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/three-things-to-know-about-composition.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-09-June" title="June 09, 2014">June 09, 2014</time>
+            </div>
+            <h1 class="title">Three Things To Know About Composition</h1>
+            
+        </header>
+
+        <section>
+            <p>A few days ago <a href="https://twitter.com/tenderlove">Aaron Patterson</a> wrote a in <a href="http://tenderlovemaking.com/2014/06/04/yagni-methods-slow-us-down.html">interesting article</a> about composition vs inheritance with Ruby.</p>
+
+<p>He says that when inheriting our classes directly from Ruby’s core objects such as <code>Array</code>, our public API for that object will become too large and difficult to maintain.</p>
+
+<p>Consider a powerful object like <code>String</code> which has 164 public methods, once our library will be released, we should maintain all that amount of code. It doesn’t worth the trouble, probably because we just wanted to pick a few methods from it. It’s better to compose an object that hides all that complexity derived from <code>String</code>, and to expose only the wanted behaviors.</p>
+
+<p>I was already aware of these issues, but that article was a reminder for fixing my OSS projects. For this reason I <a href="https://github.com/lotus/utils/blob/master/lib/lotus/utils/load_paths.rb">refactored</a> <code>Lotus::Utils::LoadPaths</code>. It used to inherit from <code>Array</code> (169 methods), but after breaking the inheritance structure, I discovered that I only needed 2 methods.</p>
+
+<p>However, there are some hidden corners that are worthing to share.</p>
+
+<h2 id="information_escape">Information escape</h2>
+
+<p>A characteristic that I want for <code>LoadPaths</code> is the ability to add paths to it. After the refactoring, for the sake of consistency, I decided to name this method after <code>Array</code>’s <a href="http://ruby-doc.org/core-2.1.2/Array.html#method-i-push"><code>#push</code></a>, and to mimic its behavior.</p>
+
+<p>The initial implementation of this method was:</p>
+<div class='highlight'><pre><code class='ruby'><span class='n'>it</span> <span class='s1'>&#39;returns self so multiple operations can be performed&#39;</span> <span class='k'>do</span>
+  <span class='n'>paths</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span><span class='o'>.</span><span class='n'>new</span>
+
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>push</span><span class='p'>(</span><span class='s1'>&#39;..&#39;</span><span class='p'>)</span><span class='o'>.</span>
+        <span class='n'>push</span><span class='p'>(</span><span class='s1'>&#39;../..&#39;</span><span class='p'>)</span>
+
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>must_include</span> <span class='s1'>&#39;..&#39;</span>
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>must_include</span> <span class='s1'>&#39;../..&#39;</span>
+<span class='k'>end</span>
+
+<span class='k'>class</span> <span class='nc'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span>
+  <span class='c1'># ...</span>
+
+  <span class='k'>def</span> <span class='nf'>push</span><span class='p'>(</span><span class='o'>*</span><span class='n'>paths</span><span class='p'>)</span>
+    <span class='vi'>@paths</span><span class='o'>.</span><span class='n'>push</span><span class='p'>(</span><span class='o'>*</span><span class='n'>paths</span><span class='p'>)</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+</code></pre></div>
+<p>When we use this Ruby’s method, the returning value is the array itself, because language’s designers wanted to make chainable calls possible. If we look at the implementation of our method, the implicit returning value was <code>@paths</code> (instead of <code>self</code>), so the subsequent invocations were directly manipulating <code>@paths</code>.</p>
+
+<p>The test above was passing because arrays are referenced by their memory address, so that the changes that happened on the outside (after the accidental escape) were also visible by the wrapping object (<code>LoadPaths</code>). Because our main goal is to encapsulate that object, we want to prevent situations like this.</p>
+<div class='highlight'><pre><code class='ruby'><span class='n'>it</span> <span class='s1'>&#39;returns self so multiple operations can be performed&#39;</span> <span class='k'>do</span>
+  <span class='n'>paths</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span><span class='o'>.</span><span class='n'>new</span>
+
+  <span class='n'>returning</span> <span class='o'>=</span> <span class='n'>paths</span><span class='o'>.</span><span class='n'>push</span><span class='p'>(</span><span class='s1'>&#39;.&#39;</span><span class='p'>)</span>
+  <span class='n'>returning</span><span class='o'>.</span><span class='n'>must_be_same_as</span><span class='p'>(</span><span class='n'>paths</span><span class='p'>)</span>
+
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>push</span><span class='p'>(</span><span class='s1'>&#39;..&#39;</span><span class='p'>)</span><span class='o'>.</span>
+        <span class='n'>push</span><span class='p'>(</span><span class='s1'>&#39;../..&#39;</span><span class='p'>)</span>
+
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>must_include</span> <span class='s1'>&#39;.&#39;</span>
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>must_include</span> <span class='s1'>&#39;..&#39;</span>
+  <span class='n'>paths</span><span class='o'>.</span><span class='n'>must_include</span> <span class='s1'>&#39;../..&#39;</span>
+<span class='k'>end</span>
+
+<span class='k'>class</span> <span class='nc'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span>
+  <span class='c1'># ...</span>
+
+  <span class='k'>def</span> <span class='nf'>push</span><span class='p'>(</span><span class='o'>*</span><span class='n'>paths</span><span class='p'>)</span>
+    <span class='vi'>@paths</span><span class='o'>.</span><span class='n'>push</span><span class='p'>(</span><span class='o'>*</span><span class='n'>paths</span><span class='p'>)</span>
+    <span class='nb'>self</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+</code></pre></div>
+<h2 id="dup_and_clone">Dup and Clone</h2>
+
+<p><code>LoadPaths</code> is used by other <a href="http://lotusrb.org">Lotus</a> libraries, such as <a href="https://github.com/lotus/view"><code>Lotus::View</code></a>. This framework can be <em>“duplicated”</em> with the goal of ease a <a href="http://martinfowler.com/articles/microservices.html">microservices architecture</a>, where a developer can define <code>MyApp::Web::View</code> and <code>MyApp::Api::View</code> as <em>“copies”</em> of <code>Lotus::View</code>, that can independently coexist in the same Ruby process. In other, words the configurations of one <em>“copy”</em> shouldn’t be propagated to the others.</p>
+
+<p>Until <code>LoadPaths</code> was inheriting from <code>Array</code>, a simple call to <code>#dup</code> was enough to get a fresh, decoupled copy of the same data. Now the object is duplicated but not the variables that it encapsulates (<code>@paths</code>).</p>
+<div class='highlight'><pre><code class='ruby'><span class='n'>paths1</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span><span class='o'>.</span><span class='n'>new</span>
+<span class='n'>paths2</span> <span class='o'>=</span> <span class='n'>paths1</span><span class='o'>.</span><span class='n'>dup</span>
+
+<span class='n'>paths2</span><span class='o'>.</span><span class='n'>push</span> <span class='s1'>&#39;..&#39;</span>
+<span class='n'>paths1</span><span class='o'>.</span><span class='n'>include?</span><span class='p'>(</span><span class='s1'>&#39;..&#39;</span><span class='p'>)</span> <span class='c1'># =&gt; true, which is an unwanted result</span>
+</code></pre></div>
+<p>The reason of this failure is the same of the information escaping problem: <strong>we’re referencing the same array</strong>. Ruby has a special method callback that is designed for cases like this.</p>
+<div class='highlight'><pre><code class='ruby'><span class='k'>class</span> <span class='nc'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span>
+  <span class='c1'># ...</span>
+
+  <span class='k'>def</span> <span class='nf'>initialize_copy</span><span class='p'>(</span><span class='n'>original</span><span class='p'>)</span>
+    <span class='vi'>@paths</span> <span class='o'>=</span> <span class='n'>original</span><span class='o'>.</span><span class='n'>instance_variable_get</span><span class='p'>(</span><span class='ss'>:@paths</span><span class='p'>)</span><span class='o'>.</span><span class='n'>dup</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+</code></pre></div>
+<p>Now, when <code>paths1.dup</code> is called, also the <code>@paths</code> instance variable will be duplicated and we can safely change <code>paths2</code> without affecting it.</p>
+
+<h2 id="freeze">Freeze</h2>
+
+<p>A similar problem arises for <code>#freeze</code>. I want <code>Lotus::View</code> to freeze its configurations after the application is loaded. This immutability will prevent accidental changes that may lead to software defects.</p>
+
+<p>When we try to alter the state of a frozen object, Ruby raises a <code>RuntimeError</code>, but this wasn’t the case of <code>LoadPaths</code>.</p>
+<div class='highlight'><pre><code class='ruby'><span class='n'>paths</span> <span class='o'>=</span> <span class='no'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span><span class='o'>.</span><span class='n'>new</span>
+<span class='n'>paths</span><span class='o'>.</span><span class='n'>freeze</span>
+<span class='n'>paths</span><span class='o'>.</span><span class='n'>frozen?</span> <span class='c1'># =&gt; true</span>
+
+<span class='n'>paths</span><span class='o'>.</span><span class='n'>push</span> <span class='s1'>&#39;.&#39;</span> <span class='c1'># =&gt; It wasn&#39;t raising RuntimeError</span>
+</code></pre></div>
+<p>This had an easy fix:</p>
+<div class='highlight'><pre><code class='ruby'><span class='k'>class</span> <span class='nc'>Lotus</span><span class='o'>::</span><span class='no'>Utils</span><span class='o'>::</span><span class='no'>LoadPaths</span>
+  <span class='c1'># ...</span>
+
+  <span class='k'>def</span> <span class='nf'>freeze</span>
+    <span class='k'>super</span>
+    <span class='vi'>@paths</span><span class='o'>.</span><span class='n'>freeze</span>
+  <span class='k'>end</span>
+<span class='k'>end</span>
+</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p><strong>Composition should be preferred over inheritance, but beware of the unexpected behaviors.</strong></p>
+
+<p>I discovered these problems in a matter of a minutes, because the client code of this object (<code>Lotus::View</code>) has some integration tests that are asserting all these features, <strong>without assuming anything of the underlying objects</strong>. For instance, it checks one by one all the attributes of a configuration after its duplication, without trusting the fact they can safely duplicate themselves. This double layered testing strategy is fundamental for me while building Lotus.</p>
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Three Things To Know About Composition" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="https://www.flickr.com/photos/59823738@N00/5333012356/">Kyknoord</a> via <a href="http://compfight.com">Compfight</a> <a href="https://creativecommons.org/licenses/by-sa/2.0/">cc</a></p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2014 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

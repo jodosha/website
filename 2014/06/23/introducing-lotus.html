@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing Lotus &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Introducing Lotus ">
+<link rel="canonical" href="http://lucaguidi.com/2014/06/23/introducing-lotus.html">
+
+
+<meta property="og:title" content="Introducing Lotus "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/06/23/introducing-lotus.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/introducing-lotus.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Lotus is a complete web framework for Ruby with a strong emphasis on object oriented design and testability. If you use it, you employ less DSLs and more objects, zero monkey-patching, separation of concerns between MVC layers. Each library is designed to be small, fast and testable.
+"/>
+<meta name="description" content="Lotus is a complete web framework for Ruby with a strong emphasis on object oriented design and testability. If you use it, you employ less DSLs and more objects, zero monkey-patching, separation of concerns between MVC layers. Each library is designed to be small, fast and testable.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/introducing-lotus.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-23-June" title="June 23, 2014">June 23, 2014</time>
+            </div>
+            <h1 class="title">Introducing Lotus</h1>
+            
+        </header>
+
+        <section>
+            <p>A year and a half ago I felt frustrated by the state of the art of web development with Ruby. Secretly, in my spare time, I started hacking with new ideas, taking nothing for granted, destroying and starting from scratch several times, until the software was distilled in a beautiful API.</p>
+
+<p>It took me a decade to get here, by following a process of <strong>subtraction of what isn’t essential</strong>. Countless refinements to achieve modularity, to balance elegance with performance, and convenience with solid design.</p>
+
+<p>Each alternative was ponderated according to real world scenarios. Use cases that have been pain points or good choices in my and other developers’ experience.</p>
+
+<p>But this project was sitting on my computer for too long.</p>
+
+<p>For this reason, at the beginning of the year, I <a href="http://lucaguidi.com/2014/01/01/announcing-lotus.html">announced</a> the project and a slow release schedule. Each month I’ve released a library because I wanted to share with other developers the result of this effort, and create a discussion in the Ruby community. Now, six monhts and six frameworks later, I’m proud to introduce the main element: <strong>Lotus</strong>.</p>
+
+<p>It’s <a href="http://lotusrb.org">a complete web framework</a>, with a strong emphasis on object oriented design and testability. If you use Lotus, you employ less DSLs and more objects, zero monkey-patching, separation of concerns between MVC layers. Each library is designed to be small (under 500LOCs), fast and testable.</p>
+
+<p>There is <a href="https://github.com/lotus/router">Lotus::Router</a> which is an HTTP router and <a href="https://github.com/lotus/controller">Lotus::Controller</a> for controllers and actions. They both speak the <a href="http://rack.github.io">Rack</a> protocol, so they can be used in existing code base, or combined together for small API endpoint, or, again together, in a full stack Lotus app.</p>
+
+<p><a href="https://github.com/lotus/view">Lotus::View</a> is the first library for Ruby that marks a separation between view objects and templates. While <a href="https://github.com/lotus/model">Lotus::Model</a>, with repositories, data mapper and adapters helps to keep domain specific logic away from persistence.</p>
+
+<p>We have infinite combinations. <strong>Small components have enormous advantadges in terms of reusability</strong>.</p>
+
+<p>The power of these frameworks is combined together in Lotus applications.</p>
+
+<p>Microservices are at the core. Several independent applications can live together in the same Ruby process.</p>
+
+<p>Lotus has a smart mechanism of <em>framework duplication</em>, where all the libraries can be employed several times. As the code base grows up it can be easily split in smaller deliverables.</p>
+
+<p>Lotus has an <a href="http://rdoc.info/gems/lotusrb">extensive</a> <a href="https://github.com/lotus/lotus/blob/master/README.md">documentation</a>, that covers all the supported architectures.</p>
+
+<h2 id="the_future">The future</h2>
+
+<p>Lotus is still a young framework, that needs to reach a certain degree of code maturity. Alongside with the vision that I have for the future features, it will improved by collecting <a href="https://gitter.im/lotus/chat">feedbacks</a> from real world applications.</p>
+
+<p>Also, starting from today, I’ll offer <strong>free consultancy hours</strong> to all the companies and individuals who are interested in Lotus.</p>
+<p>To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus <a href='http://lotusrb.org/mailing-list' target='_blank' title='Lotus mailing list'>mailing list</a>.</p><!-- Begin MailChimp Signup Form --><link href='//cdn-images.mailchimp.com/embedcode/slim-081711.css' rel='stylesheet' type='text/css' /><div id='mc_embed_signup'>
+  <form action='http://lotusrb.us3.list-manage1.com/subscribe/post?u=dcbeefa4ba1ea9ae043857005&amp;id=fb3873a90f' class='validate' id='mc-embedded-subscribe-form' method='post' name='mc-embedded-subscribe-form' novalidate='novalidate' target='_blank'>
+    <label for='mce-EMAIL'>Subscribe to the Lotus mailing list</label>
+    <input class='email' id='mce-EMAIL' name='EMAIL' placeholder='email address' required='required' type='email' value='' />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style='position: absolute; left: -5000px;'><input name='b_dcbeefa4ba1ea9ae043857005_fb3873a90f' type='text' value='' /></div>
+    <div class='clear'><input class='button' id='mc-embedded-subscribe' name='subscribe' type='submit' value='Subscribe' /></div>
+  </form>
+</div><!--End mc_embed_signup-->
+<p><br /></p>
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Introducing Lotus" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2014 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>
