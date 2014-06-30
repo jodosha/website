@@ -30,7 +30,7 @@ But this project was sitting on my computer for too long.
 
 For this reason, at the beginning of the year, I [announced](http://lucaguidi.com/2014/01/01/announcing-lotus.html) the project and a slow release schedule.
 Each month I've released a library because I wanted to share with other developers the result of this effort, and create a discussion in the Ruby community.
-Now, six monhts and six frameworks later, I'm proud to introduce the main element: **Lotus**.
+Now, six months and six frameworks later, I'm proud to introduce the main element: **Lotus**.
 
 It's [a complete web framework](http://lotusrb.org), with a strong emphasis on object oriented design and testability.
 If you use Lotus, you employ less DSLs and more objects, zero monkey-patching, separation of concerns between MVC layers.
@@ -42,7 +42,7 @@ They both speak the [Rack](http://rack.github.io) protocol, so they can be used 
 [Lotus::View](https://github.com/lotus/view) is the first library for Ruby that marks a separation between view objects and templates.
 While [Lotus::Model](https://github.com/lotus/model), with repositories, data mapper and adapters helps to keep domain specific logic away from persistence.
 
-We have infinite combinations. **Small components have enormous advantadges in terms of reusability**.
+We have infinite combinations. **Small components have enormous advantages in terms of reusability**.
 
 The power of these frameworks is combined together in Lotus applications.
 
