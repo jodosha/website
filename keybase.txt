@@ -1,0 +1,82 @@
+==================================================================
+https://keybase.io/jodosha
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://lucaguidi.com
+  * I am jodosha (https://keybase.io/jodosha) on keybase.
+  * I have a public key with fingerprint 7FCE 8C90 4C4B 8FD5 72BE  487C BA2A 8058 34E0 B729
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.7.2"
+        },
+        "key": {
+            "fingerprint": "7fce8c904c4b8fd572be487cba2a805834e0b729",
+            "host": "keybase.io",
+            "key_id": "BA2A805834E0B729",
+            "uid": "7e9a7508add5856314a435a52b090300",
+            "username": "jodosha"
+        },
+        "merkle_root": {
+            "ctime": 1411740701,
+            "hash": "2155f4c246361e8a07fa0e0082a5bbecd108ba72f0bc9a80c68e9ba30e5efe936a8b77f19dc82a29a4c934ab986ced8b76b6c91d0440885c1f39df38e14f0497",
+            "seqno": 62616
+        },
+        "service": {
+            "hostname": "lucaguidi.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1411740748,
+    "expire_in": 157680000,
+    "prev": "eae16840bb0df12882c67318b31548d1dc8a98a997a75a3b9cd61f30d8e36e33",
+    "seqno": 3,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFdkntQFVUcx4EUg0JFrNQEZREL4nH2fZZpREipQRMJpDsOdT27exZWLnevex/4
+SNGyGMoSx4GMrmBNVkNeH1QWaFI4OI5wywQfo04QYnqdTHSYfOCVdtGmx5n945z9
+fX7f8/v+fqcm6qGQsNDW5PUWpu+bpNDOgBhSmOhauIYQNXkVkbGGkGwqtrvMnR2V
+YyKDKMOrROTEaao2067JOG25c+YDJoXwYN2panaDAml8GkWsTTFxM1lR7SVYd+iq
+qUXwioShJABGYkSoyCxPiZiBvCQiCkHAQprBQOQpwZAs1Zyu/9xKjGpaVdn4m51F
+Zd3n54Ps+7x7NMBjAfEsgEiWWchyNMkghmYRS4lAADQAJujE+gNLyzVZc5Yis9xy
+rJfZsFXXtFHPkks1CZIhSZ4BPCCNgpCz1MihSJZVGIliOJojMUSAVxDAAEAKsaKI
+JZkEUEQ8pQBREgxTEgexICIaYBYrWKA5BEWeV0hBlowUSkCMJNAMEgXISVg2YpzI
+SQIpA4YBELISqdCCrNAQk4wCGIE3HDjxCrtGZHAUR3JrzaPuUSVslm027YE3m1tC
+JUZT1DRJKzeSHLrm0iTNZoRKXS5HhmnatcphohVYtDp33VexiqpdNmb276GSBvq/
+hjAwhcArHaqOrapJsDwHgbHMe7DH0MQIkxxkgCgCWSEpCCmJ42kSijTJMlAmDfdI
+MD6BN+aFaFGQZM6wCmSIaQ7T9D82aaNOVGJIOtUSO3K5dUysrQ6bPiYkNCwkfGyY
++WpDIiMm/v2Uo05MGMnN79zV93ZLnDepbPXvTdvfdys3Rtq2bT70Slv+6oahFeO6
+x4z9Y6K18ZLv6JzeyIqKHU1xX99rXMBerfE1Dzx8pdmz/TWiuoH6yQtr6n6o8YX1
+9wTOXZ7VQD+68NYmyzhX797eGd/WrtsWcchRcDni6AsHco9XzQ4mN+/8uWjfkjcs
+oa2nz3piYs9u+Crqt4IZ6f7YldnBwDtfvuiZNmXHje7unm5h6c62M99fmTM7dGPk
+570tV2dtCnw01tcwNfPClKKK+BjrmSP+28m1afPc8bcrO1J/rC2KO/46aQlGCCfb
+TtluPb/1Zmarc/p+JTwzZyBw2Heund6wef6pJ2dOstybuL8+OzpHjfUcyWHa10UT
+XXE5L0+dM2g7jXb7B4/MWzbwbqCjjx48P63T3Xwycdn2/tVdY+om3ElZfKE+WBjV
+kdmC16debp+EkvJyFibcmftWzyQlPrGnasr4vAPXE2+W+cqG90WHXj/2ydY/v9Ok
+w0tiJ+/Zkh58KaHqvTebTo8U7E4viasqOhgxXft46DMUuXnPlk2Trz3e5F381KL+
+oVNef/gTlakxenXL8uJjsSl50XevPHO3+BH9xI2m9vWP5dsaF9ifu9aSbUdbLg1/
+8Oui7vKLllf9v9T5h08OovN2vS9m76fPhh0smVvY9fSH9Z7xWVeDhYuJi+v6u77I
+GmIrvfFLi3KLvRSor0kYDPkL
+=K83h
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jodosha
+
+==================================================================
