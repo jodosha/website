@@ -24,9 +24,9 @@ To claim this, I am signing this object:
             "username": "jodosha"
         },
         "merkle_root": {
-            "ctime": 1411740701,
-            "hash": "2155f4c246361e8a07fa0e0082a5bbecd108ba72f0bc9a80c68e9ba30e5efe936a8b77f19dc82a29a4c934ab986ced8b76b6c91d0440885c1f39df38e14f0497",
-            "seqno": 62616
+            "ctime": 1416852013,
+            "hash": "8cbfa17c4022117d1efd16a8e48e614fa985f7a0d736e1cc0f78a25ae175e2c0dabcee4290419dc1537056dfe485f379d56efe40c38d69686df6e2ff198b9420",
+            "seqno": 98159
         },
         "service": {
             "hostname": "lucaguidi.com",
@@ -35,10 +35,10 @@ To claim this, I am signing this object:
         "type": "web_service_binding",
         "version": 1
     },
-    "ctime": 1411740748,
+    "ctime": 1416852087,
     "expire_in": 157680000,
-    "prev": "eae16840bb0df12882c67318b31548d1dc8a98a997a75a3b9cd61f30d8e36e33",
-    "seqno": 3,
+    "prev": "cdf5dd85cc58ca17785d0dfae75816ac57bb25be4c5311f77e17cfaaacdd298c",
+    "seqno": 5,
     "tag": "signature"
 }
 
@@ -47,31 +47,31 @@ with the aforementioned key, yielding the PGP signature:
 -----BEGIN PGP MESSAGE-----
 Version: GnuPG v1
 
-owFdkntQFVUcx4EUg0JFrNQEZREL4nH2fZZpREipQRMJpDsOdT27exZWLnevex/4
-SNGyGMoSx4GMrmBNVkNeH1QWaFI4OI5wywQfo04QYnqdTHSYfOCVdtGmx5n945z9
-fX7f8/v+fqcm6qGQsNDW5PUWpu+bpNDOgBhSmOhauIYQNXkVkbGGkGwqtrvMnR2V
-YyKDKMOrROTEaao2067JOG25c+YDJoXwYN2panaDAml8GkWsTTFxM1lR7SVYd+iq
-qUXwioShJABGYkSoyCxPiZiBvCQiCkHAQprBQOQpwZAs1Zyu/9xKjGpaVdn4m51F
-Zd3n54Ps+7x7NMBjAfEsgEiWWchyNMkghmYRS4lAADQAJujE+gNLyzVZc5Yis9xy
-rJfZsFXXtFHPkks1CZIhSZ4BPCCNgpCz1MihSJZVGIliOJojMUSAVxDAAEAKsaKI
-JZkEUEQ8pQBREgxTEgexICIaYBYrWKA5BEWeV0hBlowUSkCMJNAMEgXISVg2YpzI
-SQIpA4YBELISqdCCrNAQk4wCGIE3HDjxCrtGZHAUR3JrzaPuUSVslm027YE3m1tC
-JUZT1DRJKzeSHLrm0iTNZoRKXS5HhmnatcphohVYtDp33VexiqpdNmb276GSBvq/
-hjAwhcArHaqOrapJsDwHgbHMe7DH0MQIkxxkgCgCWSEpCCmJ42kSijTJMlAmDfdI
-MD6BN+aFaFGQZM6wCmSIaQ7T9D82aaNOVGJIOtUSO3K5dUysrQ6bPiYkNCwkfGyY
-+WpDIiMm/v2Uo05MGMnN79zV93ZLnDepbPXvTdvfdys3Rtq2bT70Slv+6oahFeO6
-x4z9Y6K18ZLv6JzeyIqKHU1xX99rXMBerfE1Dzx8pdmz/TWiuoH6yQtr6n6o8YX1
-9wTOXZ7VQD+68NYmyzhX797eGd/WrtsWcchRcDni6AsHco9XzQ4mN+/8uWjfkjcs
-oa2nz3piYs9u+Crqt4IZ6f7YldnBwDtfvuiZNmXHje7unm5h6c62M99fmTM7dGPk
-570tV2dtCnw01tcwNfPClKKK+BjrmSP+28m1afPc8bcrO1J/rC2KO/46aQlGCCfb
-TtluPb/1Zmarc/p+JTwzZyBw2Heund6wef6pJ2dOstybuL8+OzpHjfUcyWHa10UT
-XXE5L0+dM2g7jXb7B4/MWzbwbqCjjx48P63T3Xwycdn2/tVdY+om3ElZfKE+WBjV
-kdmC16debp+EkvJyFibcmftWzyQlPrGnasr4vAPXE2+W+cqG90WHXj/2ydY/v9Ok
-w0tiJ+/Zkh58KaHqvTebTo8U7E4viasqOhgxXft46DMUuXnPlk2Trz3e5F381KL+
-oVNef/gTlakxenXL8uJjsSl50XevPHO3+BH9xI2m9vWP5dsaF9ifu9aSbUdbLg1/
-8Oui7vKLllf9v9T5h08OovN2vS9m76fPhh0smVvY9fSH9Z7xWVeDhYuJi+v6u77I
-GmIrvfFLi3KLvRSor0kYDPkL
-=K83h
+owFdkn1MFEcYxu8ALVipmihYiqAr1C/E3b2d3VkirZoSSLAhVlqVXD1mZ2aPFbiF
+3eNLRaG2UqWaxo/a4B9VohQjVi2xTYufjdggolhsjNAoFnsGtCUWkUaLdBdt+rF/
+7cz7e595n2fm4/BgR5Dz27kVK4Xur+c4W3sVR6ZplKxjFJ2UMUnrGJynUZ/f/vOh
+fMokMbm0TEEmTdT06T6d0MQ15vTnTAJTTA1T030WxSZKiTxTnmDjdrOq+bzUKDA0
+W4uRVEwhllkBCwpUCZB4hQpQwgriEWQBdAmUVSRetiRzdNP/n1OZUU2PRqzdJYv5
+xc/4FHbJM75otCBRGUmAhYgQAIHo4gQkuAACvMLKrItlbdCkxnNLa3SimznIHjef
+Grl51GPo+qhn7NdsghM4EQKe5VzWQMjMsXogVlTESVhgeZ7jJMJRlXAigpYPKnKC
+imQIVAmxRHKJlMOYVSWIeIAoJwHKY5YgBVMq8FYInEwwB1wSC0SiWv1AdUkyASK1
+Fix2QSLKIrRKIuVVlZOhIgu87cCkhT6dSZIhB+Rye2kUa5jaY9uhPfeWV4SR1wpF
+S8R6vtVUYOh+Het5VinH7y9Isk37ywpstIQqHrPhmYpH0XzEurN/Xypnof8LBEoJ
+DC0t0Azq0WwCSCJkrc8+hxZbmpiogBAIMAYQW3lJEBCWqIhKAFpxYSApCg+s28fA
+xXGqJFn5YBUhhAnhZYj/sQmsOZHXkjQ1rw/5iwzKlG8Jig5xOIMcY8cE2a/WMS5s
+4t9POfWDCcMxpY/fGFG7On75XU+9lH6g9loceL1+e2vYGaVp0YlOkFLiQE+u9DfG
+Gq2f3H/1nd5wA5TMzHV/9mva5Bv7M/LbZh378Gz1jeqok82Tzl/WF0asXZ9rbG2s
+X2fEtItPi+bVXvphxZMfs4LcbvjocGrs0kmb3/duHpcVk9zU0dW2/PaU/e72KiY0
+tPJ7fnHYzIl9fGPmhe2eh6tWfHQsNXrcK3xs09Szy3uBc3fhppSNxZG7aiJavFlf
+xc1YVnipmR+6Fnau9JvOxvfSjgymbQxJW7+8NA1s6omOMtoOZh2p3PdzR/39wS//
+7P3it5sDLx6JSdpe39P/wL0w/t1TcPJUCU56OL7bXafsGHYWNS6F5mzPYLY8eGfm
+d+HleY+iV4W1DzdU3z2wL1C7J7324ltM2rIrnRumPG0PPlnXXxp1Jrlq+q2hzIzX
+RrShn/KaAq7YmgvXo+sOxd9yBnZ2zjjf0hS4Wjo/5jFZCqoiWurr/og7OCsQ6d2c
+vmB1wwsV8SUn5iX3zSlz7zl8M3hg7NCGyNOJdaEX67fWtF5e8Pnd4p6JZMys46Gf
+nu5KvVo2vm8k405z6oPjHXOz+9+clrUoYde2tqh7eNrawKLMbHRISV8VkuRcKWZc
+czvmZx2tmjehu+LUub1BsyuPmp2Bl3f4ou7RAURir69+6e2dFbsP9eaceBTXVXib
+Xh/eJmSG7P0L
+=rgGj
 -----END PGP MESSAGE-----
 
 And finally, I am proving ownership of this host by posting or
