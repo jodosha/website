@@ -99,4 +99,6 @@ Until then, I encourage to give it a try: it's already compatible with Ruby 2.2,
 
 As last thing, I'm grateful for **all the people** who made this release possible. **Thank you!**
 
+Discuss this article on **[HackerNews](https://news.ycombinator.com/item?id=8788527)**.
+
 {% include _lotusml.html %}
