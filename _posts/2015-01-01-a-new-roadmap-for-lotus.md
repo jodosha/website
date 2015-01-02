@@ -58,11 +58,11 @@ Until now, Lotus was a project which taken the direction that I decided only by 
 This was useful to move fast at the beginning, to express with code my initial imprint and to lay solid foundations for that idea.
 
 But Lotus is an ambitious project who can't survive with only one individual.
-I understood the need of [diversify](https://www.youtube.com/watch?v=YqXU4o24Hkg), and bring real world experiences in the creation process.
+I understood the need of [diversity](https://www.youtube.com/watch?v=YqXU4o24Hkg), and bring real world experiences in the creation process.
 
 Starting from today, [Trung Lê](http://ruby-journal.com) ([@joneslee85](https://github.com/joneslee85)) will be part of the **Lotus Core Team**.
 Trung works at [Envato](http://www.envato.com/) and on [Spree Commerce](https://spreecommerce.com/).
-In the last months, we used to discuss every day about the direction of Lotus and his tireless dedition made [Lotus::Model](https://github.com/lotus/model) easier to use.
+In the last months, we have been discussing every day about the direction of Lotus and his tireless dedication made [Lotus::Model](https://github.com/lotus/model) easier to use.
 Thank you Trung, welcome aboard.
 
 ## Priorities
@@ -80,10 +80,10 @@ This is bad because an application can suddenly break by updating gem dependenci
 We highly recommend to use released versions from [Rubygems](http://rubygems.org/gems/lotusrb).
 
 We're also trying to **avoid** as much as possible **breaking changes** in the public API, even if we're under 1.0.
-Continuos, non-backward compatible reorganizations of code, destroy any chance that developers start an ecosystem around a technology.
+Continuous, non-backward compatible reorganizations of code, destroy any chance that developers start an ecosystem around a technology.
 
 Think of [Rust](http://www.rust-lang.org/): it's a terrific and innovative language, but nearly nobody uses it.
-They kept changing too much, so companies were afraid of invest on a it until now.
+They kept changing too much, so companies were afraid of invest on it until now.
 
 ### Features
 
