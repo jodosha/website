@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing Lotus::Validations &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Introducing Lotus::Validations ">
+<link rel="canonical" href="http://lucaguidi.com/2014/10/23/introducing-lotus-validations.html">
+
+
+<meta property="og:title" content="Introducing Lotus::Validations "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/10/23/introducing-lotus-validations.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/introducing-lotus-validations.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Data validation is an important piece in software architecture. Adding this responsibility to models increase the cost of maintenance. Lotus offers a different and powerful approach to the problem.
+"/>
+<meta name="description" content="Data validation is an important piece in software architecture. Adding this responsibility to models increase the cost of maintenance. Lotus offers a different and powerful approach to the problem.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/introducing-lotus-validations.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-23-October" title="October 23, 2014">October 23, 2014</time>
+            </div>
+            <h1 class="title">Introducing Lotus::Validations</h1>
+            
+        </header>
+
+        <section>
+            <p>Data validation is an important piece in software architecture.
+It guarantees that the successive layers will operate on correct input.
+In the existing Ruby frameworks we’re used to see this responsibility flatten down into models.</p>
+
+<p>The problem with this approach is that we end to mix a lot of validations for <strong>different use cases</strong> in a <strong>single place</strong>.
+When the application grows in complexity, we add new validations.
+If often happens that some rules are incompatible with others, then we introduce nasty conditionals to trigger only a subset of them.</p>
+
+<p>Have you ever seen something like this?</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">User</span>
+  <span class="n">validates_presence_of</span> <span class="ss">:password</span><span class="p">,</span> <span class="k">if</span><span class="p">:</span> <span class="ss">:password_required?</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">password_required?</span>
+     <span class="o">!</span><span class="n">invited_user?</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">admin_password_reset?</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>I did, and it makes maintenance a nightmare.</p>
+
+<p>If we think better at the role of the validations we notice a few interesting things.</p>
+
+<h2 id="use-cases">Use Cases</h2>
+
+<p>First, they are the expressions of the rules that we need for a specific use case.</p>
+
+<p>In the example above, we want to force an user who self register for our service to choose a password.
+We’ll call this the <em>“Signup”</em> use case.</p>
+
+<p>But then we introduce a second feature: <em>“Invitations”</em>.
+An existing user can ask someone to join.
+Because the invitee will decide a password later on, we want to persist that <code>User</code> record without that value.
+That’s why we had to put that conditional in place.</p>
+
+<p>It turns out that <strong>validations aren’t absolute rules for data integrity of a model</strong>.
+An <code>User</code> can be persisted with or without a password, <strong>depending on the workflow</strong> that the it was routed into.</p>
+
+<p>In other words, we’re assigning too much responsibilities to <code>User</code>.
+We should move integrity check into the use case code.</p>
+
+<h2 id="boundaries">Boundaries</h2>
+
+<p>The second important aspect is that we use validations to prevent invalid inputs to propagate in our system.
+In an MVC architecture, the model layer is the <strong>farthest</strong> from the input.
+It isn’t expensive to check the data right before we create a record in the database?</p>
+
+<p>If we consider correct data as a precondition <strong>before</strong> to start our workflow, we should stop unacceptable inputs as soon as possible.</p>
+
+<p>Think of the following method.
+We don’t want to continue if the data is invalid for us.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">expensive_computation</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+  <span class="k">return</span> <span class="k">if</span> <span class="n">argument</span><span class="o">.</span><span class="n">nil?</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span></code></pre></div>
+
+<h2 id="lotus">Lotus</h2>
+
+<p>For those reasons, Lotus doesn’t have validations in <a href="https://github.com/lotus/model/blob/master/lib/lotus/entity.rb">entities</a>.
+I recently introduced <a href="https://github.com/lotus/controller/blob/master/README.md#validations--coercions">params validations</a> to Lotus::Controller.</p>
+
+<p>Actions are closer to the user input, they have the role to check if it’s valid and eventually pass the control to the other layers.
+Otherwise, we can decide to stop the execution and return a failing response.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/controller&#39;</span>
+
+<span class="k">module</span> <span class="nn">Controllers::Signup</span>
+  <span class="k">class</span> <span class="nc">Create</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Action</span>
+
+    <span class="n">params</span> <span class="k">do</span>
+      <span class="c1"># ...</span>
+      <span class="n">param</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+      <span class="n">halt</span> <span class="mi">400</span> <span class="k">unless</span> <span class="n">params</span><span class="o">.</span><span class="n">valid?</span>
+      <span class="c1"># ...</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>At that point, I recognized that other developers probably still want validations in their models, or they want to use service objects (interactors) for this goal.</p>
+
+<p>In the spirit of Lotus philosophy, I’m introducing today a single purpose library: <code>Lotus::Validations</code>.</p>
+
+<h2 id="lotusvalidations">Lotus::Validations</h2>
+
+<p>It’s a small, but yet powerful library.
+In just <code>~140</code> lines of code, it offers validations like acceptance, presence, size, inclusion, confirmation..</p>
+
+<p>The API is really intuitive.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/validations&#39;</span>
+
+<span class="k">class</span> <span class="nc">Signup</span>
+  <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Validations</span>
+
+  <span class="n">attribute</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+  <span class="n">attribute</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">inclusion</span><span class="p">:</span> <span class="mi">18</span><span class="o">.</span><span class="n">.</span><span class="mi">99</span>
+<span class="k">end</span></code></pre></div>
+
+<p>It leverages on Ruby’s <a href="http://rubylearning.com/satishtalim/duck_typing.html">Duck Typing</a> to make the existing rules adaptable to a vast variety of objects.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/validations&#39;</span>
+
+<span class="k">class</span> <span class="nc">Signup</span>
+  <span class="no">MEGABYTE</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">**</span> <span class="mi">2</span>
+  <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Validations</span>
+
+  <span class="n">attribute</span> <span class="ss">:ssn</span><span class="p">,</span>    <span class="ss">size</span><span class="p">:</span> <span class="mi">11</span>
+  <span class="n">attribute</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="ss">size</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="no">MEGABYTE</span><span class="p">)</span>
+<span class="k">end</span></code></pre></div>
+
+<p>In the case above, we want to make sure that the SSN number, to be exactly of size <code>11</code>.
+It works because internally it uses <code>String#size</code>.
+Now, because Rack frameworks use <code>Tempfile</code> to represent uploaded data, and it responds to <code>#size</code>.
+We are able to refuse avatars larger than 5 megabytes with the same kind of validation.</p>
+
+<p>The framework offers coercion facilities both for Ruby and custom types.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;lotus/validations&#39;</span>
+
+<span class="k">class</span> <span class="nc">BirthDate</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="vi">@date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Person</span>
+  <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Validations</span>
+
+  <span class="n">attribute</span> <span class="ss">:code</span><span class="p">,</span>     <span class="ss">type</span><span class="p">:</span> <span class="nb">Integer</span>
+  <span class="n">attribute</span> <span class="ss">:birthday</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="no">BirthDate</span>
+<span class="k">end</span>
+
+<span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">code</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="ss">birthday</span><span class="p">:</span> <span class="s1">&#39;Jun 23&#39;</span><span class="p">)</span>
+<span class="n">person</span><span class="o">.</span><span class="n">code</span> <span class="c1"># =&gt; 1</span>
+<span class="n">person</span><span class="o">.</span><span class="n">birthday</span> <span class="c1"># =&gt;#&lt;BirthDate:0x007f947f8d91c0 @date=#&lt;Date: 2014-06-23 ((2456832j,0s,0n),+0s,2299161j)&gt;&gt;</span></code></pre></div>
+
+<h2 id="other-features">Other features</h2>
+
+<p>This library offers other validations, they are explained in detail in the <a href="https://github.com/lotus/validations#lotusvalidations">README</a> and the <a href="http://rdoc.info/gems/lotus-validations">API documentation</a>.</p>
+
+<p>To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus <a href="http://lotusrb.org/mailing-list" target="_blank" title="Lotus mailing list">mailing list</a>.</p>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="http://lotusrb.us3.list-manage1.com/subscribe/post?u=dcbeefa4ba1ea9ae043857005&amp;id=fb3873a90f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe to the Lotus mailing list</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_dcbeefa4ba1ea9ae043857005_fb3873a90f" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Introducing Lotus::Validations" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="https://www.flickr.com/photos/asoka/1553046177">Asoka G M</a> (<a href="http://www.flickr.com/help/general/#147">CC license</a>)</p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

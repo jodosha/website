@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing Lotus::View &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Introducing Lotus::View ">
+<link rel="canonical" href="http://lucaguidi.com/2014/03/23/introducing-lotus-view.html">
+
+
+<meta property="og:title" content="Introducing Lotus::View "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/03/23/introducing-lotus-view.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/introducing-lotus-view.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="The missing part of all the Ruby web frameworks is the distinction between views and templates. Keeping things separated, helps to declutter templates and models from presentation logic. Also, since views are objects they are easily testable. If you ever used Mustache, you are already aware of the advantages.
+Lotus::View is based on these simple concepts.
+"/>
+<meta name="description" content="The missing part of all the Ruby web frameworks is the distinction between views and templates. Keeping things separated, helps to declutter templates and models from presentation logic. Also, since views are objects they are easily testable. If you ever used Mustache, you are already aware of the advantages.
+Lotus::View is based on these simple concepts.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/introducing-lotus-view.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-23-March" title="March 23, 2014">March 23, 2014</time>
+            </div>
+            <h1 class="title">Introducing Lotus::View</h1>
+            
+        </header>
+
+        <section>
+            <p>The missing part of all the Ruby web frameworks is the <strong>distinction between views and templates</strong>.
+A <em>view</em> is an object that encapsulates the presentation logic of a page.
+A <em>template</em> is a file that defines the semantic and visual elements of a page.
+In order to show a result to an user, a template must be <em>rendered</em> by a view.</p>
+
+<p>Keeping things separated, helps to declutter templates and models from presentation logic.
+Also, since views are objects they are easily testable.
+If you ever used <a href="http://mustache.github.io/">Mustache</a>, you are already aware of the advantages.</p>
+
+<p><a href="https://github.com/lotus/view">Lotus::View</a> is based on these simple concepts.</p>
+
+<h2 id="views">Views</h2>
+
+<p>Here how a view looks like:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/view&#39;</span>
+
+<span class="k">module</span> <span class="nn">Articles</span>
+  <span class="k">class</span> <span class="nc">Index</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>This syntax follows the Lotus philosophy: include a module that injects a minimal interface.
+Before to illustrate how to use a view, I’d like to talk about a few conventions:</p>
+
+<ul>
+  <li>Templates are searched under <code>Lotus::View.root</code>, set this value according to your app structure (eg. <code>"app/templates"</code>).</li>
+  <li>A view will look for a template with a file name that is composed by its full class name (eg. <code>"articles/index"</code>).</li>
+  <li>A template must have two concatenated extensions: one for the format one for the engine (eg. <code>".html.erb"</code>).</li>
+  <li>The framework must be loaded before to render for the first time: <code>Lotus::View.load!</code>.</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<p>Suppose that we want to render a list of <code>articles</code>:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/view&#39;</span>
+
+<span class="k">module</span> <span class="nn">Articles</span>
+  <span class="k">class</span> <span class="nc">Index</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Lotus</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="s1">&#39;app/templates&#39;</span>
+<span class="no">Lotus</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">load!</span>
+
+<span class="n">path</span>     <span class="o">=</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;articles/index.html.erb&#39;</span><span class="p">)</span>
+<span class="n">template</span> <span class="o">=</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Template</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">articles</span> <span class="o">=</span> <span class="no">ArticleRepository</span><span class="o">.</span><span class="n">all</span>
+
+<span class="no">Articles</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="ss">articles</span><span class="p">:</span> <span class="n">articles</span><span class="p">)</span><span class="o">.</span><span class="n">render</span></code></pre></div>
+
+<p>While this code is working fine, it’s inefficient and verbose, because we are loading a template from the filesystem for each rendering attempt.
+Also, this is strictly related to the HTML format, what if we want to manage other formats?</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/view&#39;</span>
+
+<span class="k">module</span> <span class="nn">Articles</span>
+  <span class="k">class</span> <span class="nc">Index</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span>
+  <span class="k">end</span>
+
+  <span class="k">class</span> <span class="nc">AtomIndex</span> <span class="o">&lt;</span> <span class="no">Index</span>
+    <span class="nb">format</span> <span class="ss">:atom</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Lotus</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="s1">&#39;app/templates&#39;</span>
+<span class="no">Lotus</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">load!</span>
+
+<span class="n">articles</span> <span class="o">=</span> <span class="no">ArticleRepository</span><span class="o">.</span><span class="n">all</span>
+
+<span class="no">Articles</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="nb">format</span><span class="p">:</span> <span class="ss">:html</span><span class="p">,</span> <span class="ss">articles</span><span class="p">:</span> <span class="n">articles</span><span class="p">)</span>
+  <span class="c1"># =&gt; This will use Articles::Index</span>
+  <span class="c1">#    and &quot;articles/index.html.erb&quot;</span>
+
+<span class="no">Articles</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="nb">format</span><span class="p">:</span> <span class="ss">:atom</span><span class="p">,</span> <span class="ss">articles</span><span class="p">:</span> <span class="n">articles</span><span class="p">)</span>
+  <span class="c1"># =&gt; This will use Articles::AtomIndex</span>
+  <span class="c1">#    and &quot;articles/index.atom.erb&quot;</span>
+
+<span class="no">Articles</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="nb">format</span><span class="p">:</span> <span class="ss">:xml</span><span class="p">,</span> <span class="ss">articles</span><span class="p">:</span> <span class="n">articles</span><span class="p">)</span>
+  <span class="c1"># =&gt; This will raise a Lotus::View::MissingTemplateError</span></code></pre></div>
+
+<p>First of all, we are preloading templates according to the above conventions, they are <strong>cached internally</strong> for future use.
+This is a huge performance improvement.</p>
+
+<p>A view is able to understand the given context and decide if render by itself or delegate to a subclass.</p>
+
+<p>All the objects passed in the context are called locals, they are available both in the view and in the template:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/view&#39;</span>
+
+<span class="k">module</span> <span class="nn">Articles</span>
+  <span class="k">class</span> <span class="nc">Show</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span>
+
+    <span class="k">def</span> <span class="nf">authors</span>
+      <span class="n">article</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:author</span><span class="p">)</span><span class="o">.</span><span class="n">join</span> <span class="s1">&#39;, &#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;h1&gt;</span><span class="err">&lt;</span>%= article.title %&gt;<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;article&gt;</span>
+  <span class="err">&lt;</span>%= article.content %&gt;
+<span class="nt">&lt;/article&gt;</span></code></pre></div>
+
+<p>All the methods defined in the view are accessible in the template:</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;h2&gt;</span><span class="err">&lt;</span>%= authors %&gt;<span class="nt">&lt;/h2&gt;</span></code></pre></div>
+
+<h2 id="custom-rendering">Custom rendering</h2>
+
+<p>Since a view is an object, you can override <code>#render</code> and provide your own rendering policy:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/view&#39;</span>
+
+<span class="k">module</span> <span class="nn">Articles</span>
+  <span class="k">class</span> <span class="nc">Show</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">View</span>
+    <span class="nb">format</span> <span class="ss">:json</span>
+
+    <span class="k">def</span> <span class="nf">render</span>
+      <span class="no">ArticleSerializer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article</span><span class="p">)</span><span class="o">.</span><span class="n">to_json</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Articles</span><span class="o">::</span><span class="no">Show</span><span class="o">.</span><span class="n">render</span><span class="p">({</span><span class="nb">format</span><span class="p">:</span> <span class="ss">:json</span><span class="p">,</span> <span class="ss">article</span><span class="p">:</span> <span class="n">article</span><span class="p">})</span>
+  <span class="c1"># =&gt; This will render from ArticleSerializer,</span>
+  <span class="c1">#    without the need of a template</span></code></pre></div>
+
+<h2 id="other-features">Other features</h2>
+
+<p>Lotus::View supports countless rendering engines, layouts, partials and it has lightweight presenters.
+They are explained in detail in the <a href="https://github.com/lotus/view#lotusview">README</a> and the <a href="http://rdoc.info/gems/lotus-view">API documentation</a>.</p>
+
+<h2 id="roadmap">Roadmap</h2>
+
+<p>As part of the <a href="http://lotusrb.org">Lotus</a> roadmap, I will open source a framework each month.
+On <strong>April 23rd</strong> I will release <strong>Lotus::Model</strong>.</p>
+
+<p>To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus <a href="http://lotusrb.org/mailing-list" target="_blank" title="Lotus mailing list">mailing list</a>.</p>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="http://lotusrb.us3.list-manage1.com/subscribe/post?u=dcbeefa4ba1ea9ae043857005&amp;id=fb3873a90f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe to the Lotus mailing list</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_dcbeefa4ba1ea9ae043857005_fb3873a90f" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Introducing Lotus::View" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="http://www.flickr.com/photos/gzlu/377947069/">George Lu</a> via <a href="http://compfight.com">Compfight</a> <a href="http://www.flickr.com/help/general/#147">cc</a></p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

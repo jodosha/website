@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redis Scripting with MRuby &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Redis Scripting with MRuby ">
+<link rel="canonical" href="http://lucaguidi.com/2014/02/26/redis-scripting-with-mruby-pt1.html">
+
+
+<meta property="og:title" content="Redis Scripting with MRuby "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/02/26/redis-scripting-with-mruby-pt1.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/redis-scripting-with-mruby-pt1.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="MRuby is a lightweight Ruby. It was created by Matz with the purpose of having an embeddable version of the language. This article covers how to enable Redis scripting with Ruby.
+"/>
+<meta name="description" content="MRuby is a lightweight Ruby. It was created by Matz with the purpose of having an embeddable version of the language. This article covers how to enable Redis scripting with Ruby.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/redis-scripting-with-mruby-pt1.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-26-February" title="February 26, 2014">February 26, 2014</time>
+            </div>
+            <h1 class="title">Redis Scripting with MRuby</h1>
+            
+        </header>
+
+        <section>
+            <p><a href="http://www.mruby.org">MRuby</a> is a lightweight Ruby.
+It was created by Matz with the purpose of having an embeddable version of the language.
+Even if it just reached the version 1.0, the hype around MRuby wasn’t high.
+However, there are already projects that are targeting <a href="https://github.com/matsumoto-r/ngx_mruby">Nginx</a>, <a href="https://github.com/mattn/go-mruby">Go</a>, <a href="http://mobiruby.org">iOS</a>, <a href="https://github.com/mattn/mruby-v8">V8</a>, and even <a href="https://github.com/kyab/mruby-arduino">Arduino</a>.</p>
+
+<p>The direct competitor in this huge market is <a href="http://www.lua.org">Lua</a>: a lightweight scripting language.
+Since the version 2.6.0 Redis introduced <a href="http://redis.io/commands#scripting">scripting</a> capabilities with Lua.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># redis-cli</span>
+&gt; <span class="nb">eval</span> <span class="s2">&quot;return 5&quot;</span> 0
+<span class="o">(</span>integer<span class="o">)</span> 5</code></pre></div>
+
+<p><strong>Today is the 5th Redis birthday</strong>, and I’d like celebrate this event by embedding my favorite language.</p>
+
+<h2 id="hello-mruby">Hello, MRuby</h2>
+
+<p>MRuby is shipped with an interpreter (<code>mruby</code>) to execute the code via a VM.
+This usage is equivalent to the well known Ruby interpreter <code>ruby</code>.
+MRuby can also generate a bytecode from a script, via the <code>mrbc</code> bin.</p>
+
+<p>What’s important for our purpose are the C bindings. Let’s write an <em>Hello World</em> program.</p>
+
+<p>We need a *NIX OS, gcc and bison.
+I’ve extracted the MRuby code into <code>~/Code/mruby</code> and built it with <code>make</code>.</p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;mruby.h&gt;</span>
+<span class="cp">#include &lt;mruby/compile.h&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">mrb_state</span> <span class="o">*</span><span class="n">mrb</span> <span class="o">=</span> <span class="n">mrb_open</span><span class="p">();</span>
+  <span class="kt">char</span> <span class="n">code</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;p &#39;hello world!&#39;&quot;</span><span class="p">;</span>
+
+  <span class="n">mrb_load_string</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">code</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>The compiler needs to know where are the headers and the libs:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">gcc -I/Users/luca/Code/mruby/include hello_world.c <span class="se">\</span>
+  /Users/luca/Code/mruby/build/host/lib/libmruby.a <span class="se">\</span>
+  -lm -o hello_world</code></pre></div>
+
+<p>This is a really basic example, we don’t have any control on the context where this code is executed.
+We can parse it and wrap into a <a href="http://www.ruby-doc.org/core-2.1.1/Proc.html">Proc</a>.</p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;mruby.h&gt;</span>
+<span class="cp">#include &lt;mruby/proc.h&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">mrb_state</span> <span class="o">*</span><span class="n">mrb</span> <span class="o">=</span> <span class="n">mrb_open</span><span class="p">();</span>
+  <span class="n">mrbc_context</span> <span class="o">*</span><span class="n">cxt</span><span class="p">;</span>
+  <span class="n">mrb_value</span> <span class="n">val</span><span class="p">;</span>
+  <span class="k">struct</span> <span class="n">mrb_parser_state</span> <span class="o">*</span><span class="n">ps</span><span class="p">;</span>
+  <span class="k">struct</span> <span class="n">RProc</span> <span class="o">*</span><span class="n">proc</span><span class="p">;</span>
+
+  <span class="kt">char</span> <span class="n">code</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;1 + 1&quot;</span><span class="p">;</span>
+
+  <span class="n">cxt</span> <span class="o">=</span> <span class="n">mrbc_context_new</span><span class="p">(</span><span class="n">mrb</span><span class="p">);</span>
+  <span class="n">ps</span> <span class="o">=</span> <span class="n">mrb_parse_string</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">cxt</span><span class="p">);</span>
+  <span class="n">proc</span> <span class="o">=</span> <span class="n">mrb_generate_code</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">ps</span><span class="p">);</span>
+  <span class="n">mrb_pool_close</span><span class="p">(</span><span class="n">ps</span><span class="o">-&gt;</span><span class="n">pool</span><span class="p">);</span>
+
+  <span class="n">val</span> <span class="o">=</span> <span class="n">mrb_run</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">proc</span><span class="p">,</span> <span class="n">mrb_top_self</span><span class="p">(</span><span class="n">mrb</span><span class="p">));</span>
+  <span class="n">mrb_p</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+
+  <span class="n">mrbc_context_free</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">cxt</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="hello-redis">Hello, Redis</h2>
+
+<p>As first thing we need to make Redis dependend on MRuby libraries.
+We extract the language source code under <code>deps/mruby</code> and then we hook inside the <code>deps/Makefile</code> mechanisms:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mruby: .make-prerequisites
+       @printf <span class="s1">&#39;%b %b\n&#39;</span> <span class="k">$(</span>MAKECOLOR<span class="k">)</span>MAKE<span class="k">$(</span>ENDCOLOR<span class="k">)</span> <span class="k">$(</span>BINCOLOR<span class="k">)</span><span class="nv">$@</span><span class="k">$(</span>ENDCOLOR<span class="k">)</span>
+       <span class="nb">cd </span>mruby <span class="o">&amp;&amp;</span> <span class="k">$(</span>MAKE<span class="k">)</span></code></pre></div>
+
+<p class="muted code-caption">see the <a href="https://github.com/jodosha/redis/commit/c94263ee9bf129c3fce5d753554e170a94e0e7c0">commit</a></p>
+
+<p>During the startup, Redis initializes its features.
+We add our own <code>mrScriptingInit()</code>, where we initialize the interpreter and assign to <code>server.mrb</code>.</p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp"># src/mruby-scripting.c</span>
+<span class="kt">void</span> <span class="nf">mrScriptingInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">mrb_state</span> <span class="o">*</span><span class="n">mrb</span> <span class="o">=</span> <span class="n">mrb_open</span><span class="p">();</span>
+  <span class="n">server</span><span class="p">.</span><span class="n">mrb</span> <span class="o">=</span> <span class="n">mrb</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p class="muted code-caption">see the <a href="https://github.com/jodosha/redis/commit/61a8f4472e16edbfc0d53999e3ee3193a569d51c">commit</a></p>
+
+<p>Then we can add another command <code>REVAL</code> with the same syntax of <code>EVAL</code>, but in our case MRuby will be in charge of execute it.</p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp"># src/redis.c</span>
+<span class="p">{</span><span class="s">&quot;reval&quot;</span><span class="p">,</span><span class="n">mrEvalCommand</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">zunionInterGetKeys</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span></code></pre></div>
+
+<p>That <code>mrEvalCommand</code> function will be responsible to handle that command.
+It’s similar to the <em>Hello World</em> above, the only difference is that the code is passed as argument to the redis client (<code>c-&gt;argv[1]-&gt;ptr</code>).</p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp"># src/mruby-scripting.c</span>
+<span class="kt">void</span> <span class="nf">mrEvalCommand</span><span class="p">(</span><span class="n">redisClient</span> <span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">mrb_state</span> <span class="o">*</span><span class="n">mrb</span> <span class="o">=</span> <span class="n">server</span><span class="p">.</span><span class="n">mrb</span><span class="p">;</span>
+
+  <span class="k">struct</span> <span class="n">mrb_parser_state</span> <span class="o">*</span><span class="n">ps</span><span class="p">;</span>
+  <span class="k">struct</span> <span class="n">RProc</span> <span class="o">*</span><span class="n">proc</span><span class="p">;</span>
+  <span class="n">mrbc_context</span> <span class="o">*</span><span class="n">cxt</span><span class="p">;</span>
+  <span class="n">mrb_value</span> <span class="n">val</span><span class="p">;</span>
+
+  <span class="n">cxt</span> <span class="o">=</span> <span class="n">mrbc_context_new</span><span class="p">(</span><span class="n">mrb</span><span class="p">);</span>
+  <span class="n">ps</span> <span class="o">=</span> <span class="n">mrb_parse_string</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">cxt</span><span class="p">);</span>
+  <span class="n">proc</span> <span class="o">=</span> <span class="n">mrb_generate_code</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">ps</span><span class="p">);</span>
+  <span class="n">mrb_pool_close</span><span class="p">(</span><span class="n">ps</span><span class="o">-&gt;</span><span class="n">pool</span><span class="p">);</span>
+
+  <span class="n">val</span> <span class="o">=</span> <span class="n">mrb_run</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">proc</span><span class="p">,</span> <span class="n">mrb_top_self</span><span class="p">(</span><span class="n">mrb</span><span class="p">));</span>
+  <span class="n">mrAddReply</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">mrb</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+
+  <span class="n">mrbc_context_free</span><span class="p">(</span><span class="n">mrb</span><span class="p">,</span> <span class="n">cxt</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p class="muted code-caption">see the <a href="https://github.com/jodosha/redis/commit/82d67f1d83b42f3b276ebe17443a82496df05803">commit</a></p>
+
+<p>Now we can compile the server and start it.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">make <span class="o">&amp;&amp;</span> src/redis-server</code></pre></div>
+
+<p>From another shell, start the CLI.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">src/redis-cli
+&gt; reval <span class="s2">&quot;2 + 3&quot;</span> 0
+<span class="s2">&quot;5&quot;</span></code></pre></div>
+
+<p>This was the first part of this implementation.
+In a future article, I’ll cover how to access Redis data within the MRuby context.</p>
+
+<p>For the time being, feel free to play with my <a href="https://github.com/jodosha/redis/tree/mruby-scripting">fork</a>.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Redis Scripting with MRuby" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

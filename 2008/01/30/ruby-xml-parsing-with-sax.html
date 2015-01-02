@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruby: XML Parsing With SAX &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Ruby: XML Parsing With SAX ">
+<link rel="canonical" href="http://lucaguidi.com/2008/01/30/ruby-xml-parsing-with-sax.html">
+
+
+<meta property="og:title" content="Ruby: XML Parsing With SAX "/>
+<meta property="og:url" content="http://lucaguidi.com/2008/01/30/ruby-xml-parsing-with-sax.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/cover.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content=""/>
+<meta name="description" content=""/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2008-30-January" title="January 30, 2008">January 30, 2008</time>
+            </div>
+            <h1 class="title">Ruby: XML Parsing With SAX</h1>
+            
+        </header>
+
+        <section>
+            <p><strong><acronym title="Simple API for XML">SAX</acronym></strong> is an <a href="http://en.wikipedia.org/wiki/Event-driven"><strong>event-driven</strong></a> parser for <acronym title="eXtensible Markup Language">XML</acronym>.</p>
+It <strong>sequentially</strong> reads the xml and generates special events. So, if you want to use SAX, you should implement the code to handle them. It&#8217;s quite different from the <strong><acronym title="Document Object Model">DOM</acronym></strong> model, where the whole xml is parsed and loaded in an <a href="http://en.wikipedia.org/wiki/Tree_(data_structure)" title="Tree (data structure)">tree</a>.
+As you can see, the first approach is more difficult than the DOM one. Why we should use it? Depends.
+If you want to extract certain informations from a big file, probably you should choose a SAX implementation, in this way you can avoid the initial DOM loading overhead.
+
+<h3>The Ruby XML Library</h3>
+<p>The Ruby core library has a built-in XML parser (both DOM and SAX) called <strong>REXML</strong>, but it&#8217;s terribly slow, it&#8217;s highly advisable to use <a href="http://libxml.rubyforge.org/"><strong>libxml</strong></a>. It&#8217;s a binding to the popular library from <strong>Gnome</strong> and it was released as gem.</p>
+
+<h3>The Ruby Implementation</h3>
+<p>In first instance we need an <strong>handler</strong>, to deal with the SAX events.<br/><code class="ruby">
+class Handler
+  def method_missing(method_name, *attributes, &amp;block)
+  end
+end
+  </code>
+</p>
+<p>Libxml generates several events and it expects to find certain methods into the class assigned ad handler. With <code>method_missing</code> we simply avoid any exception.</p>
+
+<h3>A More Useful Example</h3>
+<p>We try to extract the most recent headlines of a blog.</p>
+<p>Download the feed:<br/><code class="bash">
+curl <a href="http://feeds.feedburner.com/LucaGuidi">http://feeds.feedburner.com/LucaGuidi</a> &gt;&gt; luca.xml
+</code>
+</p>
+
+<p>Now we need our custom SAX parser:<br/><code class="ruby">
+require 'rubygems'
+require 'xml/libxml'
+require 'handler'
+
+class SaxParser
+  def initialize(xml)
+    @parser = XML::SaxParser.new
+    @parser.string = xml
+    @parser.callbacks = Handler.new
+  end
+
+  def parse
+    @parser.parse
+    @parser.callbacks.elements
+  end
+end
+</code>
+</p>
+<p>We have just wrapped the SAX parser from <strong>libxml</strong> and we have registered our first class as callback handler.</p>
+
+<p>Now we are going to improve the handler to recognize and save the post titles:<br/><code class="ruby">
+class Handler
+  attr_accessor :elements
+
+  def initialize
+    @elements = []
+  end
+
+  def on_start_element(element, attributes)
+    @print = true if element == 'title'
+  end
+
+  def on_characters(characters = '')
+    @elements 
+</code></p>
+<p>When the handler is instantiated we create an internal array to store our results, then when we find and <code>title</code> element we set on <code>true</code> the <code>print</code> flag. When it&#8217;s <code>true</code> we can store the data into <code>elements</code>, then we set on <code>false</code> on the ending handler of the element.</p>
+
+<h3>Usage</h3>
+<p>We create a trivial script:<br/><code class="ruby">
+#!/usr/bin/env ruby
+require 'sax_parser'
+
+xml = open(ARGV[0], 'r').collect { |l| l }.join
+puts SaxParser.new(xml).parse
+</code>
+</p>
+<p>From the shell:<br/><code lang="shell">
+./parse luca.xml
+</code>
+</p>
+
+<h3>Conclusion</h3>
+<p>SAX is less elegant and easy than DOM, but could be very useful in certain cases.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Ruby: XML Parsing With SAX" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

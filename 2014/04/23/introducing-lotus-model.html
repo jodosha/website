@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing Lotus::Model &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Introducing Lotus::Model ">
+<link rel="canonical" href="http://lucaguidi.com/2014/04/23/introducing-lotus-model.html">
+
+
+<meta property="og:title" content="Introducing Lotus::Model "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/04/23/introducing-lotus-model.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/introducing-lotus-model.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Almost all the Ruby frameworks for the Model layer mix up business logic with database details. This kind of architecture leads to god classes, slow build times and to a general poor design.
+What if we assign these roles to smaller components that are able to collaborate together? Imagine how life changing would be to work just with object, without worrying how to persist them. How easy and fast would be testing them? How small and well defined would be your objects?
+Let me introduce Lotus::Model.
+"/>
+<meta name="description" content="Almost all the Ruby frameworks for the Model layer mix up business logic with database details. This kind of architecture leads to god classes, slow build times and to a general poor design.
+What if we assign these roles to smaller components that are able to collaborate together? Imagine how life changing would be to work just with object, without worrying how to persist them. How easy and fast would be testing them? How small and well defined would be your objects?
+Let me introduce Lotus::Model.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/introducing-lotus-model.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-23-April" title="April 23, 2014">April 23, 2014</time>
+            </div>
+            <h1 class="title">Introducing Lotus::Model</h1>
+            
+        </header>
+
+        <section>
+            <p>Almost all the Ruby frameworks for the Model layer mix up business logic with database details.
+This kind of architecture leads to <a href="http://en.wikipedia.org/wiki/God_object">god classes</a>, slow build times and to a general <a href="https://speakerdeck.com/jodosha/a-rails-criticism">bad design</a>.
+These problems are well known to legacy projects’s maintainers.</p>
+
+<p>What if we assign these roles to <strong>smaller components</strong> that are able to collaborate <strong>together</strong>?
+Imagine how life changing would be to <strong>work just with objects</strong>, without worrying how to persist them.
+How easy and fast would be testing them? How small and well defined would be your objects?</p>
+
+<p>Let me introduce <a href="https://github.com/lotus/model">Lotus::Model</a>.</p>
+
+<p>It brings a new level of decoupling that is a huge step in that direction.
+The framework constitutes a boundary that offers a convenient public API to execute <strong>queries and commands</strong> to persist and fetch entities.</p>
+
+<h2 id="entities">Entities</h2>
+
+<p>An entity is the core of an application, where the part of the domain logic is implemented.
+It’s a small, cohesive object that express coherent and meaningful behaviors.</p>
+
+<p>It deals with one and only one responsibility that is pertinent to the domain of the application, without caring about details such as persistence or validations.</p>
+
+<p>This simplicity of design allows you to focus on behaviors, or message passing if you will, which is the <a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">quintessence</a> of Object Oriented Programming.</p>
+
+<p>Consider this object:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Article</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:text</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">attributes</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="vi">@id</span><span class="p">,</span> <span class="vi">@title</span><span class="p">,</span> <span class="vi">@text</span> <span class="o">=</span>
+      <span class="n">attributes</span><span class="o">.</span><span class="n">values_at</span><span class="p">(</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:text</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>It can be <strong><em>optionally</em></strong> expressed as:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/model&#39;</span>
+
+<span class="k">class</span> <span class="nc">Article</span>
+  <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Entity</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">attributes</span> <span class="o">=</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:text</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Yes, <strong>optionally</strong>.
+Lotus::Model can work with <strong>pure objects</strong>, as long they implement that small interface above.</p>
+
+<p>But how the framework knows how to handle these objects?</p>
+
+<h2 id="data-mapper">Data Mapper</h2>
+
+<p>We use a data mapper for the job.
+It’s a persistence mapper that keeps entities unaware of schema details.
+Good news are that it’s <strong>database independent</strong>, it can work with SQL, document, and even with key/value stores.</p>
+
+<p>The role of a data mapper is to translate database columns into the corresponding attribute of an entity.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/model&#39;</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Model</span><span class="o">::</span><span class="no">Mapper</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+  <span class="n">collection</span> <span class="ss">:articles</span> <span class="k">do</span>
+    <span class="n">entity</span> <span class="no">Article</span>
+
+    <span class="n">attribute</span> <span class="ss">:id</span><span class="p">,</span>    <span class="nb">Integer</span>
+    <span class="n">attribute</span> <span class="ss">:title</span><span class="p">,</span> <span class="nb">String</span>
+    <span class="n">attribute</span> <span class="ss">:text</span><span class="p">,</span>  <span class="nb">String</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>For simplicity sake, imagine that the mapper above is used with a SQL database.
+We use <code>#collection</code> to indicate the table that we want to map, <code>#entity</code> to indicate the kind of object to persist.
+In the end, each <code>#attribute</code> call specifies which Ruby type we want to associate for given column.</p>
+
+<h2 id="repositories">Repositories</h2>
+
+<p>Once we have in place all the entities and a mapping for them, we can use a repository to talk with a database.</p>
+
+<p>A repository is an object that mediates between entites and the persistence layer.
+It offers a standardized API to query and execute commands on a database.</p>
+
+<p>A repository is <strong>storage idenpendent</strong>, all the queries and commands are delegated to the current adapter.</p>
+
+<p>This architecture has several advantages:</p>
+
+<ul>
+  <li>
+    <p>An application depends on an standard API, instead of low level details (<a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency Inversion principle</a>)</p>
+  </li>
+  <li>
+    <p>An application depends on a stable API, that doesn’t change if the storage changes</p>
+  </li>
+  <li>
+    <p>You can postpone storage decisions</p>
+  </li>
+  <li>
+    <p>It confines persistence logic at a low level</p>
+  </li>
+  <li>
+    <p>Multiple data sources can easily coexist in an application</p>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/model&#39;</span>
+
+<span class="k">class</span> <span class="nc">ArticleRepository</span>
+  <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Repository</span>
+<span class="k">end</span></code></pre></div>
+
+<p>When a class includes <code>Lotus::Repository</code> it will expose <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> methods such as <code>.create</code>, <code>.update</code>, <code>.find</code>.
+Aside from that, it offers a powerful <strong>private</strong> query API.
+This decision forces developers to define <strong>intention revealing APIs</strong>, instead leak storage details outside of a repository.</p>
+
+<p>Look at the following code:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ArticleRepository</span><span class="o">.</span>
+  <span class="n">where</span><span class="p">(</span><span class="ss">author_id</span><span class="p">:</span> <span class="mi">23</span><span class="p">)</span><span class="o">.</span>
+  <span class="n">order</span><span class="p">(</span><span class="ss">:published_at</span><span class="p">)</span><span class="o">.</span>
+  <span class="n">limit</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span></code></pre></div>
+
+<p>This is an example of <em>implicit API</em>, it means nothing in terms of the behavior of the domain model.
+It’s just a chain of method calls. From the caller perspective, it should be aware of the internal query mechanisms.</p>
+
+<p>There is a better way to write it:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;lotus/model&#39;</span>
+
+<span class="k">class</span> <span class="nc">ArticleRepository</span>
+  <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Repository</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">most_recent_by_author</span><span class="p">(</span><span class="n">author</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">query</span> <span class="k">do</span>
+      <span class="n">where</span><span class="p">(</span><span class="ss">author_id</span><span class="p">:</span> <span class="n">author</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span>
+        <span class="n">order</span><span class="p">(</span><span class="ss">:published_at</span><span class="p">)</span>
+    <span class="k">end</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Look at how revealing is the name of that method.
+It <em>encapsulates</em> the implementation details, in favor of a clear and testable API.</p>
+
+<p>If we change the type of database, the callers of that method will be unaffected.</p>
+
+<h2 id="adapters">Adapters</h2>
+
+<p>As mentioned above, Lotus::Model is database agnostic.
+A repository forwards method calls to its current adapter.
+An adapter is a concrete implementation of persistence logic for a specific database.
+The framework is shipped with two adapters:</p>
+
+<ul>
+  <li><code>SqlAdapter</code></li>
+  <li><code>MemoryAdapter</code></li>
+</ul>
+
+<p>An adapter can be associated to one or multiple repositories and different repositories can have different data sources.
+For instance an application can have <code>ArticleRepository</code> that uses a SQL database and <code>TweetRepository</code> that talks to a third part JSON service.</p>
+
+<h2 id="roadmap">Roadmap</h2>
+
+<p>For the next two months, I will focus on <a href="http://lotusrb.org">Lotus</a> (the gem).
+The main goal is to make all the frameworks to work together in a full stack app.
+This will require improve the existing libraries and empower them with the missing features.</p>
+
+<p>On <strong>June 23rd</strong> I will release <strong>Lotus</strong>.</p>
+
+<p>To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus <a href="http://lotusrb.org/mailing-list" target="_blank" title="Lotus mailing list">mailing list</a>.</p>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="http://lotusrb.us3.list-manage1.com/subscribe/post?u=dcbeefa4ba1ea9ae043857005&amp;id=fb3873a90f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe to the Lotus mailing list</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_dcbeefa4ba1ea9ae043857005_fb3873a90f" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Introducing Lotus::Model" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="http://www.flickr.com/photos/24211276@N05/9296793109/">"KIUKO"</a> via <a href="http://compfight.com">Compfight</a> <a href="https://creativecommons.org/licenses/by-nd/2.0/">cc</a></p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing Redis Store &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Introducing Redis Store ">
+<link rel="canonical" href="http://lucaguidi.com/2012/06/18/introducing-redis-store.html">
+
+
+<meta property="og:title" content="Introducing Redis Store "/>
+<meta property="og:url" content="http://lucaguidi.com/2012/06/18/introducing-redis-store.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/introducing-redis-store.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Redis Store aims to be a toolkit for your Ruby applications, it natively supports sharding, master/slave replication, marshalling, timeouts and namespaces. Plus, it's really easy to use with the most popular frameworks, such as Ruby on Rails."/>
+<meta name="description" content="Redis Store aims to be a toolkit for your Ruby applications, it natively supports sharding, master/slave replication, marshalling, timeouts and namespaces. Plus, it's really easy to use with the most popular frameworks, such as Ruby on Rails."/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/introducing-redis-store.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2012-18-June" title="June 18, 2012">June 18, 2012</time>
+            </div>
+            <h1 class="title">Introducing Redis Store</h1>
+            
+        </header>
+
+        <section>
+            <p><strong>[ I wrote this post for Redis ToGo, you can find the original article <a href="http://blog.togo.io/introducing/redis-store/">here</a> and the related discussion on <a href="http://news.ycombinator.com/item?id=4124246">Hacker News</a>. ]</strong></p>
+
+<p>Redis Store aims to be a toolkit for your Ruby applications, it natively supports sharding, master/slave replication, marshalling, timeouts and namespaces. Plus, it&#8217;s really easy to use with the most popular frameworks, such as Ruby on Rails.</p>
+
+<p>If you love modularity, you will love Redis Store too: under the hood it just activates, at runtime, the best set of low level features requested by the above software layers. It&#8217;s delivered as a set of gems, one for each targeted framework, with a common background that&#8217;s the redis-store gem itself. This decision helped me a lot to deal with different versions of Ruby, several frameworks, and versions.</p>
+
+<h2>How to use it</h2>
+
+<p>Let&#8217;s say we want to use Redis Store in our Rails project. First of all we need to add an entry in our <code>Gemfile</code>:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;redis-rails&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;redis-rack-cache&#39;</span> <span class="c1"># optional</span></code></pre></div>
+
+<p>Then we have many options:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">## Cache Store</span>
+<span class="c1"># config/environments/production.rb</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="o">=</span> <span class="ss">:redis_store</span>
+
+<span class="c1">## Session Store</span>
+<span class="c1"># config/initializers/session_store.rb</span>
+<span class="no">MyApplication</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:redis_store</span><span class="p">,</span>
+  <span class="ss">servers</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;redis://:secret@192.168.6.23:6379/0&#39;</span><span class="p">,</span> <span class="s1">&#39;redis://:secret@192.168.6.99:6379/1&#39;</span><span class="o">]</span>
+
+<span class="c1">## HTTP Cache</span>
+<span class="c1"># config.ru</span>
+<span class="nb">require</span> <span class="s1">&#39;rack&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;rack/cache&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;redis-rack-cache&#39;</span>
+
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="p">,</span>
+  <span class="ss">metastore</span><span class="p">:</span>   <span class="s1">&#39;redis://localhost:6379/0/metastore&#39;</span><span class="p">,</span>
+  <span class="ss">entitystore</span><span class="p">:</span> <span class="s1">&#39;redis://localhost:6380/0/entitystore&#39;</span></code></pre></div>
+
+<p>As you can see, it&#8217;s pretty easy to plug in, but let&#8217;s investigate how to manage our configuration. The first case is self-explanatory, we&#8217;re telling <code>ActiveSupport</code> to load our Redis backed store. Remember that, <em>au contraire</em> of Redis, which only supports strings, we can dump full objects here.</p>
+
+<p>The second example is a little bit more complicated. First of all, we are employing a cluster of servers. As mentioned before, Redis Store supports sharding, that means the HTTP sessions will be transparently split across the two hosts. For each node we are specififying, respectively: protocol, password, ip, port and the Redis database.</p>
+
+<p>The last one, instead describes the setup for the Rails recently added <code>Rack::Cache</code>. This is a Ruby implementation of an HTTP cache proxy (like Squid or Varnish), which helps to drastically improve response times, by storing the full contents for a given url. It has two components: the metastore, used mainly to check the existence of an entry, and the entitystore, that&#8217;s the repository itself. You&#8217;ve probably noticed another parameter in the configuration: it&#8217;s the namespace, all the keys will be prefixed with something like <code>&lt;namespace&gt;:&lt;key&gt;</code>. One last note: since we are storing just plain text, the mashalling module isn&#8217;t activated.</p>
+
+<p>This is just a small portion of what Redis Store can do, it also supports <code>Rack</code>, <code>Sinatra</code> and <code>I18n</code> out of the box.</p>
+
+<h2>Conclusion</h2>
+
+<p>I strongly believe that Redis is must-have in your environment, it&#8217;s fast, flexible enough to be used as database, cache, pub/sub. That being said, Redis Store can be a great tool for scale your applications, but everything has a cost: fine tuning. Again, it-just-works, but as Rails itself, to step up, you&#8217;ll probably find out to experiment a little bit with the Redis configuration, in order to find the right threshold between performances, scalability and memory consumption.</p>
+
+<p>If you want to give Redis store a try, please check it out on <a href="https://github.com/jodosha/redis-store">GitHub</a>.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Introducing Redis Store" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

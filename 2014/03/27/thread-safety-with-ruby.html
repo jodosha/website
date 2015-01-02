@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thread Safety With Ruby &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Thread Safety With Ruby ">
+<link rel="canonical" href="http://lucaguidi.com/2014/03/27/thread-safety-with-ruby.html">
+
+
+<meta property="og:title" content="Thread Safety With Ruby "/>
+<meta property="og:url" content="http://lucaguidi.com/2014/03/27/thread-safety-with-ruby.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/thread-safety-with-ruby.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Moore's law is over. Modern computation is exploited by running processes on multiple cores. Ruby has always ignored this trend, and the community didn't put enough attention on this topic.
+The VM allocates a memory heap, which is shared and writable by threads. If incorrectly coordinated, those threads can lead to unexpected behaviors.
+"/>
+<meta name="description" content="Moore's law is over. Modern computation is exploited by running processes on multiple cores. Ruby has always ignored this trend, and the community didn't put enough attention on this topic.
+The VM allocates a memory heap, which is shared and writable by threads. If incorrectly coordinated, those threads can lead to unexpected behaviors.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/thread-safety-with-ruby.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2014-27-March" title="March 27, 2014">March 27, 2014</time>
+            </div>
+            <h1 class="title">Thread Safety With Ruby</h1>
+            
+        </header>
+
+        <section>
+            <p><strong>Moore’s law is over</strong>.
+Modern computation is exploited by running processes on multiple cores.
+Ruby has always ignored this trend, and the community didn’t put enough attention on this topic.</p>
+
+<p>Ruby’s model for concurrency is based on threads.
+It was typical approach for object oriented languages, designed in the 90s.
+A thread is sequence of instructions that can be scheduled and executed in the context of a process.
+Several threads can be running at the same time.</p>
+
+<p>Ruby’s VM process allocates a memory heap, which is shared and writable by threads.
+If incorrectly coordinated, those threads can lead to unexpected behaviors.</p>
+
+<h2 id="thread-safety">Thread Safety</h2>
+
+<p>We define as <em>thread safe</em> a code that behaves correctly when accessed by many threads at the time.
+Most of the time, the correctness of execution is determined by <strong>the state of the memory that is visible by a routine in a given moment</strong>.
+For instance, a variable appears with a certain value, but in the meantime another thread may have changed it.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+  <span class="no">Thread</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+    <span class="nb">puts</span> <span class="s2">&quot;before (</span><span class="si">#{</span> <span class="n">i</span> <span class="si">}</span><span class="s2">): </span><span class="si">#{</span> <span class="n">x</span> <span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">puts</span> <span class="s2">&quot;after (</span><span class="si">#{</span> <span class="n">i</span> <span class="si">}</span><span class="s2">): </span><span class="si">#{</span> <span class="n">x</span> <span class="si">}</span><span class="s2">&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:join</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">total: </span><span class="si">#{</span> <span class="n">x</span> <span class="si">}</span><span class="s2">&quot;</span></code></pre></div>
+
+<p>What happens here? When the threads are starting they see the initial value of <code>x</code>.
+But when each of them, try to add <code>+1</code>, the value became different as result of the parallel computation.
+Without a proper synchronization, the partial state of <code>x</code> is unpredictable.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">% ruby count.rb
+before <span class="o">(</span>2<span class="o">)</span>: 0
+before <span class="o">(</span>0<span class="o">)</span>: 0
+before <span class="o">(</span>1<span class="o">)</span>: 0
+after <span class="o">(</span>1<span class="o">)</span>: 3
+before <span class="o">(</span>5<span class="o">)</span>: 1
+before <span class="o">(</span>7<span class="o">)</span>: 1
+after <span class="o">(</span>2<span class="o">)</span>: 1
+after <span class="o">(</span>0<span class="o">)</span>: 2
+before <span class="o">(</span>4<span class="o">)</span>: 1
+after <span class="o">(</span>5<span class="o">)</span>: 4
+after <span class="o">(</span>7<span class="o">)</span>: 5
+before <span class="o">(</span>9<span class="o">)</span>: 1before <span class="o">(</span>3<span class="o">)</span>: 1
+before <span class="o">(</span>8<span class="o">)</span>: 1
+before <span class="o">(</span>6<span class="o">)</span>: 1
+after <span class="o">(</span>4<span class="o">)</span>: 6
+
+after <span class="o">(</span>9<span class="o">)</span>: 10after <span class="o">(</span>3<span class="o">)</span>: 7
+after <span class="o">(</span>6<span class="o">)</span>: 9
+
+after <span class="o">(</span>8<span class="o">)</span>: 8
+
+total: 10</code></pre></div>
+
+<p>When the thread <code>(3)</code> started, <code>x</code> was equal to <code>1</code>, but after adding <code>+1</code> its value was <code>7</code>.</p>
+
+<h2 id="visibility">Visibility</h2>
+
+<p>We met an important issue here: <strong>visibility</strong>.
+If the changes caused by a thread are observable by other threads, they can read the correct value, and then partial state is consistent.</p>
+
+<p>Until now, we omitted an important aspect: which kind of variables are we referring to?
+We are talking about of all that represent a <strong>state of the system</strong> in a given moment.
+Global, class and instance variables require attention, when used in a concurrent context.</p>
+
+<p>Local variables are exempt from these problems, because they don’t hold a state.</p>
+
+<p>From this picture, we can infer that <strong>stateless programs are always thread safe</strong>.</p>
+
+<h2 id="atomicity">Atomicity</h2>
+
+<p>Yet, stateful systems can be thread-safe.
+What’s important isn’t only <strong>what</strong> changes (<em>visibility</em>) but <strong>how</strong> it changes (<em>atomicity</em>).
+If we design write operations in a way that while they’re running, other threads can’t read nor alter the state we’re modifying, that change is thread safe.</p>
+
+<p>We call these operations <em>atomic</em>, because their execution appear as indivisible to the rest of the system.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">x</span><span class="p">,</span> <span class="n">mutex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Mutex</span><span class="o">.</span><span class="n">new</span>
+
+<span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+  <span class="no">Thread</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+    <span class="n">mutex</span><span class="o">.</span><span class="n">synchronize</span> <span class="k">do</span>
+      <span class="nb">puts</span> <span class="s2">&quot;before (</span><span class="si">#{</span> <span class="n">i</span> <span class="si">}</span><span class="s2">): </span><span class="si">#{</span> <span class="n">x</span> <span class="si">}</span><span class="s2">&quot;</span>
+      <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="nb">puts</span> <span class="s2">&quot;after (</span><span class="si">#{</span> <span class="n">i</span> <span class="si">}</span><span class="s2">): </span><span class="si">#{</span> <span class="n">x</span> <span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:join</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">total: </span><span class="si">#{</span> <span class="n">x</span> <span class="si">}</span><span class="s2">&quot;</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">% ruby count.rb
+before <span class="o">(</span>2<span class="o">)</span>: 0
+after <span class="o">(</span>2<span class="o">)</span>: 1
+before <span class="o">(</span>1<span class="o">)</span>: 1
+after <span class="o">(</span>1<span class="o">)</span>: 2
+before <span class="o">(</span>0<span class="o">)</span>: 2
+after <span class="o">(</span>0<span class="o">)</span>: 3
+before <span class="o">(</span>5<span class="o">)</span>: 3
+after <span class="o">(</span>5<span class="o">)</span>: 4
+before <span class="o">(</span>6<span class="o">)</span>: 4
+after <span class="o">(</span>6<span class="o">)</span>: 5
+before <span class="o">(</span>8<span class="o">)</span>: 5
+after <span class="o">(</span>8<span class="o">)</span>: 6
+before <span class="o">(</span>9<span class="o">)</span>: 6
+after <span class="o">(</span>9<span class="o">)</span>: 7
+before <span class="o">(</span>3<span class="o">)</span>: 7
+after <span class="o">(</span>3<span class="o">)</span>: 8
+before <span class="o">(</span>4<span class="o">)</span>: 8
+after <span class="o">(</span>4<span class="o">)</span>: 9
+before <span class="o">(</span>7<span class="o">)</span>: 9
+after <span class="o">(</span>7<span class="o">)</span>: 10
+
+total: 10</code></pre></div>
+
+<p>By using <a href="http://www.ruby-doc.org/core-2.1.1/Mutex.html">Mutex</a>, we ensure the atomicity of the <em>add</em> operation.</p>
+
+<p>The following example shows <strong>the weakness of a common pattern</strong> in Ruby applications: lazy loading via <code>||=</code>.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">##</span>
+<span class="c1"># Counter is thread safe, we use a Mutex to guarantee the atomicity of #increment!</span>
+<span class="c1">#</span>
+<span class="k">class</span> <span class="nc">Counter</span>
+  <span class="kp">attr_reader</span> <span class="ss">:total</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="nb">puts</span> <span class="s1">&#39;initialized&#39;</span>
+    <span class="vi">@total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="vi">@mutex</span> <span class="o">=</span> <span class="no">Mutex</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">increment!</span>
+    <span class="vi">@mutex</span><span class="o">.</span><span class="n">synchronize</span> <span class="p">{</span> <span class="vi">@total</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1">##</span>
+<span class="c1"># Application isn&#39;t thread safe, because the initialization of Counter</span>
+<span class="c1"># happens with a non-atomic operation (`||=`).</span>
+<span class="c1">#</span>
+<span class="k">class</span> <span class="nc">Application</span>
+  <span class="k">def</span> <span class="nf">increment!</span>
+    <span class="n">counter</span><span class="o">.</span><span class="n">increment!</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">counter</span>
+    <span class="vi">@counter</span> <span class="o">||=</span> <span class="no">Counter</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">total</span>
+    <span class="n">counter</span><span class="o">.</span><span class="n">total</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="no">Application</span><span class="o">.</span><span class="n">new</span>
+
+<span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+  <span class="no">Thread</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">increment!</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:join</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">app</span><span class="o">.</span><span class="n">total</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">% ruby application.rb
+initialized
+initialized
+<span class="m">1</span> <span class="c"># wrong</span></code></pre></div>
+
+<p><strong>Please note that <code>Counter</code> is thread safe, but the final application isn’t</strong>.
+We have used <code>||=</code>, which isn’t atomic. This caused a <a href="http://en.wikipedia.org/wiki/Race_condition"><em>race condition</em></a>: two threads have seen <code>@counter</code> as <code>nil</code>, and then they have initialized a new instance of it.
+<strong>The result of the computation is wrong</strong>.</p>
+
+<p>The right way to write that class is:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Application</span>
+  <span class="kp">attr_reader</span> <span class="ss">:counter</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@counter</span> <span class="o">=</span> <span class="no">Counter</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">increment!</span>
+    <span class="n">counter</span><span class="o">.</span><span class="n">increment!</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">total</span>
+    <span class="n">counter</span><span class="o">.</span><span class="n">total</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>As rule of thumb, <strong>avoid mutations after an object is being initialized</strong>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p><strong>In a nutshell, the limitations of Ruby concurrency model are: data mutability and difficult synchronization.</strong> </p>
+
+<p>In an upcoming article, I’ll cover how <a href="http://lotusrb.org">Lotus</a> achieves thread safety.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Thread Safety With Ruby" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="https://www.flickr.com/photos/7516749@N07/3403830890/">Cyril Caton</a> via <a href="http://compfight.com">Compfight</a> <a href="http://www.flickr.com/help/general/#147">cc</a></p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>
