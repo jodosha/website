@@ -27,6 +27,21 @@
 <meta name="description" content="{{ page.excerpt }}"/>
 {% endif %}
 <meta property="og:site_name" content="{{ site.inc.title }}">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="{{ site.url }}{{ page.url }}">
+<meta name="twitter:title"       content="{% if page.title %}{{ page.title }} {% else %}{{ site.inc.title }}{% endif %}"/>
+{% if page.excerpt %}
+<meta name="twitter:description" content="{{ page.excerpt }}">
+{% endif %}
+{% if page.cover_image %}
+<meta property="twitter:image:src" content="{{ site.url }}/images/{{ page.cover_image }}"/>
+{% if page.main_image %}
+<meta property="twitter:image:src" content="{{ site.url }}/images/{{ page.main_image }}"/>
+{% endif %}
+<meta property="twitter:image:src" content="{{ site.url }}/images/{{ site.inc.logo }}"/>
+{% endif %}
 <meta name="description" content="Luca Guidi website">
 <meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
 <meta name="author" content="Luca Guidi">
