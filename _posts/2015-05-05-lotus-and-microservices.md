@@ -61,7 +61,7 @@ Probably it’s better to rethink the architecture and rely on standard tools.
 
 ## Lotus Architecture
 
-When you create a new Lotus project, the **default architecture** is called **“Container”**.
+When you create a new [Lotus](http://lotusrb.org) project, the **default architecture** is called **“Container”**.
 With it, we can run multiple Lotus (and Rack based) applications in the same Ruby process.
 They all live under the `apps/` directory and use _message passing_ to communicate between them.
 
@@ -73,3 +73,5 @@ This helps to prevent pathological coupling that will makes impossible to pull o
 It helps to plan the future without make we think.
 If our code stays small, we’re already done.
 If it’s big and we want to split, we can move one of the applications (`apps/`) out of it.
+
+{% include _lotusml.html %}
