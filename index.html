@@ -1,50 +1,68 @@
 ---
-layout: base
+layout: home
 ---
-<div class="blog-cover" style="background-image:url(/images/{{ site.inc.cover_image }});">
-  <section>
-    <div class="container">
-      <h1>{{ site.inc.title }}</h1>
-      {% if site.inc.subtitle %}<h3>{{ site.inc.subtitle }}</h3>{% endif %}
+<section class="container home-container">
+  <div class="lead">
+    Hi &dash; I'm Luca Guidi, a software engineer based in Rome, Italy.
+  </div>
+  <div>
+    I'm a full stack web developer, with a focus on backend systems.
+    I worked with a variety of companies: from small startups (<a href="https://codeship.com" target="_blank">Codeship</a>, <a href="http://divisare.com" target="_blank">Divisare</a> and <a href="http://frestyl.com" target="_blank">Frēstyl</a>), medium sized companies (<a href="https://litmus.com" target="_blank">Litmus</a>) to enterprise organizations, including <a href="http://ifad.org" target="_blank">UN</a>, <a href="http://autostrade.it" target="_blank">highways</a> and <a href="http://rai.it" target="_blank">television</a> corporations.
+  </div>
+  <div>
+    I'm an indie Open Source developer, author of:
 
-      {% if site.inc.twitter %}
-      <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter"></i></a>
-      {% endif %}
-      {% if site.inc.facebook %}
-      <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i class="icon icon-facebook"></i></a>
-      {% endif %}
-      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
-        <i class="icon icon-rss"></i>
-      </a>
-    </div>
-  </section>
-</div>
+    <ul>
+      <li><a href="http://lotusrb.org" target="_blank">Lotus</a> &dash; a complete web framework for Ruby</li>
+      <li><a href="http://redis-store.org" target="_blank">Redis::Store</a> &dash; HTTP session and cache, I18n and cache stores for Ruby</li>
+      <li><a href="https://github.com/jodosha/hanoi" target="_blank">Hanoi</a> &dash; in-browser, automated jQuery testing with QUnit</li>
+      <li><a href="https://github.com/jodosha/minegems" target="_blank">Minegems</a> &dash; private gem hosting deployable on Heroku</li>
+      <li><a href="https://github.com/jodosha/assets_packager" target="_blank">assets_packager</a> &dash; Rake tasks for web assets deployment</li>
+      <li><a href="https://github.com/jodosha/vim-greenbar" target="_blank">vim-greenbar</a> &dash; streamlined TDD with Vim</li>
+      <li><a href="https://github.com/jodosha/go-imagesize" target="_blank">go-imagesize</a> &dash; a Go library to calculate JPEG, PNG and GIF image size</li>
+    </ul>
 
-<article class="container">
+    I've also contributed to: <a href="http://rubyonrails.org" target="_blank">Ruby on Rails</a>, <a href="http://rack.github.io" target="_blank">Rack</a> and <a href="ihttps://github.com/redis/redis-rb" target="_blank">redis-rb</a>.
+  </div>
+
+  <hr>
+
+  <div class="lead">
+    Hire me, I'm available.
+  </div>
+
+  <div>
+    I can help remotely as software engineer and consultant.
+    I can also do on site training for Ruby, Lotus and web development.<br>
+    Please get <a href="mailto:me@lucaguidi.com">in touch</a>.
+  </div>
+
+  <hr>
+
+  <div>
+    From time to time, I publish <a href="/archive.html">articles</a> on this site:
+  </div>
+
+  <div>
   {% for post in paginator.posts %}
-  {% unless post.draft or post.path contains '_posts/archive' %}
-  <section class="index">
-    <div>
-      <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
-      <p>{{ post.excerpt }}</p>
-      <div class="meta">
-        <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
+    {% unless post.draft or post.path contains '_posts/archive' %}
+      <div>
+        <h3 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h3>
+        <div class="meta">
+          <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
+        </div>
       </div>
-    </div>
-    <hr>
-  </section>
-  {% endunless %}
+    {% endunless %}
   {% endfor %}
-  <section class="pagination" style="text-align:center">
-    {% if paginator.previous_page %}
-    {% if paginator.previous_page == 1 %}
-    <a href="/" class="btn btn-outline">&lsaquo; Newer</a>
-    {% else %}
-    <a href="/page/{{ paginator.previous_page }}" class="btn btn-outline">&lsaquo; Newer</a>
-    {% endif %}
-    {% endif %}
-    {% if paginator.next_page %}
-    <a href="/page/{{ paginator.next_page }}" class="btn btn-outline">Older &rsaquo;</a>
-    {% endif %}
-  </section>
-</article>
+  </div>
+
+  <hr>
+
+  {% include _mailinglist.html %}
+
+  <hr>
+
+  <div>
+    You can find me on <a href="https://twitter.com/jodosha" target="_blank">Twitter</a>, <a href="https://github.com/jodosha" target="_blank">GitHub</a> and <a href="https://instagram.com/jodosha" target="_blank">Instagram</a>.
+  </div>
+</section>
