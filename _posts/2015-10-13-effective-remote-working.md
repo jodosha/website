@@ -50,9 +50,9 @@ They should be **easy wins**. The more you win, the more you feel successful.
 
 Be specific and split things in small chunks. If you’re working on a feature that takes one month to complete, write _“Implement user registration”_, instead of a generic _“Authentication”_. The former can be finished today (easy win – yay!), while the second requires a few weeks of wait before to mark it as done. Better 20 small wins everyday, than 1 win at the end of the month.
 
-Be indulgent, don’t fill the list with ambitious duties. The goal is to finish them in a reasonable amount of time. If you leave things undone, you’ll fill guilty. I only choose **one main task per day** and start with it. If for some reason you can’t work on the other things, at least you’ve sorted out what’s really important.
+Be indulgent, don’t fill the list with ambitious duties. The goal is to finish them in a reasonable amount of time. If you leave things undone, you’ll feel guilty. I only choose **one main task per day** and start with it. If for some reason you can’t work on the other things, at least you’ve sorted out what’s really important.
 
-You don’t need task manager software for this, a piece of paper is good enough. Always go straight to the point.
+You don’t need a task manager software for this, a piece of paper is good enough. Always go straight to the point.
 
 In my list for today I have:
 
