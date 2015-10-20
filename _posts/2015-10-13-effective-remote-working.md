@@ -21,7 +21,7 @@ Going remote is an appealing lifestyle, but without a guidance we can easily get
 
 You can get it right without too much effort. It’s just a matter of forming the right habits.
 
-I work remotely since three years as software engineer. During this time, I was successfully employed at [Litmus](https://litmus.com) first and then at [Codeship](https://codeship.com). Now I’m a independent consultant (hire me) and [Open Source](https://github.com/jodosha) developer. All remote, while having a family and an office in our living room.
+I work as a remote software engineer for three years now. During this time, I was successfully employed at [Litmus](https://litmus.com) first and then at [Codeship](https://codeship.com). Now I’m a independent consultant (hire me) and [Open Source](https://github.com/jodosha) developer. All remote, while having a family and an office in our living room.
 Here’s what I’ve got to share.
 
 ## Routine
