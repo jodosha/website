@@ -105,7 +105,7 @@ When you are going to wrap your work in the evening, make sure you have committe
 
 <hr>
 
-If you don't want to miss the next post about **Vim setup**, please consider to subscribe to my mailing list.
+If you don't want to miss the next post about **[Vim setup](/2015/10/27/effective-tdd-with-ruby-vim-setup.html)**, please consider to subscribe to my mailing list.
 
 <hr>
 
