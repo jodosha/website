@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faster JavaScript Trim &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Faster JavaScript Trim ">
+<link rel="canonical" href="http://lucaguidi.com/2008/05/28/faster-javascript-trim.html">
+
+
+<meta property="og:title" content="Faster JavaScript Trim "/>
+<meta property="og:url" content="http://lucaguidi.com/2008/05/28/faster-javascript-trim.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/cover.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content=""/>
+<meta name="description" content=""/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="http://lucaguidi.com/2008/05/28/faster-javascript-trim.html">
+<meta name="twitter:title"       content="Faster JavaScript Trim "/>
+
+<meta name="twitter:description" content="">
+
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/cover.jpg"/>
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/logo.png"/>
+
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2008-28-May" title="May 28, 2008">May 28, 2008</time>
+            </div>
+            <h1 class="title">Faster JavaScript Trim</h1>
+            
+        </header>
+
+        <section>
+            <p>I&#8217;ve recently discovered the very interesting <a href="http://blog.stevenlevithan.com/archives/faster-trim-javascript">Steven Levithan post</a> about the <strong>JavaScript&#8217;s trim</strong> function of the <strong>String</strong> class.</p>
+<p>
+  So, here my version:<br/><code class="javascript">
+function trim13 (str) {
+  var ws = /\s/, _start = 0, end = str.length;
+  while(ws.test(str.charAt(_start++)));
+  while(ws.test(str.charAt(--end)));
+  return str.slice(_start - 1, end + 1);
+}
+</code>
+</p>
+
+<h3>More numbers, please!</h3>
+<p>
+  I tested my function against the <a href="http://stevenlevithan.com/demo/trim.cfm">benchmarking page</a> of the original post.
+  <strong>Note</strong>: times are expressed in <acronym title="milliseconds">MS</acronym> and are the average of ten executions per browser.
+  <strong>Update [2008-05-29]:</strong> I re-runned all the tests and updated results, because <a href="http://blog.stevenlevithan.com/">Steven</a> noticed that test suite was wrong (few whitespaces).
+  </p><table><tr><th></th>
+      <th colspan="5">Mac</th>
+      <th colspan="5">Windows</th>
+      <th></th>
+    </tr><tr><th></th>
+        <th>Safari 3.1</th>
+        <th>Firefox 2.0.0.14</th>
+        <th>Firefox 3.0b5</th>
+        <th>Opera 9.27</th>
+        <th>Opera 9.50b2</th>
+        <th>Internet Explorer 6</th>
+        <th>Internet Explorer 7</th>
+        <th>Firefox 2.0.0.14</th>
+        <th>Opera 9.27</th>
+        <th>Opera 9.50b2</th>
+        <th>Average</th>
+      </tr><tr><th>trim1</th>
+        <td>25</td>
+        <td>40</td>
+        <td>19</td>
+        <td>100</td>
+        <td>93</td>
+        <td>12</td>
+        <td>12</td>
+        <td>38</td>
+        <td>124</td>
+        <td>111</td>
+        <td><strong>57</strong></td>
+      </tr><tr><th>trim2</th>
+        <td>25</td>
+        <td>52</td>
+        <td>29</td>
+        <td>100</td>
+        <td>98</td>
+        <td>6</td>
+        <td>11</td>
+        <td>44</td>
+        <td>125</td>
+        <td>116</td>
+        <td><strong>61</strong></td>
+      </tr><tr><th>trim3</th>
+        <td>32</td>
+        <td>54</td>
+        <td>46</td>
+        <td>156</td>
+        <td>148</td>
+        <td>15</td>
+        <td>31</td>
+        <td>57</td>
+        <td>209</td>
+        <td>184</td>
+        <td><strong>93</strong></td>
+      </tr><tr><th>trim4</th>
+        <td>43</td>
+        <td>43</td>
+        <td>37</td>
+        <td>151</td>
+        <td>139</td>
+        <td>15</td>
+        <td>38</td>
+        <td>49</td>
+        <td>198</td>
+        <td>186</td>
+        <td><strong>90</strong></td>
+      </tr><tr><th>trim5</th>
+        <td>64</td>
+        <td>102</td>
+        <td>104</td>
+        <td>134</td>
+        <td>116</td>
+        <td>65</td>
+        <td>908</td>
+        <td>323</td>
+        <td>291</td>
+        <td>274</td>
+        <td><strong>238</strong></td>
+      </tr><tr><th>trim6</th>
+        <td>69</td>
+        <td>115</td>
+        <td>109</td>
+        <td>195</td>
+        <td>171</td>
+        <td>47</td>
+        <td>1.497</td>
+        <td>364</td>
+        <td>436</td>
+        <td>338</td>
+        <td><strong>334</strong></td>
+      </tr><tr><th>trim7</th>
+        <td>69</td>
+        <td>120</td>
+        <td>107</td>
+        <td>142</td>
+        <td>129</td>
+        <td>31</td>
+        <td>900</td>
+        <td>345</td>
+        <td>330</td>
+        <td>271</td>
+        <td><strong>244</strong></td>
+      </tr><tr><th>trim8</th>
+        <td>4</td>
+        <td>118</td>
+        <td>104</td>
+        <td>112</td>
+        <td>97</td>
+        <td>4</td>
+        <td>5</td>
+        <td>540</td>
+        <td>255</td>
+        <td>180</td>
+        <td><strong>142</strong></td>
+      </tr><tr><th>trim9</th>
+        <td>34</td>
+        <td>126</td>
+        <td>116</td>
+        <td>1.825</td>
+        <td>1.218</td>
+        <td>23</td>
+        <td>74</td>
+        <td>113</td>
+        <td>1.667</td>
+        <td>1.417</td>
+        <td><strong>662</strong></td>
+      </tr><tr><th>trim10</th>
+        <td>0</td>
+        <td>1</td>
+        <td>6</td>
+        <td>5</td>
+        <td>3</td>
+        <td>2</td>
+        <td>1</td>
+        <td>0</td>
+        <td>6</td>
+        <td>0</td>
+        <td><strong>2</strong></td>
+      </tr><tr><th>trim11</th>
+        <td>2</td>
+        <td>2</td>
+        <td>3</td>
+        <td>11</td>
+        <td>3</td>
+        <td>2</td>
+        <td>2</td>
+        <td>10</td>
+        <td>5</td>
+        <td>7</td>
+        <td><strong>5</strong></td>
+      </tr><tr><th>trim12</th>
+        <td>1</td>
+        <td>3</td>
+        <td>2</td>
+        <td>4</td>
+        <td>6</td>
+        <td>1</td>
+        <td>2</td>
+        <td>10</td>
+        <td>4</td>
+        <td>4</td>
+        <td><strong>4</strong></td>
+      </tr><tr><th>trim13</th>
+        <td>0</td>
+        <td>0</td>
+        <td>3</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>0</td>
+        <td>5</td>
+        <td><strong>1</strong></td>
+      </tr></table><p>Please download the <a href="http://lucaguidi.com/assets/2008/5/29/trim_benchmark.zip">benchmark suite</a>, and test against your browsers.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Faster JavaScript Trim" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

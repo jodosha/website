@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Effective TDD With Ruby: Time & Flow &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Effective TDD With Ruby: Time & Flow ">
+<link rel="canonical" href="http://lucaguidi.com/2015/10/20/effective-tdd-with-ruby-time-and-flow.html">
+
+
+<meta property="og:title" content="Effective TDD With Ruby: Time & Flow "/>
+<meta property="og:url" content="http://lucaguidi.com/2015/10/20/effective-tdd-with-ruby-time-and-flow.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/effective-tdd-with-ruby-time-and-flow.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
+"/>
+<meta name="description" content="Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="http://lucaguidi.com/2015/10/20/effective-tdd-with-ruby-time-and-flow.html">
+<meta name="twitter:title"       content="Effective TDD With Ruby: Time & Flow "/>
+
+<meta name="twitter:description" content="Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
+">
+
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/effective-tdd-with-ruby-time-and-flow.jpg"/>
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/logo.png"/>
+
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/effective-tdd-with-ruby-time-and-flow.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2015-20-October" title="October 20, 2015">October 20, 2015</time>
+            </div>
+            <h1 class="title">Effective TDD With Ruby: Time & Flow</h1>
+            
+        </header>
+
+        <section>
+            <p>Do you find <a href="https://en.wikipedia.org/wiki/Test-driven_development">Test Driven Development</a> (TDD) good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? Or, are you just struggling to get your workflow streamlined? Fighting to glue your tools together?</p>
+
+<p>Well, you can improve a <strong>lot</strong>, by borrowing some tricks from me. I’ve practiced TDD with Ruby for many years now, and built an entire <a href="http://lotusrb.org">web framework</a> only with these techniques.</p>
+
+<p>They are simple, effective and easy to learn.</p>
+
+<p>This is a <strong>series of a few articles</strong> about TDD, Ruby and Vim. Today we’ll focus on time management and flow.</p>
+
+<h2 id="time">Time</h2>
+
+<p>Programming is a time consuming activity. While working, it’s easy to follow the rabbit down to the hole and focusing on the small details. To don’t to loose the big picture, it’s really important be in control of time and priorities.</p>
+
+<p>There is an article of mine, about time management, healthy habits, and Pomodoro Technique that I truly recommend to <a href="/2015/10/13/effective-remote-working.html">read</a>.
+It will help you to prioritize tasks, have a consistent routine and ship code as soon is <em>“good enough”™</em>.</p>
+
+<h2 id="commit-often">Commit Often</h2>
+
+<p>Always use Git, even for code spikes. It’s free and you don’t need to necessary use GitHub, just consider it as a local <em>”time machine”</em> for your code.</p>
+
+<p>Let’s say you’re working for 20 minutes and did a lot of changes. Then you take a path that breaks everything. At this point it’s hard to revert the mistake by hand without to compromise the good job that you did until now.</p>
+
+<p>As rule of thumb: commit once you do some progress. That puts code in a safe place. I have a couple of ZSH aliases to the rescue. For the first commit: <code>gaa &amp;&amp; gc -m “WIP”</code>, and then <code>gaa &amp;&amp; gca</code>.</p>
+
+<p>They are:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">➜ which gaa
+gaa: aliased to git add --all
+➜ which gc
+gc: aliased to git commit
+➜ which gca
+gca: aliased to git commit --amend --date<span class="o">=</span><span class="s2">&quot;$(date)&quot;</span></code></pre></div>
+
+<p>To don’t break the flow, I don’t care about the commit message at the beginning, as I can always finalise it at the end of the feature.</p>
+
+<h2 id="fast-feedback-loop">Fast Feedback Loop</h2>
+
+<p>TDD is a technique that guides you to do incremental changes both in testing and production code. Once a modification is in place, it’s really important to run tests as soon as possible.</p>
+
+<p>To streamline the process, it’s really important to get the result of your tests in a matter of a few seconds. Ideally, in less than a second. Now, this is hard to achieve if you run the entire test suite of an application. You can narrow the scope to the current Vim buffer instead.</p>
+
+<p>If you use Minitest:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">:map &lt;leader&gt;r :!greenbar bundle <span class="nb">exec </span>ruby&lt;cr&gt;
+:map &lt;leader&gt;re :!greenbar bundle <span class="nb">exec </span>ruby -Itest %&lt;cr&gt;</code></pre></div>
+
+<p>Or if you use RSpec:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">:map &lt;leader&gt;r :!greenbar bundle <span class="nb">exec </span>ruby&lt;cr&gt;
+:map &lt;leader&gt;re :!greenbar bundle <span class="nb">exec </span>rspec %&lt;cr&gt;</code></pre></div>
+
+<p>Use <code>&lt;leader&gt;r</code> for the suite and <code>&lt;leader&gt;re</code> for the current test file.</p>
+
+<h2 id="visual-feedback">Visual Feedback</h2>
+
+<p>Another TDD hallmark is the <a href="http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html"><em>“red-green-refactor”</em> cycle</a>. Start with a failing test (<em>”red”</em> state), write the simplest production code to make it pass (<em>”green”</em>), and then refactor.</p>
+
+<p>A corollary of this principle is that we are never allowed to refactor when the status is <em>”red”</em>.</p>
+
+<p>I’ve created Vim plugin, that colors the status bar with the current state in the cycle: <a href="https://github.com/jodosha/vim-greenbar">vim-greenbar</a>.</p>
+
+<p><img src="https://raw.githubusercontent.com/jodosha/vim-greenbar/master/vim-greenbar.gif" alt="" /></p>
+
+<h2 id="dont-break-the-flow">Don’t Break The Flow</h2>
+
+<p>True focus is really hard to achieve, there isn’t anything else that makes us so productive. You should do everything to keep that state. Sometimes an idea for a refactoring suddenly sparks, or your mind is carrying on a lot of informations about the things to fix and make better.</p>
+
+<p>Sure, <code>TODO</code> and <code>FIXME</code> convention in code it’s really useful, but it’s bound to the module/class/method that needs to be improved. We need to open it, locate the right line, write.. while you’re struggling to not break the flow.</p>
+
+<p>What if taking notes is just a couple of keystrokes away?</p>
+
+<p>Here’s another small tool to the rescue: <a href="https://github.com/jodosha/vim-devnotes">vim-devnotes</a>. It opens a split window where you can quickly write a note. When closed, it reports in the status bar, the number of remaining issues to address.</p>
+
+<p>I have a keyboard mapping for this: <code>&lt;leader&gt;dn</code>.</p>
+
+<p><img src="https://raw.githubusercontent.com/jodosha/vim-devnotes/master/screenshot.png" alt="" /></p>
+
+<h2 id="leave-the-field-with-a-red-test">Leave The Field With A Red Test</h2>
+
+<p>When you are going to wrap your work in the evening, make sure you have committed and pushed all the changes. Then write the next test, but leave it <em>”red”</em>. You don’t have to commit, it’s just a hint to start tomorrow.</p>
+
+<hr />
+
+<p>If you don’t want to miss the next post about <strong><a href="/2015/10/27/effective-tdd-with-ruby-vim-setup.html">Vim setup</a></strong>, please consider to subscribe to my mailing list.</p>
+
+<hr />
+
+<div id="mailing-list-lead">
+  <p>If you want to stay updated with my latest articles, and software initiatives, please consider to subscribe my mailing list.</p>
+  <p>No spam, I swear.</p>
+</div>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="//lucaguidi.us11.list-manage.com/subscribe/post?u=b48251cecfc2efe285b419263&amp;id=b92daedb57" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_b48251cecfc2efe285b419263_b92daedb57" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Effective TDD With Ruby: Time & Flow" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

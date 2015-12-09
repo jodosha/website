@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON API Apps With Lotus &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="JSON API Apps With Lotus ">
+<link rel="canonical" href="http://lucaguidi.com/2015/11/24/json-api-apps-with-lotus.html">
+
+
+<meta property="og:title" content="JSON API Apps With Lotus "/>
+<meta property="og:url" content="http://lucaguidi.com/2015/11/24/json-api-apps-with-lotus.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/json-api-apps-with-lotus.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Do you need a fast and lightweight JSON API app? It must be powerful, flexible, quick to develop and easy to deploy? There is a simple solution for all these requirements: to use Lotus gems to build it.
+"/>
+<meta name="description" content="Do you need a fast and lightweight JSON API app? It must be powerful, flexible, quick to develop and easy to deploy? There is a simple solution for all these requirements: to use Lotus gems to build it.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="http://lucaguidi.com/2015/11/24/json-api-apps-with-lotus.html">
+<meta name="twitter:title"       content="JSON API Apps With Lotus "/>
+
+<meta name="twitter:description" content="Do you need a fast and lightweight JSON API app? It must be powerful, flexible, quick to develop and easy to deploy? There is a simple solution for all these requirements: to use Lotus gems to build it.
+">
+
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/json-api-apps-with-lotus.jpg"/>
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/logo.png"/>
+
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/json-api-apps-with-lotus.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2015-24-November" title="November 24, 2015">November 24, 2015</time>
+            </div>
+            <h1 class="title">JSON API Apps With Lotus</h1>
+            
+        </header>
+
+        <section>
+            <p>Do you need a fast and lightweight JSON API app? It must be powerful, flexible, quick to develop and easy to deploy?</p>
+
+<p>There is a simple solution for all these requirements: to use Lotus gems to build it.</p>
+
+<p>Lotus is well known for full stack web applications (via <code>lotusrb</code>), but all the gems of this <strong>toolkit</strong> can be used as standalone components in existing Ruby applications.</p>
+
+<p>It this case we will compose together the router and the actions to create a JSON API app that returns informations for books.</p>
+
+<p>Before to get started, this application will take you 15 minutes. If you are too busy to read how to build it from scratch, jump on <a href="https://github.com/jodosha/lotus-api-example">this repository</a> with the complete code.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>We’re gonna need to create the directory with <code>mkdir bookshelf &amp;&amp; cd $_</code> a <code>Gemfile</code>:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+<span class="n">ruby</span>   <span class="s1">&#39;2.2.3&#39;</span>
+
+<span class="n">gem</span> <span class="s1">&#39;rake&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;lotus-router&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;lotus-controller&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;redis&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;puma&#39;</span>
+
+<span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">&#39;pry-byebug&#39;</span>
+<span class="k">end</span>
+
+<span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">&#39;rspec&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;rack-test&#39;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>..a <code>Rakefile</code>:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;rake&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;rspec/core/rake_task&#39;</span>
+
+<span class="no">RSpec</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">RakeTask</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:spec</span><span class="p">)</span>
+<span class="n">task</span> <span class="ss">default</span><span class="p">:</span> <span class="ss">:spec</span></code></pre></div>
+
+<p>Then we can <code>bundle</code> and <code>bundle exec spec --init</code>.</p>
+
+<p>At the <strong>top</strong> of <code>spec/spec_helper.rb</code> add the following lines:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;support/api&#39;</span>
+<span class="n">require_relative</span> <span class="s1">&#39;../app&#39;</span></code></pre></div>
+
+<p>Our <code>spec/support/api.rb</code> file is useful to bring <code>rack-test</code> support to RSpec and to use it only where needed.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">ApiHelper</span>
+  <span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">app</span>
+    <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">response</span>
+    <span class="n">last_response</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">include</span> <span class="no">ApiHelper</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:api</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Let’s run <code>bundle exec rake</code> to test that the setup is valid.</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>With the project up and running, we can write a smoke test for one endpoint.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># spec/requests/books_spec.rb</span>
+<span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="s2">&quot;/books&quot;</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:api</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">&quot;is successful&quot;</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="s2">&quot;/books&quot;</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>If we run it, RSpec will complain that <code>Bookshelf</code> isn’t a defined constant. That’s because we need to write the application.</p>
+
+<p>This is how the final code will appear, we postpone the explanation for a minute.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;redis&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;lotus/router&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;lotus/controller&#39;</span>
+
+<span class="k">module</span> <span class="nn">Bookshelf</span>
+  <span class="k">module</span> <span class="nn">API</span>
+
+    <span class="no">Lotus</span><span class="o">::</span><span class="no">Controller</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
+      <span class="n">handle_exceptions</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;RACK_ENV&#39;</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;production&#39;</span>
+
+      <span class="n">default_request_format</span>  <span class="ss">:json</span>
+      <span class="n">default_response_format</span> <span class="ss">:json</span>
+
+      <span class="n">prepare</span> <span class="k">do</span>
+        <span class="kp">include</span> <span class="no">Controllers</span><span class="o">::</span><span class="no">Authentication</span>
+        <span class="n">accept</span> <span class="ss">:json</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">class</span> <span class="nc">Repository</span>
+      <span class="c1"># …</span>
+    <span class="k">end</span>
+
+    <span class="k">class</span> <span class="nc">Application</span>
+      <span class="k">def</span> <span class="nf">initialize</span>
+        <span class="vi">@router</span> <span class="o">=</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Router</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+          <span class="ss">namespace</span><span class="p">:</span> <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Controllers</span><span class="p">,</span>
+          <span class="ss">parsers</span><span class="p">:</span> <span class="o">[</span><span class="ss">:json</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">&amp;</span><span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="nb">eval</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;config/routes.rb&#39;</span><span class="p">))</span> <span class="p">}</span>
+        <span class="p">)</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="vi">@router</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">module</span> <span class="nn">Controllers</span>
+      <span class="k">module</span> <span class="nn">Authentication</span>
+        <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+          <span class="n">action</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+            <span class="n">before</span> <span class="ss">:authenticate!</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="kp">private</span>
+
+        <span class="k">def</span> <span class="nf">authenticate!</span>
+          <span class="n">authenticated?</span> <span class="ow">or</span> <span class="n">halt</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+        <span class="k">end</span>
+
+        <span class="k">def</span> <span class="nf">authenticated?</span>
+          <span class="kp">true</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="n">require_relative</span> <span class="s1">&#39;./controllers/books&#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>If we run the spec again, it will return a <code>404</code> (Not Found), because we’re still missing the route.</p>
+
+<p>Edit <code>config/routes.rb</code> with the following line:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s1">&#39;/books&#39;</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;books#index&#39;</span></code></pre></div>
+
+<p>Now we need the last component, the action:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># controllers/books.rb</span>
+<span class="k">module</span> <span class="nn">Bookshelf::API::Controllers::Books</span>
+  <span class="k">class</span> <span class="nc">Index</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Action</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Now we can finally run the spec successfully</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">➜ bundle <span class="nb">exec </span>rspec spec/requests/books_spec.rb
+
+Randomized with seed 59536
+.
+
+Finished in 0.01566 seconds <span class="o">(</span>files took 0.13151 seconds to load<span class="o">)</span>
+<span class="m">1</span> example, <span class="m">0</span> failures
+
+Randomized with seed 59536</code></pre></div>
+
+<h2 id="application">Application</h2>
+
+<p>With our first test passing, we can stop and have a deeper look at our application.</p>
+
+<h3 id="lotus-configuration">Lotus Configuration</h3>
+
+<p>The first block that we meet is the configuration for <code>Lotus::Controller</code>.</p>
+
+<p>We tell the framework to threat <a href="https://github.com/lotus/controller#exceptions-management">exceptions as HTTP status codes</a> only in production mode (with <code>handle_exceptions</code>). For instance, when our application is deployed and an error is raised, we want to show a generic “Server Side Error” message, rather than show the entire stack-trace. While in development and testing mode, this is useful to understand the reason behind an error.</p>
+
+<p>Because we want only to deal with JSON, we specify that the fallback format for requests is JSON (<code>default_request_format</code>). When we receive the generic HTTP header <code>Accept: */*</code>, we consider it as a JSON request.</p>
+
+<p>For responses we use <code>default_response_format</code>, to send <code>Content-Type: application/json</code> header.</p>
+
+<p>Next to it there is the <code>prepare</code> block. This is a special feature that allows us to share code and behaviours across <strong>all</strong> the classes that include <code>Lotus::Action</code>. This is similar to Ruby’s <a href="http://ruby-doc.org/core-2.2.0/Module.html#method-i-included"><code>Module.included</code></a> hook.</p>
+
+<p>That means the <code>accept :json</code> code will be executed for all the actions in our application. That <a href="https://github.com/lotus/controller#mime-types">restrict the access</a> to only JSON requests. If another MIME Type is required, the application will respond with a <code>406 Not Acceptable</code>.</p>
+
+<p>The other useful purpose of <code>prepare</code> is to DRY our application and let to inject code in just one place. Imagine we have 50 actions and we need to authenticate them, it would be tedious to do <code>include Authentication</code> for all of them. With <code>prepare</code> we can include it only once, and it will <strong>propagated to all the actions</strong>.</p>
+
+<h3 id="authentication">Authentication</h3>
+
+<p>For the purpose of this test application, we won’t implement an authentication strategy, but only put the code in place for it.</p>
+
+<p>The idea is really simple: every time an action includes this module, it will setup a <a href="https://github.com/lotus/controller#callbacks">callback</a> for the private method <code>#authenticate!</code>. It verifies if the request is allowed via <code>#authenticated?</code>, if not it will <a href="https://github.com/lotus/controller#throwable-http-statuses">stop the execution</a> (via <code>#halt</code>) and returns a <code>401 Unauthorized</code>.</p>
+
+<p>Again, this mechanism is <strong>enabled for all the actions</strong>, if you need to bypass this check you can override <code>#authenticated?</code> in an action, by returning <code>true</code>. This trick helps you to <strong>“skip” that callback</strong>.</p>
+
+<h3 id="router">Router</h3>
+
+<p>The router is at the core of our application, it will dispatch the incoming requests and parse the params from the URI and Rack env.</p>
+
+<p>We initialize it as an instance variable of our application, by specifying a few options.</p>
+
+<p>We the Ruby namespace where to find the actions. In the routes file we defined the action with the <code>"books#index"</code> syntax. It is translated to <code>Books::Index</code>, which will be searched under the <code>Bookshelf::API::Controllers</code> module.</p>
+
+<p>The next setting is to tell the router to <a href="https://github.com/lotus/router#body-parsers">parse the body of non-GET requests</a> and make them available as params. For instance, if we receive a JSON payload in the body <code>{"book”:”…”}</code>, it we can access that data via <code>params[:book]</code>.</p>
+
+<p><code>Lotus::Router</code> <a href="https://github.com/lotus/router#getting-started">accepts a block</a> to that let us to define the routes. Now if we have too many entries, it’s convenient to keep them in a separated file. In our case it’s <code>config/routes.rb</code>, we’re reading the content and wrapping into a <code>Proc</code>.</p>
+
+<h2 id="expanding-the-feature">Expanding The Feature</h2>
+
+<p>Until now, our application isn’t interesting. It’s able to return a successful response, but nothing more.</p>
+
+<p>Let’s say we want to return a bunch of data for our <code>/books</code> endpoint.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># spec/requests/book_spec.rb</span>
+<span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="s2">&quot;/books&quot;</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:api</span> <span class="k">do</span>
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="n">repository</span> <span class="o">=</span> <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Repository</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">repository</span><span class="o">.</span><span class="n">clear</span>
+
+    <span class="n">repository</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:books</span><span class="p">,</span> <span class="o">[</span><span class="p">{</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;TDD&#39;</span><span class="p">},</span> <span class="p">{</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Refactoring&#39;</span><span class="p">}</span><span class="o">]</span><span class="p">)</span>
+    <span class="vi">@body</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">repository</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="ss">:books</span><span class="p">))</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;is successful&quot;</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="s2">&quot;/books&quot;</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>                  <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>                    <span class="n">eq</span><span class="p">(</span><span class="vi">@body</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>To make it pass, we need to implement some business logic into the action:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Bookshelf::API::Controllers::Books</span>
+  <span class="k">class</span> <span class="nc">Index</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Action</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+      <span class="n">books</span> <span class="o">=</span> <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Repository</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="ss">:books</span><span class="p">)</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">books</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>We use <code>Repository</code> to find all the books in our datastore, we dump the contents into a JSON string and pass it as body of the response.</p>
+
+<h2 id="unit-tests">Unit Tests</h2>
+
+<p>The testing strategy that we used until now exercises the full stack of involved components: we simulate HTTP requests, we go through the router, the action, we hit the database to load data and return it.</p>
+
+<p>This is still really fast, because Lotus and Redis are lightweight technologies, but in the long run the testing suite can slow down if we involve other components in our stack.</p>
+
+<p>To observe action behaviours in isolation, we can unit-test them.</p>
+
+<p>Please note that this is <strong>completely optional</strong>: we can deploy it in production with our current tests. The following code, demonstrates a few interesting testing techniques.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># spec/controllers/books/index_spec.rb</span>
+<span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Controllers</span><span class="o">::</span><span class="no">Books</span><span class="o">::</span><span class="no">Index</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:action</span><span class="p">)</span>     <span class="k">do</span>
+    <span class="n">described_class</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">repository</span><span class="p">:</span> <span class="n">repository</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:repository</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">object_double</span><span class="p">(</span><span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Repository</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="ss">all</span><span class="p">:</span> <span class="n">books</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:books</span><span class="p">)</span>      <span class="p">{</span> <span class="o">[]</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span>       <span class="p">{</span> <span class="o">[</span><span class="no">JSON</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">books</span><span class="p">)</span><span class="o">]</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">&quot;is successful&quot;</span> <span class="k">do</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">call</span><span class="p">({})</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;consider */* requests as JSON&quot;</span> <span class="k">do</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s2">&quot;HTTP_ACCEPT&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;*/*&quot;</span><span class="p">})</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;rejects text/xml requests&quot;</span> <span class="k">do</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s2">&quot;HTTP_ACCEPT&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;text/xml&quot;</span><span class="p">})</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">406</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;Not Acceptable&quot;</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>In order to avoid to hit the database, we use a fake repository to return in memory data. Because actions are objects, we can use <a href="http://solnic.eu/2013/12/17/the-world-needs-another-post-about-dependency-injection-in-ruby.html">Dependency Injection</a> to pass this collaborator to the constructor.</p>
+
+<p>We have three examples, one to verify a successful base scenario and two for MIME Types acceptance. Look at how it’s <strong>simple</strong> to unit test an action. We instantiate it, invoke <code>#call</code> and assert that the returned Rack response has the informations that we’re looking about.</p>
+
+<p>There isn’t need of special glue code with RSpec (no <code>lotus-rspec</code> gem). Lotus exposes objects as framework boundary, and because RSpec knows how to test objects, we’re already up and running.</p>
+
+<p>We need to change the production code to make these tests to pass:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># controllers/books.rb</span>
+<span class="k">module</span> <span class="nn">Bookshelf::API::Controllers::Books</span>
+  <span class="k">class</span> <span class="nc">Index</span>
+    <span class="kp">include</span> <span class="no">Lotus</span><span class="o">::</span><span class="no">Action</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="ss">repository</span><span class="p">:</span> <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Repository</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+      <span class="vi">@repository</span> <span class="o">=</span> <span class="n">repository</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
+        <span class="vi">@repository</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="ss">:books</span><span class="p">)</span>
+      <span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>We can now finally run the entire test suite.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">➜ bundle <span class="nb">exec </span>rake
+<span class="c"># …</span>
+Randomized with seed 22851
+....
+
+Finished in 0.0228 seconds <span class="o">(</span>files took 0.1566 seconds to load<span class="o">)</span>
+<span class="m">4</span> examples, <span class="m">0</span> failures
+
+Randomized with seed 22851</code></pre></div>
+
+<h2 id="server">Server</h2>
+
+<p>In order to let our server to run, we need to add a <code>config.ru</code> file at the root of the project. This will make it compatible with Rack.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;bundler/setup&#39;</span>
+<span class="n">require_relative</span> <span class="s1">&#39;./app&#39;</span>
+
+<span class="n">run</span> <span class="no">Bookshelf</span><span class="o">::</span><span class="no">API</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">new</span></code></pre></div>
+
+<p>To start it:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">➜ bundle <span class="nb">exec </span>rackup
+Puma 2.15.3 starting...
+* Min threads: 0, max threads: 16
+* Environment: development
+* Listening on tcp://localhost:9292</code></pre></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>We have built a lightweight JSON API app in <strong>a few minutes</strong>, by using Lotus.</p>
+
+<p>For reference, when we start our app in production mode, the memory footprint is <code>21.6 Mb</code> . If we translate into a Sinatra app, it’s <code>21.4 Mb</code>. They perform more or less the same: <strong>~1600 req/s</strong>.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>For advanced features such as cookies, sessions, HTTP caching (Cache Control, Expires and Conditional GET), streamed responses, RESTful resources, redirects, params validations and coercions, etc.. please have a look at the <a href="http://lotusrb.org/guides/">Lotus guides</a>.</p>
+
+<p>For deployment instructions, please refer to the <code>README</code> of the <a href="https://github.com/jodosha/lotus-api-example#deployment">example application</a>.</p>
+
+<hr />
+
+<p>Related articles:</p>
+
+<ul>
+  <li><a href="http://lucaguidi.com/2014/01/28/building-sinatra-with-lotus.html">Building Sinatra with Lotus</a></li>
+  <li><a href="http://lucaguidi.com/2014/01/23/introducing-lotus-router.html">Introducing Lotus::Router</a></li>
+  <li><a href="http://lucaguidi.com/2014/02/23/introducing-lotus-controller.html">Introducing Lotus::Controller</a></li>
+</ul>
+
+<hr />
+
+<div id="mailing-list-lead">
+  <p>If you want to stay updated with my latest articles, and software initiatives, please consider to subscribe my mailing list.</p>
+  <p>No spam, I swear.</p>
+</div>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="//lucaguidi.us11.list-manage.com/subscribe/post?u=b48251cecfc2efe285b419263&amp;id=b92daedb57" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_b48251cecfc2efe285b419263_b92daedb57" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="JSON API Apps With Lotus" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+        <section>
+          <p class="muted cover-copyright">Photo Credit: <a href="https://www.flickr.com/photos/56364225@N00/14440179803/">ol pete</a> (<a href="http://www.flickr.com/help/general/#147">CC license</a>)</p>
+        </section>
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

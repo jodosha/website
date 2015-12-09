@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Make your elements draggable and resizeable with Resizeable.js &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Make your elements draggable and resizeable with Resizeable.js ">
+<link rel="canonical" href="http://lucaguidi.com/2008/03/19/make-your-elements-draggable-and-resizeable-with-resizeablejs.html">
+
+
+<meta property="og:title" content="Make your elements draggable and resizeable with Resizeable.js "/>
+<meta property="og:url" content="http://lucaguidi.com/2008/03/19/make-your-elements-draggable-and-resizeable-with-resizeablejs.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/cover.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content=""/>
+<meta name="description" content=""/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="http://lucaguidi.com/2008/03/19/make-your-elements-draggable-and-resizeable-with-resizeablejs.html">
+<meta name="twitter:title"       content="Make your elements draggable and resizeable with Resizeable.js "/>
+
+<meta name="twitter:description" content="">
+
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/cover.jpg"/>
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/logo.png"/>
+
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2008-19-March" title="March 19, 2008">March 19, 2008</time>
+            </div>
+            <h1 class="title">Make your elements draggable and resizeable with Resizeable.js</h1>
+            
+        </header>
+
+        <section>
+            <p>Hello, I&#8217;m still alive and I want to share a useful <strong>JavaScript</strong> class: <strong>Resizeable.js</strong>. It allows to make <strong>draggable and resizeable</strong> your DOM elements!</p>
+
+<h3>How it works?</h3>
+<p>
+<code class="javascript">
+new Resizeable('element');
+</code>
+</p>
+
+<p>Your element has now <strong>two sensible areas</strong>: the border area and the central area. If you click on the central area and move the mouse around, keeping the left button pressed, your element will be <strong>dragged</strong>. If you are on the border area, and perform the same gesture, your element will be <strong>resized</strong>.</p>
+<p>
+  The default size of the border area is <strong>6px</strong>, but you can customize it via the options passed to the constructor:<br/><code class="javascript">
+new Resizeable('element', {top:12, right:12, bottom:12, left:12});
+</code>
+</p>
+
+<h3>Try it now!</h3>
+<p>Try it now on the <a href="http://lucaguidi.com/assets/2008/3/19/resizeable.html">demo page</a>.</p>
+
+<h3>Credits and License</h3>
+<p><strong>Resizeable.js</strong> is based on <strong><a href="http://craz8.com">Thomas Fakes</a></strong> homonym class and on <strong><a href="http://mir.aculo.us">Thomas Fuchs</a></strong> <a href="http://script.aculo.us">Scriptaculous</a>, this means it depends on <a href="http://prototypejs.org">Prototype</a>(<em>1.6.0+</em>) and Scriptaculous (<em>1.8.0+</em>) itself.</p>
+<p><strong>Resizeable.js</strong> is <strong>Free-Software</strong>, distributed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+
+<h3>Download</h3>
+<p><a href="http://lucaguidi.com/assets/2008/3/19/resizeable.js"><strong>Resizeable.js</strong></a> (md5: <em>aae8256ab0eff3972a03ed67e238e623</em>).</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Make your elements draggable and resizeable with Resizeable.js" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

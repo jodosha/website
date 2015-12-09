@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lotus And Microservices &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Lotus And Microservices ">
+<link rel="canonical" href="http://lucaguidi.com/2015/05/05/lotus-and-microservices.html">
+
+
+<meta property="og:title" content="Lotus And Microservices "/>
+<meta property="og:url" content="http://lucaguidi.com/2015/05/05/lotus-and-microservices.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/lotus-and-microservices.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Lotus default architecture is designed for quick dev iterations and easy microservices extraction.
+"/>
+<meta name="description" content="Lotus default architecture is designed for quick dev iterations and easy microservices extraction.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="http://lucaguidi.com/2015/05/05/lotus-and-microservices.html">
+<meta name="twitter:title"       content="Lotus And Microservices "/>
+
+<meta name="twitter:description" content="Lotus default architecture is designed for quick dev iterations and easy microservices extraction.
+">
+
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/lotus-and-microservices.jpg"/>
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/logo.png"/>
+
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/lotus-and-microservices.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2015-05-May" title="May 05, 2015">May 05, 2015</time>
+            </div>
+            <h1 class="title">Lotus And Microservices</h1>
+            
+        </header>
+
+        <section>
+            <h2 id="the-monolith-is-good-at-the-beginning">The monolith is good (at the beginning)</h2>
+
+<p>The easiest and convenient way to build a complex system is to use <a href="http://en.wikipedia.org/wiki/Message_passing"><em>message passing</em></a>.
+When all the components live in the same process, engineer’s life is easier.</p>
+
+<p>Development cycles are shorter, interfaces can change quickly.
+When deploy time arrives, we will have only one deliverable to push.
+This is just great.</p>
+
+<p class="twitter-share"><span class="text">There is an analogy between “message passing” and in person communication. </span><a title="Click to tweet" target="_blank" href="https://twitter.com/intent/tweet?text=There+is+an+analogy+between+%E2%80%9Cmessage+passing%E2%80%9D+and+in+person+communication.+&amp;url=http://lucaguidi.com/2015/05/05/lotus-and-microservices.html&amp;via=jodosha"><img width="16" height="16" src="/images/twitter.png" /></a></p>
+
+<p>They are both efficient during the early stages of a new project as they feel natural and provide high bandwidth communication.
+That’s why many startups prefer in office developers at the beginning.</p>
+
+<p>This is fine.
+We should invest our initial effort to create value for customers, without worrying too much about the architecture of the code and the team structure.</p>
+
+<p>When a product becomes successful, it usually increases the number of features, lines of code and complexity.
+Subsystems which used to be small and manageable are now big and hard to maintain.</p>
+
+<h2 id="extracting-microservices">Extracting microservices</h2>
+
+<p>At this point of our story, we may want to extract them into standalone services.
+The main reason is to reduce the risks involved with a huge system.</p>
+
+<p>This architecture requires more discipline.</p>
+
+<p>When our company grows, we may want to split our (remote) developers into independent teams.
+The same is true for our software.</p>
+
+<p>Different groups can work on <a href="https://labs.spotify.com/2014/03/27/spotify-engineering-culture-part-1/">different parts of our product</a> without the fear of create conflicts.
+Components can be deployed in isolation.
+Communication becomes async.
+Production processes are lean, self contained and don’t carry the weight of unneeded dependencies (eg. Ruby gems that are required by other modules).</p>
+
+<h2 id="a-monolith-use-case">A Monolith Use Case</h2>
+
+<p>This approach doesn’t work well for everyone.
+There is a talk by <a href="https://twitter.com/a_matsuda">Akira Matsuda</a> titled <a href="https://www.youtube.com/watch?v=naTRzjHaIhE">The Recipe For The World’s Largest Rails Monolith</a>.
+The author explains how the team behind <a href="http://cookpad.com">cookpad.com</a> scaled million of daily users by keeping the product to live in the same repository and Ruby process.</p>
+
+<p>Real world examples are always valuable, but I’m genuinely wondering if to roll out your own provisioning and auto-scale system, deployer, SQL ORM adapter, distributed testing framework, database migrator and cleaner is worth the effort.
+Probably it’s better to rethink the architecture and rely on standard tools.</p>
+
+<h2 id="lotus-architecture">Lotus Architecture</h2>
+
+<p>When you create a new <a href="http://lotusrb.org">Lotus</a> project, the <strong>default architecture</strong> is called <strong>“Container”</strong>.
+With it, we can run multiple Lotus (and Rack based) applications in the same Ruby process.
+They all live under the <code>apps/</code> directory and use <em>message passing</em> to communicate between them.</p>
+
+<p>If we need to introduce a new subsystem (eg. a HTTP API or an admin pane), we can add a new application under <code>apps/</code>.
+This helps to prevent pathological coupling that will makes impossible to pull out a subsystem at the later stages of a project.</p>
+
+<p class="twitter-share"><span class="text">Lotus Container will make our life easier if we want to extract a microservice. </span><a title="Click to tweet" target="_blank" href="https://twitter.com/intent/tweet?text=Lotus+Container+will+make+our+life+easier+if+we+want+to+extract+a+microservice.+&amp;url=http://lucaguidi.com/2015/05/05/lotus-and-microservices.html&amp;via=jodosha"><img width="16" height="16" src="/images/twitter.png" /></a></p>
+
+<p>It helps to plan the future without make we think.
+If our code stays small, we’re already done.
+If it’s big and we want to split, we can move one of the applications (<code>apps/</code>) out of it.</p>
+
+<p>To stay updated with the latest releases, to receive code examples, implementation details and announcements, please consider to subscribe to the Lotus <a href="http://lotusrb.org/mailing-list" target="_blank" title="Lotus mailing list">mailing list</a>.</p>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="http://lotusrb.us3.list-manage1.com/subscribe/post?u=dcbeefa4ba1ea9ae043857005&amp;id=fb3873a90f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe to the Lotus mailing list</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_dcbeefa4ba1ea9ae043857005_fb3873a90f" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Lotus And Microservices" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Effective TDD With Ruby: Tmux Setup &mdash; Luca Guidi</title>
+<link href="http://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/assets/main.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/images/logo.png"/>
+<link href="http://feeds.feedburner.com/LucaGuidi" rel="alternate" title="Luca Guidi" type="application/atom+xml" />
+<meta name="title" content="Effective TDD With Ruby: Tmux Setup ">
+<link rel="canonical" href="http://lucaguidi.com/2015/11/17/effective-tdd-with-ruby-tmux-setup.html">
+
+
+<meta property="og:title" content="Effective TDD With Ruby: Tmux Setup "/>
+<meta property="og:url" content="http://lucaguidi.com/2015/11/17/effective-tdd-with-ruby-tmux-setup.html"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/effective-tdd-with-ruby-tmux-setup.jpg"/>
+
+<meta property="og:image" content="http://lucaguidi.com/images/logo.png"/>   
+
+
+<meta property="og:description" content="Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
+"/>
+<meta name="description" content="Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
+"/>
+
+<meta property="og:site_name" content="Luca Guidi">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@jodosha">
+<meta name="twitter:creator"     content="@jodosha">
+<meta name="twitter:url"         content="http://lucaguidi.com/2015/11/17/effective-tdd-with-ruby-tmux-setup.html">
+<meta name="twitter:title"       content="Effective TDD With Ruby: Tmux Setup "/>
+
+<meta name="twitter:description" content="Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
+">
+
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/effective-tdd-with-ruby-tmux-setup.jpg"/>
+
+<meta property="twitter:image:src" content="http://lucaguidi.com/images/logo.png"/>
+
+<meta name="description" content="Luca Guidi website">
+<meta name="keywords" content="luca,guidi,luca guidi,programmer,developer,rome,italy,ruby,javascript,go,golang,redis,oop,tdd,bdd,unix,open source">
+<meta name="author" content="Luca Guidi">
+</head>
+<body>
+
+<section class="site-nav">
+  <header>
+    <nav id="navigation">
+      <a class="brand" href="/">
+        <img src="/images/logo.png" alt="Inc">
+      </a>
+      <a href="/" class="home">Blog</a>
+      
+      <a href="/about.html">About</a>
+      <a href="/archive.html" class="home">Archive</a>
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a>
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+    
+  </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="/images/effective-tdd-with-ruby-tmux-setup.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Luca Guidi" target="_blank">Luca Guidi</a> &mdash;
+                <time pubdate datetime="2015-17-November" title="November 17, 2015">November 17, 2015</time>
+            </div>
+            <h1 class="title">Effective TDD With Ruby: Tmux Setup</h1>
+            
+        </header>
+
+        <section>
+            <p>Do you find <a href="https://en.wikipedia.org/wiki/Test-driven_development">Test Driven Development</a> (TDD) good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? Or, are you just struggling to get your workflow streamlined? Fighting to glue your tools together?</p>
+
+<p>Well, you can improve a <strong>lot</strong>, by borrowing some tricks from me. I’ve practiced TDD with Ruby for many years now, and built an entire <a href="http://lotusrb.org">web framework</a> only with these techniques.</p>
+
+<p>They are simple, effective and easy to learn.</p>
+
+<p>In the past, we talked about <a href="/2015/10/20/effective-tdd-with-ruby-time-and-flow.html">time management</a> and <a href="/2015/10/27/effective-tdd-with-ruby-vim-setup.html">Vim setup</a> Today we’ll focus on <strong>Tmux setup</strong> to easily switch between projects.</p>
+
+<h2 id="what-is-tmux-for">What is Tmux for?</h2>
+
+<p><a href="https://tmux.github.io">Tmux</a> is a terminal multiplexer. With a single session you can attach and detach several background processes.</p>
+
+<p>While I use just Vim for projects that don’t need any specific setup. For instance, most of the <a href="http://lotusrb.org">Lotus</a> gems are just Ruby and don’t need running services to work on them.</p>
+
+<p>A different case are freelancing projects (usually web apps), that need one or more datastore (Postgres + Redis), a running server, console, logs, etc.. In this case I use Tmux to simulate an UNIX based <a href="https://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a>. With just <strong>one command</strong> I can start to work on a project.</p>
+
+<h2 id="one-command-to-rule-them-all">One Command To Rule Them All</h2>
+
+<p>Tmux is scriptable, so we can configure the instructions that it has to follow at the startup. I <a href="https://github.com/jodosha/dotfiles/blob/master/bin/code">crafted</a> a BASH script named <code>code</code> for that.</p>
+
+<p>That finds the project directory, starts a Tmux session, by loading <strong>general configuration</strong> and <strong>project specific settings</strong>.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<span class="nv">name</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">dir</span><span class="o">=</span><span class="s2">&quot;$HOME/Code/$name&quot;</span>
+<span class="nb">cd</span> <span class="nv">$dir</span>
+
+<span class="k">if</span> !<span class="o">(</span>tmux has-session -t <span class="s2">&quot;$name&quot;</span> 2&gt; /dev/null<span class="o">)</span><span class="p">;</span> <span class="k">then</span>
+  tmux start                     <span class="se">\;\</span>
+    <span class="nb">set</span> -g <span class="nb">set</span>-remain-on-exit on <span class="se">\;\</span>
+    new-session -d -s <span class="nv">$name</span>
+<span class="k">fi</span>
+
+tmux <span class="nb">source</span>-file <span class="s2">&quot;$HOME/.tmux.conf&quot;</span>
+tmux <span class="nb">source</span>-file <span class="s2">&quot;$HOME/.tmux/profiles/$name.tmuxrc&quot;</span>
+tmux attach -t <span class="nv">$name</span></code></pre></div>
+
+<p>In the morning, if I have to work on a project named <code>bookshelf</code>, with just <code>code bookshelf</code>, I have my development environment up and running in a second.</p>
+
+<p><img src="/images/tmux-start.png" alt="" /></p>
+
+<p>At the bottom of the screen, there are numbered windows. For each window you can have one or more split screens (panes). Usually, Vim is at <code>1</code> and Lotus server and console are at <code>2</code>. If I have to edit, I can switch to the first window with <code>Ctrl+f 1</code> or jump to the console with <code>Ctrl+f 2</code>.</p>
+
+<p>This helps to quickly move back and forth between several tools that I need.</p>
+
+<h2 id="general-configuration">General Configuration</h2>
+
+<p>I borrowed my <a href="https://github.com/jodosha/dotfiles/blob/master/.tmux.conf">general configuration</a> from <a href="https://twitter.com/vjt">@vjt</a> a few years ago, and it still works like a charm.</p>
+
+<p>There are a few amazing features in that script:</p>
+
+<ul>
+  <li>Get back to previous window and pane (<code>Ctrl+f f</code>)</li>
+  <li>Navigate between panes (<code>Ctrl+f up/down</code>)</li>
+  <li>Pane zoom in/out (<code>Ctrl+f z</code>)</li>
+  <li>Respawn dead pane for crashed processes (<code>Ctrl+f l</code>)</li>
+  <li>Kill current window (<code>Ctrl+f k</code>)</li>
+  <li>Kill Tmux session (<code>Ctrl+f \</code>)</li>
+</ul>
+
+<p>You can add several customisations to that script, Tmux is really powerful!</p>
+
+<h2 id="project-specific-configuration">Project Specific Configuration</h2>
+
+<p>We can specify for each project, some specific layout for our windows.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># vim: syn=tmux</span>
+
+neww -n vim   <span class="s1">&#39;vim .&#39;</span>
+neww -n shell <span class="s1">&#39;exec $SHELL -l&#39;</span>
+
+neww -n server  <span class="s1">&#39;bundle exec lotus server&#39;</span>
+splitw -v -p <span class="m">30</span> <span class="s1">&#39;bundle exec lotus console&#39;</span>
+setw -t server monitor-activity off
+
+neww -n db      <span class="s1">&#39;postgres -D /usr/local/var/postgres&#39;</span>
+splitw -v -p <span class="m">80</span> <span class="s1">&#39;redis-server&#39;</span>
+setw -t db monitor-activity off
+
+neww -n sql <span class="s1">&#39;bundle exec lotus db console&#39;</span>
+
+selectw -t vim</code></pre></div>
+
+<p>Let’s see what that means. I have the first two windows with full screen Vim and shell. The third one has a split between the server (70%) and the console (30%, see <code>-p 30</code> option). The remaining are for database shell, Postgres and Redis servers.</p>
+
+<p>The last command tells Tmux to select the window named <code>vim</code> at the boot time. Please note that window names are arbitrary.</p>
+
+<h2 id="fast-tdd-feedback">Fast TDD Feedback</h2>
+
+<p>With a combination of two great Vim plugins by <a href="https://github.com/jgdavey">Joshua Davey</a> (<a href="https://github.com/jgdavey/tslime.vim">slime.vim</a> and <a href="https://github.com/jgdavey/vim-turbux">vim-turbux</a>), we can send commands to a Tmux pane.</p>
+
+<p>This technique is used to run RSpec examples, and let the pane to be invisible if specs are successful, and to remain open in the opposite case.</p>
+
+<p>I use it, alongside with <a href="https://github.com/jodosha/vim-greenbar">vim-greenbar</a>, which is able to report the current TDD status (green/red) by colouring the Vim status bar.</p>
+
+<p><img src="/images/tmux-tdd.gif" alt="" /></p>
+
+<hr />
+
+<div id="mailing-list-lead">
+  <p>If you want to stay updated with my latest articles, and software initiatives, please consider to subscribe my mailing list.</p>
+  <p>No spam, I swear.</p>
+</div>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<div id="mc_embed_signup">
+  <form action="//lucaguidi.us11.list-manage.com/subscribe/post?u=b48251cecfc2efe285b419263&amp;id=b92daedb57" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+    <label for="mce-EMAIL">Subscribe</label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="required" />
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_b48251cecfc2efe285b419263_b92daedb57" value="" /></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
+  </form>
+</div>
+<!--End mc_embed_signup-->
+<p><br /></p>
+
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Effective TDD With Ruby: Tmux Setup" data-related="jodosha">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    <div>
+        <div class="g-plusone" data-size="medium"></div>
+    </div>
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/lg.png">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/jodosha" title="" target="_blank">Luca Guidi</a></strong><br>
+                <span class="muted">Developer, music connisseur and avid tea lover.</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; 2015 
+
+    <nav>
+      <a href="http://lucaguidi.com/">Luca Guidi</a> &middot;
+      <a href="/">Blog</a> &middot;
+      
+      <a href="/about.html">About</a> &middot; 
+      <a href="/archive.html" class="home">Archive</a> &middot;
+      <a href="https://github.com/jodosha" class="code" target="_blank">Code</a> &middot;
+      <a href="http://theplayli.st" class="code" target="_blank">Music</a>
+    </nav>
+
+    <nav class="social">
+      
+      <a href="https://twitter.com/jodosha" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+      
+      
+      <a href="http://facebook.com/luca.guidi" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+          
+      <a href="http://feeds.feedburner.com/LucaGuidi" title="Atom Feed">
+        <i class="icon icon-rss black"></i>
+      </a>
+    </nav>
+    <p>Powered by <a href="http://jekyllrb.com">Jekyll</a> &middot; Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-235843-4', 'lucaguidi.com');
+  ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>
