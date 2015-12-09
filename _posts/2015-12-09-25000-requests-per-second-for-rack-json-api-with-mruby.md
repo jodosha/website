@@ -97,23 +97,24 @@ We start the server and test it.
 
 ### Benchmark
 
-If we measure the speed with [wrk](https://github.com/wg/wrk), the results are astonishing: **25,000+ requests per second**.
+If we measure the speed with [wrk](https://github.com/wg/wrk), the results are astonishing: **28,000+ requests per second**.
 
 {% highlight bash %}
-➜ wrk --threads 2 —duration 10 \
+➜ wrk --threads 2 --duration 10 \
 http://localhost:8080/json_api/
 
+Measuring /json_api
 Running 10s test @ http://localhost:8080/json_api/
   2 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   395.39us   61.71us   2.12ms   88.10%
-    Req/Sec    12.63k   412.82    13.17k    68.81%
-  253909 requests in 10.10s, 33.90MB read
-Requests/sec:  25139.80
-Transfer/sec:      3.36MB
+    Latency   389.09us  328.37us   9.64ms   93.09%
+    Req/Sec    14.24k     2.54k   18.09k    76.24%
+  286091 requests in 10.10s, 55.11MB read
+Requests/sec:  28326.73
+Transfer/sec:      5.46MB
 {% endhighlight %}
 
-The numbers are more impressive for a [“hello world” version](https://github.com/jodosha/mruby-rack-json-api/blob/master/app/hardcoded.rb) that doesn’t use JSON and Redis. We get almost **48,000 requests per second**.
+The numbers are more impressive for a [“hello world” version](https://github.com/jodosha/mruby-rack-json-api/blob/master/app/hardcoded.rb) that doesn’t use JSON and Redis. We get **120,000+ requests per second**.
 
 ### Demo
 
