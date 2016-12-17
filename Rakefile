@@ -67,3 +67,49 @@ YAML
     file.write metadata
   end
 end
+
+class MlCompiler
+  def initialize(template, title, article)
+    require 'erb'
+    require 'maruku'
+    require 'nokogiri'
+
+    @template = ERB.new(template)
+    @title    = title
+    @content  = content(article)
+  end
+
+  def compile
+    @template.result(binding)
+  end
+
+  private
+
+  def content(article)
+    html = Maruku.new(article, on_error: :raise).to_html
+    doc  = Nokogiri::HTML(html)
+
+    doc.search('p').each_with_object([]) do |paragraph, result|
+      result << <<-LINE
+<tr>
+  <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">#{paragraph.text}</td>
+</tr>
+LINE
+    end.join("\n")
+  end
+end
+
+desc 'write a ml issue. (Use title="An Awesome Article" article=article.md num=00001)'
+task :ml do
+  require 'fileutils'
+
+  template = File.read("ml/template.erb")
+  title    = ENV['title'] or raise ArgumentError.new("title is required")
+  article  = ENV['article'] or raise ArgumentError.new("article is required")
+  number   = ENV['num'] or raise ArgumentError.new("num is required")
+  article  = File.read(article)
+
+  compiler = MlCompiler.new(template, title, article)
+  FileUtils.mkdir_p("ml/#{number}")
+  File.write("ml/#{number}/index.html", compiler.compile)
+end
