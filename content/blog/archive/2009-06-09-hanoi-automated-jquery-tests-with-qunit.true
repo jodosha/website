@@ -1,0 +1,49 @@
+---
+author:
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
+  name: Luca Guidi
+  twitter: jodosha
+cover_image: cover.jpg
+date: 2009-06-09T00:00:00Z
+excerpt: ""
+tags:
+- hanoi
+- gem
+- javascript
+- tdd
+- bdd
+- jquery
+- qunit
+title: 'Hanoi: Automated jQuery tests with QUnit'
+url: /2009/06/09/hanoi-automated-jquery-tests-with-qunit/
+---
+
+<p>About a month ago, we have released <a href="http://adva-cms.org">adva-cms</a> 0.2.0, the <a href="http://adva-cms.org/2009/4/28/out-now-adva-cms-0-dot-2-0-the-usability-release">most relevant change</a> was the migration from <a href="http://prototypejs.org">Prototype</a> to <a href="http://jquery.com">jQuery</a>. I always been a loyal Prototype fan, and, until then, I always tested my code with `unittest.js`, combined with `jstest.rb`.
+
+
+Like other rewrite we needed to rely on a solid test layer, but what I noticed was the lack of a valid automation support for **QUnit**, the test framework used internally by the jQuery team. So, in a couple of days I built what we need, just creating a custom version of `jstest.rb` and changing a little bit QUnit, in order to communicate with it.
+
+
+Now I extracted a the general purpose code for testing other JavaScript projects, the result is <strong><a href="http://github.com/jodosha/hanoi">Hanoi</a></strong>.
+
+
+Hanoi needs a working <a href="http://rake.rubyforge.org">Rake</a> installation and it&#8217;s capable to test your JavaScript code, <strong>collecting the results inside the shell</strong>. It currently supports <strong>assets</strong>, and <strong>fixtures</strong>, and it&#8217;s pretty easy to use.
+
+
+First of all you need to install the gem:<br/><code class="bash">
+(sudo) gem install jodosha-hanoi -s <a href="http://gems.github.com">http://gems.github.com</a>
+</code>
+
+
+Then you have to initialize your project path, with the `hanoi` executable:<br/><code class="bash">
+hanoi /path/to/project
+</code>
+
+
+Now, you can easily run the test suite:<br/><code class="bash">
+rake test:js
+</code>
+
+
+You can find more details on the <a href="http://github.com/jodosha/hanoi">GitHub</a> page.</p>

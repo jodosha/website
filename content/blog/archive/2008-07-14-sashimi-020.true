@@ -1,0 +1,22 @@
+---
+author:
+  bio: Developer, music connisseur and avid tea lover.
+  image: lg.png
+  name: Luca Guidi
+  twitter: jodosha
+cover_image: cover.jpg
+date: 2008-07-14T00:00:00Z
+excerpt: ""
+tags:
+- ruby
+- rails
+- ruby on rails
+- gem
+- plugins
+- sashimi
+title: Sashimi 0.2.0!
+url: /2008/07/14/sashimi-020/
+---
+
+<p><a href="http://lucaguidi.com/pages/sashimi">Sashimi</a> has just hit <a href="http://github.com/jodosha/sashimi/commits/v0.2.0">0.2.0</a>!</p>
+<p>This release has no sugar for you! No new features, just test improvements and code robustness.</p>

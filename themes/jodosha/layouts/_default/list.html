@@ -1,0 +1,59 @@
+{{ partial "header.html" . }}
+<!--========== BREADCRUMBS V5 ==========-->
+<section class="breadcrumbs-v5 bg-position-fixed breadcrumbs-v5-bg-img-v4">
+  <div class="container">
+    <h2 class="breadcrumbs-v5-title">Luca Guidi</h2>
+    <span class="breadcrumbs-v5-subtitle">Blog</span>
+  </div>
+</section>
+<!--========== END BREADCRUMBS V5 ==========-->
+
+<!--========== PAGE CONTENT ==========-->
+<div class="bg-color-sky-light">
+  <div class="content-md container">
+    <div class="row">
+      <div class="col-md-9 md-margin-b-50">
+        {{ $pagesCount := .Paginator.NumberOfElements }}
+        {{ range $index, $element := .Paginator.Pages }}
+        {{ if modBool $index 2 }} <div class="row margin-b-30">{{ end }}
+          <div class="col-sm-6{{ if modBool $index 2 }} sm-margin-b-30{{ end }}">
+            {{ .Render "teaser"}}
+          </div>
+          {{ if modBool $index 2 }}
+          {{ if eq $index (sub $pagesCount 1) }}
+        </div>
+        {{ end }}
+        {{ else }}
+      </div>
+      {{ end }}
+      {{ end }}
+
+      <div class="paginations-v3 text-center margin-b-60">
+        <ul class="paginations-v3-list">
+          <li class="previous">
+            {{ if .Paginator.HasPrev }}
+            <a href="{{ .Paginator.Prev.URL }}" aria-label="Previous">
+              <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
+            </a>
+            {{ end }}
+          </li>
+          {{ $pageNumber := .Paginator.PageNumber }}
+          {{ range $page := .Paginator.Pagers }}
+          <li{{if eq $page.PageNumber $pageNumber }} class="active"{{end}}><a href="{{ $page.URL }}">{{ $page.PageNumber }}</a><li>
+              {{ end }}
+              {{ if .Paginator.HasNext }}
+              <li class="next">
+                <a href="{{ .Paginator.Next.URL }}" aria-label="Next">
+                  <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
+                </a>
+              </li>
+              {{ end }}
+        </ul>
+      </div>
+    </div>
+    {{ partial "sidebar" . }}
+  </div>
+  <!--// end row -->
+</div>
+</div>
+{{ partial "footer.html" . }}

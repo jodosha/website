@@ -1,0 +1,194 @@
+{{ partial "header.html" . }}
+<!--========== BREADCRUMBS V5 ==========-->
+<section class="breadcrumbs-v5 bg-position-fixed" style="background: url({{.Params.Cover}})">
+  <div class="container">
+    <h2 class="breadcrumbs-v5-title">{{.Title}}</h2>
+    <span class="breadcrumbs-v5-subtitle">{{.Description}}</span>
+    <span class="breadcrumbs-v5-author">by {{ .Site.Params.Author }} on {{ .Date.Format "Jan 2, 2006" }} &mdash; {{ .ReadingTime }} min read</span>
+  </div>
+</section>
+<!--========== END BREADCRUMBS V5 ==========-->
+
+<!--========== PAGE CONTENT ==========-->
+
+<!--========== BACKGROUND COLOR SKY LIGHT ==========-->
+<div class="bg-color-sky-light">
+
+  <!--========== PAGE CONTENT ==========-->
+  <div class="content-sm container">
+    <div class="row">
+      <div class="col-md-9 md-margin-b-50">
+        <!-- Blog Grid -->
+        <article class="blog-grid margin-b-30">
+          <!-- Blog Grid Content -->
+          <div class="blog-grid-content">
+            {{ .Content }}
+            <hr>
+            <!-- Blog Social Sharing -->
+            <ul class="list-inline margin-b-10">
+              <!-- Facebook -->
+              <li class="animate-icon">
+                <a href="http://www.facebook.com/sharer.php?u={{.Permalink}}&title={{.Title}}" class="animate-icon-wrap animate-icon-md color-white bg-color-fb radius-3" target="_blank">
+                  <i class="animate-icon-item fa fa-facebook"></i>
+                  <i class="animate-icon-item fa fa-facebook"></i>
+                  <div class="icon-tooltip icon-tooltip-bottom bg-color-fb radius-3">
+                    Share on Facebook
+                    <div class="icon-tooltip-arrow icon-tooltip-arrow-bottom brd-color-fb"></div>
+                  </div>
+                </a>
+              </li>
+              <!-- End Facebook -->
+              <!-- Twitter -->
+              <li class="animate-icon">
+                <a href="http://twitter.com/intent/tweet?status={{.Title}}%20{{.Permalink}}%20via%20@jodosha" class="animate-icon-wrap animate-icon-md color-white bg-color-tw radius-3" target="_blank">
+                  <i class="animate-icon-item fa fa-twitter"></i>
+                  <i class="animate-icon-item fa fa-twitter"></i>
+                  <div class="icon-tooltip icon-tooltip-bottom bg-color-tw radius-3">
+                    Share on Twitter
+                    <div class="icon-tooltip-arrow icon-tooltip-arrow-bottom brd-color-tw"></div>
+                  </div>
+                </a>
+              </li>
+              <!-- End Twitter -->
+              <!-- Reddit -->
+              <li class="animate-icon">
+                <a href="http://www.reddit.com/submit?url={{.Permalink}}&title={{.Title}}" class="animate-icon-wrap animate-icon-md color-white bg-color-re radius-3" target="_blank">
+                  <i class="animate-icon-item fa fa-reddit-alien"></i>
+                  <i class="animate-icon-item fa fa-reddit-alien"></i>
+                  <div class="icon-tooltip icon-tooltip-bottom bg-color-re radius-3">
+                    Share on Reddit
+                    <div class="icon-tooltip-arrow icon-tooltip-arrow-bottom brd-color-re"></div>
+                  </div>
+                </a>
+              </li>
+              <!-- End Reddit -->
+              <!-- Hacker News -->
+              <li class="animate-icon">
+                <a href="http://news.ycombinator.com/submitlink?u={{.Permalink}}&t={{.Title}}" class="animate-icon-wrap animate-icon-md color-white bg-color-hn radius-3" target="_blank">
+                  <i class="animate-icon-item fa fa-hacker-news"></i>
+                  <i class="animate-icon-item fa fa-hacker-news"></i>
+                  <div class="icon-tooltip icon-tooltip-bottom bg-color-hn radius-3">
+                    Share on Hacker News
+                    <div class="icon-tooltip-arrow icon-tooltip-arrow-bottom brd-color-hn"></div>
+                  </div>
+                </a>
+              </li>
+              <!-- End Hacker News -->
+            </ul>
+            <!-- End Blog Social Sharing-->
+          </div>
+          <!-- End Blog Grid Content -->
+        </article>
+        <!-- End Blog Grid -->
+
+        <!-- <1!-- Blog Grid --1> -->
+        <!-- <div class="bg-color-white margin-b-30"> -->
+        <!--   <div class="blog-single-post-content"> -->
+        <!--     <1!-- Heading v1 --1> -->
+        <!--     <div class="heading-v1 text-center margin-b-50"> -->
+        <!--       <h2 class="heading-v1-title">You Might Also Like</h2> -->
+        <!--     </div> -->
+        <!--     <1!-- End Heading v1 --1> -->
+
+        <!--     <div class="row"> -->
+        <!--       <div class="col-md-4 md-margin-b-30"> -->
+        <!--         <1!-- Blog Grid --1> -->
+        <!--         <article class="blog-grid"> -->
+        <!--           <img class="img-responsive" src="assets/img/970x647/19.jpg" alt=""> -->
+        <!--           <div class="blog-grid-content"> -->
+        <!--             <h2 class="blog-grid-title-sm"><a class="blog-grid-title-link" href="blog_single_standard.html">Architecto beatae vitae dicta sunt explicabo</a></h2> -->
+        <!--             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In finibus lorem vel.</p> -->
+        <!--           </div> -->
+        <!--           <div class="blog-grid-supplemental"> -->
+        <!--             <span class="blog-grid-supplemental-title"> -->
+        <!--               <a class="blog-grid-supplemental-category" href="#">News</a> -->
+        <!--               - 12/21/2016 -->
+        <!--             </span> -->
+        <!--           </div> -->
+        <!--         </article> -->
+        <!--         <1!-- End Blog Grid --1> -->
+        <!--       </div> -->
+        <!--       <div class="col-md-4 md-margin-b-30"> -->
+        <!--         <1!-- Blog Grid (Slider) --1> -->
+        <!--         <article class="blog-grid"> -->
+        <!--           <1!-- (Slider) --1> -->
+        <!--           <div id="blog-grid-2-col" class="carousel slide carousel-fade" data-ride="carousel"> -->
+        <!--             <1!-- Wrapper for slides --1> -->
+        <!--             <div class="carousel-inner" role="listbox"> -->
+        <!--               <div class="item active"> -->
+        <!--                 <img class="img-responsive" src="assets/img/970x647/28.jpg" alt=""> -->
+        <!--               </div> -->
+        <!--               <div class="item"> -->
+        <!--                 <img class="img-responsive" src="assets/img/970x647/17.jpg" alt=""> -->
+        <!--               </div> -->
+        <!--             </div> -->
+        <!--             <1!-- End Wrapper for slides --1> -->
+
+        <!--             <1!-- Controls --1> -->
+        <!--             <a class="left carousel-control theme-carousel-control-v1" href="#blog-grid-2-col" role="button" data-slide="prev"> -->
+        <!--               <span class="carousel-control-arrows-v1 radius-3 fa fa-angle-left" aria-hidden="true"></span> -->
+        <!--               <span class="sr-only">Previous</span> -->
+        <!--             </a> -->
+        <!--             <a class="right carousel-control theme-carousel-control-v1" href="#blog-grid-2-col" role="button" data-slide="next"> -->
+        <!--               <span class="carousel-control-arrows-v1 radius-3 fa fa-angle-right" aria-hidden="true"></span> -->
+        <!--               <span class="sr-only">Next</span> -->
+        <!--             </a> -->
+        <!--             <1!-- End Controls --1> -->
+        <!--           </div> -->
+        <!--           <1!-- End (Slider) --1> -->
+
+        <!--           <div class="blog-grid-content"> -->
+        <!--             <h2 class="blog-grid-title-sm"><a class="blog-grid-title-link" href="blog_single_slider.html">Nemo enim ipsam voluptatem quia</a></h2> -->
+        <!--             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In finibus lorem vel.</p> -->
+        <!--           </div> -->
+        <!--           <div class="blog-grid-supplemental"> -->
+        <!--             <span class="blog-grid-supplemental-title"> -->
+        <!--               <a class="blog-grid-supplemental-category" href="#">Opinion</a> -->
+        <!--               - 12/21/2016 -->
+        <!--             </span> -->
+        <!--           </div> -->
+        <!--         </article> -->
+        <!--         <1!-- End Blog Grid Slider --1> -->
+        <!--       </div> -->
+        <!--       <div class="col-md-4"> -->
+        <!--         <1!-- Blog Grid --1> -->
+        <!--         <article class="blog-grid"> -->
+        <!--           <img class="img-responsive" src="assets/img/970x647/18.jpg" alt=""> -->
+        <!--           <div class="blog-grid-content"> -->
+        <!--             <h2 class="blog-grid-title-sm"><a class="blog-grid-title-link" href="blog_single_standard.html">Sed quia consequuntur magni dolores</a></h2> -->
+        <!--             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In finibus lorem vel.</p> -->
+        <!--           </div> -->
+        <!--           <div class="blog-grid-supplemental"> -->
+        <!--             <span class="blog-grid-supplemental-title"> -->
+        <!--               <a class="blog-grid-supplemental-category" href="#">News</a> -->
+        <!--               - 12/21/2016 -->
+        <!--             </span> -->
+        <!--           </div> -->
+        <!--         </article> -->
+        <!--         <1!-- End Blog Grid --1> -->
+        <!--       </div> -->
+        <!--     </div> -->
+        <!--     <!--// end row --1> -->
+        <!--   </div> -->
+        <!-- </div> -->
+        <!-- <1!-- End Blog Grid --1> -->
+
+        <!-- Blog Comment -->
+        <div class="bg-color-white margin-b-30">
+          <div class="blog-single-post-content">
+            <!-- Heading v1 -->
+            <div class="heading-v1 text-center margin-b-50">
+              <h2 class="heading-v1-title">Leave a comment</h2>
+            </div>
+            <!-- End Heading v1 -->
+          </div>
+        </div>
+        <!-- End Blog Comment -->
+        {{ template "_internal/disqus.html" . }}
+      </div>
+      {{ partial "sidebar" . }}
+    </div>
+    <!--// end row -->
+  </div>
+</div>
+{{ partial "footer.html" . }}
