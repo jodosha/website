@@ -1,0 +1,16 @@
+<article class="blog-teaser-v2">
+  <img class="blog-teaser-v2-img img-responsive" src="{{ .Params.Thumbnail }}" alt="{{ .Title }}">
+  <div class="blog-teaser-v2-overlay">
+    <div class="blog-teaser-v2-content">
+      <div class="blog-teaser-v2-subtitle">{{ .Date.Format "Jan 2, 2006" }}</div>
+      <h2 class="blog-teaser-v2-title blog-teaser-v2-title-sm">{{ .Title }}</h2>
+      <div class="blog-teaser-v2-media">
+        <img class="blog-teaser-v2-author-img radius-circle" src="{{ .Site.Params.Gravatar }}" alt="{{ .Site.Params.Author }}">
+        <div class="blog-teaser-v2-media-content">
+          <h4 class="blog-teaser-v2-author-name">by {{ .Site.Params.Author }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="blog-teaser-v2-link" href="{{ .Permalink }}"></a>
+</article>

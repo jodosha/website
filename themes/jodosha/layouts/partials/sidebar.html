@@ -1,0 +1,60 @@
+<!--========== BLOG SIDEBAR ==========-->
+<div class="col-md-3">
+  <h3>Featured Articles</h3>
+  {{ range .Site.Taxonomies.categories.featured }}
+  <!-- Featured Article -->
+  <a class="featured-article margin-b-30" href="{{ .Page.Permalink }}">
+    <img class="img-responsive" src="{{ .Page.Params.Cover }}" alt="{{ .Page.Title }}">
+    <div class="featured-article-content-wrap">
+      <div class="featured-article-content">
+        <p class="featured-article-content-title">{{ .Page.Title }}</p>
+        <small class="featured-article-content-time">{{ .Page.Date.Format "Jan 2, 2006" }}</small>
+      </div>
+    </div>
+  </a>
+  <!-- End Featured Article -->
+  {{ end }}
+
+  <hr>
+
+  <h3>Keep in touch</h3>
+  <ul class="list-inline margin-b-10">
+    <li class="animate-icon">
+      <a href="https://facebook.com/{{ .Site.Params.Fbpagename }}" class="animate-icon-wrap animate-icon-md brd-solid animate-icon-grey-brd bg-color-fb-hover radius-circle">
+        <i class="animate-icon-item fa fa-facebook"></i>
+        <i class="animate-icon-item fa fa-facebook"></i>
+      </a>
+    </li>
+    <li class="animate-icon">
+      <a href="https://twitter.com/{{ .Site.Params.Twitter }}" class="animate-icon-wrap animate-icon-md brd-solid animate-icon-grey-brd bg-color-tw-hover radius-circle">
+        <i class="animate-icon-item fa fa-twitter"></i>
+        <i class="animate-icon-item fa fa-twitter"></i>
+      </a>
+    </li>
+    <li class="animate-icon">
+      <a href="https://www.snapchat.com/add/{{ .Site.Params.Snapchat }}" class="animate-icon-wrap animate-icon-md brd-solid animate-icon-grey-brd bg-color-sc-hover radius-circle">
+        <i class="animate-icon-item fa fa-snapchat-ghost"></i>
+        <i class="animate-icon-item fa fa-snapchat-ghost"></i>
+      </a>
+    </li>
+    <li class="animate-icon">
+      <a href="https://instagram.com/{{ .Site.Params.Instagram }}" class="animate-icon-wrap animate-icon-md brd-solid animate-icon-grey-brd bg-color-ig-hover radius-circle">
+        <i class="animate-icon-item fa fa-instagram"></i>
+        <i class="animate-icon-item fa fa-instagram"></i>
+      </a>
+    </li>
+    <li class="animate-icon">
+      <a href="https://github.com/{{ .Site.Params.Github }}" class="animate-icon-wrap animate-icon-md brd-solid animate-icon-grey-brd bg-color-gh-hover radius-circle">
+        <i class="animate-icon-item fa fa-github"></i>
+        <i class="animate-icon-item fa fa-github"></i>
+      </a>
+    </li>
+    <li class="animate-icon">
+      <a href="http://feeds.feedburner.com/LucaGuidi" class="animate-icon-wrap animate-icon-md brd-solid animate-icon-grey-brd bg-color-rss-hover radius-circle">
+        <i class="animate-icon-item fa fa-rss"></i>
+        <i class="animate-icon-item fa fa-rss"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+<!--========== END BLOG SIDEBAR ==========-->

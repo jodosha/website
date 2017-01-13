@@ -1,0 +1,181 @@
+<!-- Newsletter v3 -->
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" />
+
+<!--End mc_embed_signup-->
+<section class="newsletter-v3 bg-color-sky-light">
+  <div class="content-md container-xs">
+    <!-- Heading v6 -->
+    <div class="heading-v6 text-center margin-b-40">
+      <h2 class="heading-v6-title">Newsletter</h2>
+      <p class="heading-v6-text">Subscribe to my newsletter and stay up to date with the latest news and projects.</p>
+      <p class="heading-v6-text">Only actual information and no spamming!</p>
+    </div>
+    <!-- End Heading v6 -->
+
+    <form action="//lucaguidi.us11.list-manage.com/subscribe/post?u=b48251cecfc2efe285b419263&amp;id=b92daedb57" method="post" class="subscribe-form validate" name="mc-embedded-subscribe-form" target="_blank" novalidate="novalidate">
+      <div class="row space-row-5">
+        <div class="col-xs-8 xs-full-width xs-margin-b-20">
+          <input type="email" class="form-control newsletter-v3-form radius-3" name="EMAIL" required="required" placeholder="Email">
+        </div>
+        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;"><input type="text" name="b_b48251cecfc2efe285b419263_b92daedb57" value="" /></div>
+        <div class="col-xs-4 xs-full-width">
+          <button class="btn-dark-bg btn-base-md btn-block radius-3" type="submit">Subscribe</button>
+        </div>
+      </div>
+      <!--// end row -->
+    </form>
+  </div>
+</section>
+<!-- End Newsletter v3 -->
+<!--========== END PAGE CONTENT ==========-->
+<!--========== FOOTER ==========-->
+<footer id="footer" class="footer">
+  <div class="container">
+    <div class="row margin-b-50">
+      <div class="col-md-3 col-sm-6 col-xs-6 xs-full-width md-margin-b-50">
+        <h3 class="footer-title">Latest articles</h3>
+        <!-- News Media -->
+        <ul class="list-unstyled footer-media">
+          {{ range first 4 .Site.Pages }}
+          <li class="footer-media-item">
+            <div class="footer-media-info">
+              <a class="footer-media-link" href="{{ .Permalink }}">
+                {{ .Title }}
+              </a>
+              <small class="footer-media-date">{{ .Date.Format "Jan 2, 2006" }}</small>
+            </div>
+          </li>
+          {{ end }}
+        </ul>
+        <!-- End News Media -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6 xs-full-width md-margin-b-50">
+        <h3 class="footer-title">Keep in touch</h3>
+        <!-- News List -->
+        <ul class="list-inline margin-b-10">
+          <li class="animate-icon">
+            <a href="https://facebook.com/{{ .Site.Params.Fbpagename }}" class="animate-icon-wrap animate-icon-md brd-solid color-white animate-icon-grey-brd bg-color-fb-hover radius-circle">
+              <i class="animate-icon-item fa fa-facebook"></i>
+              <i class="animate-icon-item fa fa-facebook"></i>
+            </a>
+          </li>
+          <li class="animate-icon">
+            <a href="https://twitter.com/{{ .Site.Params.Twitter }}" class="animate-icon-wrap animate-icon-md brd-solid color-white animate-icon-grey-brd bg-color-tw-hover radius-circle">
+              <i class="animate-icon-item fa fa-twitter"></i>
+              <i class="animate-icon-item fa fa-twitter"></i>
+            </a>
+          </li>
+          <li class="animate-icon">
+            <a href="https://www.snapchat.com/add/{{ .Site.Params.Snapchat }}" class="animate-icon-wrap animate-icon-md color-white brd-solid animate-icon-grey-brd bg-color-sc-hover radius-circle">
+              <i class="animate-icon-item fa fa-snapchat-ghost"></i>
+              <i class="animate-icon-item fa fa-snapchat-ghost"></i>
+            </a>
+          </li>
+          <li class="animate-icon">
+            <a href="https://instagram.com/{{ .Site.Params.Instagram }}" class="animate-icon-wrap animate-icon-md brd-solid color-white animate-icon-grey-brd bg-color-ig-hover radius-circle">
+              <i class="animate-icon-item fa fa-instagram"></i>
+              <i class="animate-icon-item fa fa-instagram"></i>
+            </a>
+          </li>
+          <li class="animate-icon">
+            <a href="https://github.com/{{ .Site.Params.Github }}" class="animate-icon-wrap animate-icon-md brd-solid color-white animate-icon-grey-brd bg-color-gh-hover radius-circle">
+              <i class="animate-icon-item fa fa-github"></i>
+              <i class="animate-icon-item fa fa-github"></i>
+            </a>
+          </li>
+          <li class="animate-icon">
+            <a href="http://feeds.feedburner.com/LucaGuidi" class="animate-icon-wrap animate-icon-md brd-solid color-white animate-icon-grey-brd bg-color-rss-hover radius-circle">
+              <i class="animate-icon-item fa fa-rss"></i>
+              <i class="animate-icon-item fa fa-rss"></i>
+            </a>
+          </li>
+        </ul>
+        <!-- End News List -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6 xs-full-width xs-margin-b-50">
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6 xs-full-width">
+        <!-- <1!-- Video --1> -->
+        <!-- <h3 class="footer-title">Video Blog</h3> -->
+        <!-- <div class="footer-video"> -->
+        <!--   <img class="img-responsive" src="/assets/img/970x600/01.jpg" alt=""> -->
+        <!--   <div class="footer-video-player"> -->
+        <!--     <a class="popup-youtube" href="https://www.youtube.com/watch?v=J7ArPgBRR94" title="Better"> -->
+        <!--       <img src="/assets/img/widgets/video-play.png" alt="" width="35" height="35"> -->
+        <!--     </a> -->
+        <!--   </div> -->
+        <!-- </div> -->
+        <!-- <h4 class="footer-video-title"> -->
+        <!--   <a class="footer-video-title-link" href="blog_single_post_video.html">Better - it's a powerful word and powerful idea.</a> -->
+        <!-- </h4> -->
+        <!-- <1!-- End Video --1> -->
+      </div>
+    </div>
+    <!--// end row -->
+
+    <!-- Copyright -->
+    <ul class="list-inline footer-copyright">
+      <li class="footer-copyright-item">Copyright &#169; 2017 Luca Guidi. All Rights Reserved.</li>
+    </ul>
+    <!-- End Copyright -->
+  </div>
+</footer>
+<!--========== END FOOTER ==========-->
+</div>
+<!-- END WRAPPER -->
+
+<!-- Sidebar Content Overlay -->
+<div class="sidebar-content-overlay"></div>
+<!-- End Sidebar Content Overlay -->
+
+<!-- Back To Top -->
+<a href="javascript:void(0);" class="js-back-to-top back-to-top-theme"></a>
+<!-- End Back To Top -->
+
+<!--========== JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) ==========-->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+  <script src="/assets/plugins/html5shiv.js"></script>
+  <script src="/assets/plugins/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="/assets/plugins/jquery.migrate.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="/assets/plugins/jquery.back-to-top.js"></script>
+<script type="text/javascript" src="/assets/plugins/jquery.smooth-scroll.js"></script>
+<script type="text/javascript" src="/assets/plugins/jquery.animsition.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/jquery.noty.packaged.min.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script type="text/javascript" src="/assets/scripts/app.js"></script>
+<script type="text/javascript" src="/assets/scripts/components/header-sticky.js"></script>
+<script type="text/javascript" src="/assets/scripts/components/animsition.js"></script>
+<script type="text/javascript" src="/assets/scripts/components/scrollbar.js"></script>
+<script type="text/javascript" src="/assets/scripts/components/form-modal.js"></script>
+<script type="text/javascript" src="/assets/scripts/components/magnific-popup.js"></script>
+<script type="text/javascript" src="/assets/scripts/components/mailchimp.js"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<!-- BEGIN SOCIAL NETWORKS SCRIPTS -->
+<!-- <div id="fb-root"></div> -->
+<!--   <script>(function(d, s, id) { -->
+<!--     var js, fjs = d.getElementsByTagName(s)[0]; -->
+<!--     if (d.getElementById(id)) return; -->
+<!--     js = d.createElement(s); js.id = id; -->
+<!--     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1"; -->
+<!--     fjs.parentNode.insertBefore(js, fjs); -->
+<!--   }(document, 'script', 'facebook-jssdk'));</script> -->
+<!-- END SOCIAL NETWORKS SCRIPTS -->
+<!--========== END JAVASCRIPTS ==========-->
+
+</body>
+<!-- END BODY -->
+
+</html>

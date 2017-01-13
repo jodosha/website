@@ -1,0 +1,48 @@
+baseurl             = "https://lucaguidi.com/"
+builddrafts         = false
+canonifyurls        = true
+contentdir          = "content"
+languageCode        = "en-US"
+layoutdir           = "layouts"
+publishdir          = "public"
+#staticdir           = "assets"
+author              = "Luca Guidi"
+title               = "Luca Guidi"
+theme               = "jodosha"
+copyright           = "Copyright Luca Guidi"
+pygmentsuseclasses  = true
+pygmentscodefences  = true
+disqusshortname     = "lucaguidi" # Comment out to disable Disqus.
+#pluralizelisttitles = false
+#googleAnalytics     = "UA-123-45"
+
+[permalinks]
+fixed = ":title/"
+blog = "/:year/:month/:day/:slug"
+
+[taxonomies]
+tag = "tags"
+category = "categories"
+series = "series"
+
+[params]
+author       = "Luca Guidi"
+cachebuster  = true # add the current unix timestamp in query string for cache busting css assets
+dateform     = "Jan 2, 2006"
+dateformfull = "Mon Jan 2 2006 15:04:05 MST"
+description  = "Don't panic"
+email        = "me@lucaguidi.com"
+faviconfile  = "img/leaf.ico"
+fbappid      = "1879847808918360"
+fbpageid     = "1603307663019001"
+fbpagename   = "Luca-Guidi-1603307663019001"
+highlightjs  = true
+lang         = "en"
+twitter      = "jodosha"
+snapchat     = "jodosha23"
+instagram    = "jodosha"
+github       = "jodosha"
+feedburner   = "LucaGuidi"
+lead         = "Luca Guidi – Family man, software engineer, Open Source indie developer, speaker"
+gravatar     = "https://s.gravatar.com/avatar/76aa5b311fb40fdc2bb70c0282d66af3"
+keywords     = "luca,guidi,luca guidi,engineer,software engineer,programmer,developer,speaker,open source,ruby,hanami,hanamirb,web,web framework,web development,rome,italy,javascript,go,golang,redis,oop,tdd,bdd,security,unix,lotus,lotusrb"

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" prefix="og: http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+  <!-- HEAD -->
+  <head>
+    <!-- BEGIN META -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ .Site.Title }}</title>
+    {{ with .Description }}
+    <meta name="description" content="{{ . }}">
+    {{ else }}
+    <meta name="description" content="{{ .Site.Params.Author }} website">
+    {{ end }}
+    <link href="http://feeds.feedburner.com/{{ .Site.Params.Feedburner }}" rel="alternate" title="{{ .Site.Params.Author }}" type="application/atom+xml" />
+    <meta name="author" content="{{ .Site.Params.Author }}">
+    {{ $siteKeywords := .Site.Params.Keywords }}
+    {{ with .Params.Tags }}
+    {{ $tags :=  delimit . "," }}
+    <meta name="keywords" content="{{ $tags }},{{ $siteKeywords }}">
+    {{ else }}
+    <meta name="keywords" content="{{ .Site.Params.Keywords }}">
+    {{ end }}
+
+    <!-- open graph -->
+    <meta property="fb:app_id" content="{{ .Site.Params.Fbappid }}" />
+    <meta property="fb:pages" content="{{ .Site.Params.Fbpageid }}" />
+    <meta property="og:type" content="article"/>
+    {{ with .Description }}
+    <meta property="og:description" content="{{ . }}"/>
+    {{ else }}
+    <meta property="og:description" content="{{ .Site.Params.Author }} website"/>
+    {{ end }}
+    <meta property="og:title" content="{{ .Title }} - {{ .Site.Params.Author }}"/>
+    <meta property="og:site_name" content="{{ .Site.Params.Author }}"/>
+    {{ if isset .Params "thumbnail" }}
+    <meta property="og:image" content="{{ .Site.BaseURL }}{{ .Params.Thumbnail }}" />
+    {{ else }}
+    <meta property="og:image" content="{{ .Site.BaseURL }}images/cover.jpg" />
+    {{ end }}
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:locale" content="en_US">
+
+    <meta property="article:published_time" content="{{ .Date.Format "2006-01-02" }}"/>
+    <meta property="article:modified_time" content="{{ .Date.Format "2006-01-02" }}"/>
+
+    <!--Twitter Cards-->
+    <meta name="twitter:card" content="summary">
+    <!--<meta name="twitter:card" content="summary_large_image">-->
+    <meta name="twitter:site" content="@{{ .Site.Params.Twitter }}">
+    <meta name="twitter:title" content="{{ .Title }} - {{ .Site.Params.Author }}">
+    <meta name="twitter:creator" content="@{{ .Site.Params.Twitter }}">
+    {{ if isset .Params "description" }}
+    <meta name="twitter:description" content="{{ .Params.Description }}">
+    {{ else }}
+    <meta name="twitter:description" content="{{ .Site.Params.Lead }}">
+    {{ end }}
+    {{ if isset .Params "thumbnail" }}
+    <meta name="twitter:image:src" content="{{ .Site.BaseURL }}{{ .Params.Thumbnail }}">
+    {{ else }}
+    <meta name="twitter:image:src" content="{{ .Site.BaseURL }}images/cover.jpg">
+    {{ end }}
+    <meta name="twitter:domain" content="lucaguidi.com">
+
+    <meta name="copyright" content="© 2017 {{ .Site.Params.Author }}">
+    <!-- END META -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,400,700,500,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/et-line/et-line.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/themify/themify.css" rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN THEME PLUGINS STYLE -->
+    <link href="/assets/plugins/scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css"/>
+    <!-- END THEME PLUGINS STYLE -->
+
+    <!-- BEGIN THEME STYLES -->
+    <link href="/assets/css/global.css" rel="stylesheet" type="text/css"/>
+    <!-- END THEME STYLES -->
+
+    <!-- THEME -->
+    <link href="/assets/css/theme/dark.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/theme/jodosha.css" rel="stylesheet" type="text/css" id="style-color"/>
+    <!-- END THEME -->
+
+    <!-- CODE -->
+    <link href="/assets/css/code.css" rel="stylesheet" type="text/css"/>
+    <!-- END CODE -->
+
+    <!-- BEGIN JQUERY -->
+    <script type="text/javascript" src="/assets/plugins/jquery.min.js"></script>
+    <!-- END JQUERY -->
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="/assets/favicon.ico"/>
+    <!-- END FAVICON -->
+  </head>
+  <!-- END HEAD -->
+  <!-- BEGIN BODY -->
+  <body class="animsition">
+
+    <!-- WRAPPER -->
+    <div class="wrapper">
+      <!--========== HEADER TRANSPARENT ==========-->
+      <header class="header-transparent header-transparent-bb navbar-fixed-top header-sticky auto-hiding-navbar nav-down">
+        <!-- Search Field -->
+        <div class="search-field">
+          <div class="container">
+            <input type="text" class="form-control search-field-input" placeholder="Search for...">
+          </div>
+        </div>
+        <!-- End Search Field -->
+
+        <!-- Navbar -->
+        <nav class="navbar mega-menu" role="navigation">
+          <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="menu-container">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="toggle-icon"></span>
+              </button>
+
+              <!-- Navbar Actions -->
+              <div class="navbar-actions">
+                <!-- Search Fullscreen -->
+                <!-- <div class="navbar-actions-shrink search-fullscreen search-fullscreen-trigger-white"> -->
+                <!--   <div class="search-fullscreen-trigger"> -->
+                <!--     <i class="search-fullscreen-trigger-icon ti-search"></i> -->
+                <!--   </div> -->
+                <!--   <div class="search-fullscreen-overlay"> -->
+                <!--     <div class="search-fullscreen-overlay-content"> -->
+                <!--       <div class="search-fullscreen-input-group"> -->
+                <!--         <input type="text" class="form-control search-fullscreen-input" placeholder="Search for ..."> -->
+                <!--         <button class="search-fullscreen-search" type="button"><i class="search-fullscreen-search-icon fa fa-search"></i></button> -->
+                <!--       </div> -->
+                <!--     </div> -->
+                <!--   </div> -->
+                <!--   <div class="search-fullscreen-bg-overlay"> -->
+                <!--     <div class="search-fullscreen-close">×</div> -->
+                <!--   </div> -->
+                <!-- </div> -->
+                <!-- End Search Fullscreen -->
+
+                <!-- Sidebar -->
+                <!-- <a class="navbar-actions-shrink sidebar-trigger sidebar-trigger-style-white" href="javascript:void(0);"> -->
+                <!--   <span class="sidebar-trigger-icon"></span> -->
+                <!-- </a> -->
+                <!-- End Sidebar -->
+              </div>
+              <!-- End Navbar Actions -->
+
+              <!-- Logo -->
+              <div class="navbar-logo">
+                <a class="navbar-logo-wrap" href="/">
+                  <img class="navbar-logo-img navbar-logo-img-white" src="/assets/img/logo-default-white.png" alt="Ark">
+                  <img class="navbar-logo-img navbar-logo-img-dark" src="/assets/img/logo-default.png" alt="Ark">
+                </a>
+              </div>
+              <!-- End Logo -->
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse nav-collapse">
+              <div class="menu-container">
+                <ul class="nav navbar-nav">
+                  <!-- Blog -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-item-child radius-3" href="/blog">
+                      Blog
+                    </a>
+                  </li>
+                  <!-- End Blog -->
+                  <!-- About -->
+                  <!-- <li class="nav-item dropdown"> -->
+                  <!--   <a class="nav-item-child radius-3" href="/about"> -->
+                  <!--     About -->
+                  <!--   </a> -->
+                  <!-- </li> -->
+                  <!-- End About -->
+                </ul>
+              </div>
+            </div>
+            <!-- End Navbar Collapse -->
+          </div>
+          <!--// End Container-->
+        </nav>
+        <!-- Navbar -->
+      </header>
+      <!--========== END HEADER TRANSPARENT ==========-->
+
+      <!--========== SIDEBAR ==========-->
+      <div class="sidebar-nav scrollbar">
+        <a class="sidebar-trigger sidebar-nav-trigger" href="javascript:void(0);">
+          <span class="sidebar-trigger-icon"></span>
+        </a>
+        <div class="sidebar-nav-content">
+          <h3 class="sidebar-nav-title">Get In Touch</h3>
+          <p class="sidebar-nav-about-text margin-b-40"><span class="fweight-400">Email:</span> <a class="sidebar-nav-about-link" href="mailto:me@lucaguidi.com">me@lucaguidi.com</a></p>
+          <input type="text" class="form-control sidebar-nav-comment-input margin-b-10 radius-3" placeholder="Your Name">
+          <input type="email" class="form-control sidebar-nav-comment-input margin-b-10 radius-3" placeholder="Your e-Mail">
+          <textarea class="form-control sidebar-nav-comment-input margin-b-30 radius-3" rows="3" placeholder="Your message"></textarea>
+          <button type="button" class="btn-white-brd btn-base-sm radius-3">Submit</button>
+        </div>
+      </div>
+      <!--========== END SIDEBAR ==========-->
