@@ -3,7 +3,7 @@
   <h3>Featured Articles</h3>
   {{ range .Site.Taxonomies.categories.featured }}
   <!-- Featured Article -->
-  <a class="featured-article margin-b-30" href="{{ .Page.Permalink }}">
+  <a class="featured-article margin-b-30" href="{{ .Page.Permalink }}/">
     <img class="img-responsive" src="{{ .Page.Params.Cover }}" alt="{{ .Page.Title }}">
     <div class="featured-article-content-wrap">
       <div class="featured-article-content">
