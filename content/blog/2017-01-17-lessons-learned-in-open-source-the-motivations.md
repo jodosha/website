@@ -4,7 +4,7 @@ cover: /covers/lessons-learned-in-open-source-the-motivations.jpg
 thumbnail: /thumbnails/lessons-learned-in-open-source-the-motivations.jpg
 date: 2017-01-17
 description: |
-  In the last ten years, I’ve been involved with Open Source. And I often asked myself why.
+  In the last ten years I’ve been involved with Open Source. I often asked myself why.
 tags:
   - open source
 series:
@@ -21,6 +21,6 @@ Since that day, we self-proclaimed visionaries, we tried to emulate his attitude
 
 For me, it's to fuel the burning fire inside. The obsession of beautifully designed systems. The consuming passion for tech that keeps me awake at night. That is the inspiration and the ultimate legacy that Steve Jobs left inside of my thoughts.
 
-In the last ten years, I've been involved with Open Source. And more than once I asked myself why. It's the chance of being helpful for other people, to serve a community, to solving interesting problems, to be recognized for my efforts. Yes – it's **a mix of altruistic effort and narcissistic attitude** that will drive me to _"stay hungry"_ for the next ten years. **What's yours?**
+In the last ten years I've been involved with Open Source. And I often asked myself why. It's the chance of being helpful for other people, to serve a community, to solving interesting problems, to be recognized for my efforts. Yes – it's **a mix of altruistic effort and narcissistic attitude** that will drive me to _"stay hungry"_ for the next ten years. **What's yours?**
 
 Accept who you are. Work hard. Really hard. And even harder than that.
