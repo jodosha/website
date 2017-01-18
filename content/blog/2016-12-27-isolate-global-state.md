@@ -12,9 +12,6 @@ tags:
   - design patterns
   - hanami
 title: Isolate Global State
-aliases:
-  - /2016/12/27/isolate-global-state/
-  - /2016/12/27/isolate-global-state.html
 ---
 
 Using global state in software programs, is handy for development, but evil to maintain.
