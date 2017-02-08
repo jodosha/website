@@ -6,9 +6,6 @@ description: |
   The beauty of Lotus is the composition of its frameworks. Each of them is well designed to achieve one and only one goal. The main advantage of this architecture is that delevopers can easily use and reuse those frameworks in countless ways. Lotus::Router accepts anonymous functions as endpoints. This feature can be used to build Sinatra with it.
 tags: lotus
 title: Building Sinatra with Lotus
-aliases:
-  - /2014/01/28/building-sinatra-with-lotus/
-  - /2014/01/28/building-sinatra-with-lotus.html
 ---
 
 The beauty of [Lotus](http://lotusrb.org) is the composition of its frameworks. Each of them is well designed to achieve one and only one goal.

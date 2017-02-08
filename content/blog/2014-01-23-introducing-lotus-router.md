@@ -6,9 +6,6 @@ description: |
   Lotus::Router is a Rack compatible, lightweight and fast HTTP Router for Ruby. It is designed to work as a standalone framework or within a context of a Lotus application. It supports most of the HTTP verbs, fixed and partial string matching, redirect, namespaces, named routes and RESTful resource(s).
 tags: lotus
 title: Introducing Lotus::Router
-aliases:
-  - /2014/01/23/introducing-lotus-router/
-  - /2014/01/23/introducing-lotus-router.html
 ---
 
 For me, the first step in the long path of [building a web framework](/2014/01/01/announcing-lotus.html) was an HTTP router.

@@ -13,9 +13,6 @@ tags:
 title: JSON API Apps With Lotus
 categories:
   - featured
-aliases:
-  - /2015/11/24/json-api-apps-with-lotus/
-  - /2015/11/24/json-api-apps-with-lotus.html
 ---
 
 Do you need a fast and lightweight JSON API app? It must be powerful, flexible, quick to develop and easy to deploy?

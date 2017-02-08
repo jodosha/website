@@ -8,9 +8,6 @@ tags: programming
 title: 'Effective TDD With Ruby: Vim Setup'
 categories:
   - featured
-aliases:
-  - /2015/10/27/effective-tdd-with-ruby-vim-setup/
-  - /2015/10/27/effective-tdd-with-ruby-vim-setup.html
 ---
 
 Do you find [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? Or, are you just struggling to get your workflow streamlined? Fighting to glue your tools together?

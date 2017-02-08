@@ -7,9 +7,6 @@ excerpt: In the past months our geolocation service has been changed from a some
   they are happier of the new level of precision.
 tags: programming
 title: HTML5 Geolocation Testing with Cucumber
-aliases:
-  - /2011/02/13/html5-geolocation-testing-with-cucumber/
-  - /2011/02/13/html5-geolocation-testing-with-cucumber.html
 ---
 
 <p><strong>[ I wrote this post for <a href="http://frestyl.com" target="_blank">frestyl</a>, you can find the original article <a href="http://frestyl.wordpress.com/2011/01/24/html5-geolocation-testing-with-cucumber/">here</a>. ]</strong></p>

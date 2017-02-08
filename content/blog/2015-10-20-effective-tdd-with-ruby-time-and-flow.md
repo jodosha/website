@@ -6,9 +6,6 @@ description: |
   Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
 tags: programming
 title: 'Effective TDD With Ruby: Time & Flow'
-alises:
-  - /2015/10/20/effective-tdd-with-ruby-time-and-flow/
-  - /2015/10/20/effective-tdd-with-ruby-time-and-flow.html
 ---
 
 Do you find [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? Or, are you just struggling to get your workflow streamlined? Fighting to glue your tools together?

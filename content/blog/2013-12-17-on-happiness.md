@@ -6,9 +6,6 @@ description: The end of the year is the perfect circumstance to look back and sp
   time thinking about life, achievements and all the preeminent aspects of life.
 tags: life
 title: On Happiness
-aliases:
-  - /2013/12/17/on-happiness/
-  - /2013/12/17/on-happiness.html
 ---
 
 As a naive younger man, I have always been disappointed by how many year resolutions have missed in the past.

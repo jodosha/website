@@ -8,9 +8,6 @@ excerpt: When I joined the IFAD team last September, I had big problems to deal 
   documentation.
 tags: programming
 title: Lean Rails App Setup
-aliases:
-  - /2012/02/27/lean-rails-app-setup/
-  - /2012/02/27/lean-rails-app-setup.html
 ---
 
 <p>I&#8217;m currently working as a consultant for an UN agency (<a href="http://www.ifad.org">IFAD</a>) and we have a portfolio of <strong>~15 Rails</strong> apps, developed in the last four years. The environment is heterogeneous and an half dozen of these projects are interfacing with legacy software and they are legacy themselves. As counterpart, the new apps we are developing are running on the latest bleeding edge technologies (Ruby 1.9.3, Rails 3.2, MongoDB, Redis, WebSockets etc..).</p>

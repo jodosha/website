@@ -15,9 +15,6 @@ title: 25,000+ Req/s for Rack JSON API with MRuby
 slug: 25000-requests-per-second-for-rack-json-api-with-mruby
 categories:
   - featured
-aliases:
-  - /2015/12/09/25000-requests-per-second-for-rack-json-api-with-mruby/
-  - /2015/12/09/25000-requests-per-second-for-rack-json-api-with-mruby.html
 ---
 
 Last month I gave the [closing keynote](https://speakerdeck.com/jodosha/lotus-rubyday-2015) at [RubyDay 2015](http://www.rubyday.it) by talking about [Lotus](http://lotusrb.org) and the future of Ruby.

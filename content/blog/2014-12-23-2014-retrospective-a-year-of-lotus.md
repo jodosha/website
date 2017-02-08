@@ -6,9 +6,6 @@ description: |
   This has been a great year for Lotus: it went from a tiny side project to one of the most appreciated and promising web frameworks for Ruby. Today we release a new version which brings new features, code generators and the first supported architecture named container.
 tags: software
 title: '2014 Retrospective: A Year Of Lotus'
-aliases:
-  - /2014/12/23/2014-retrospective-a-year-of-lotus/
-  - /2014/12/23/2014-retrospective-a-year-of-lotus.html
 ---
 
 This has been **a great year** for [Lotus](http://lotusrb.org).

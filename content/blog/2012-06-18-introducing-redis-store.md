@@ -8,9 +8,6 @@ descirption: Redis Store aims to be a toolkit for your Ruby applications, it nat
   Rails.
 tags: programming
 title: Introducing Redis Store
-aliases:
-  - /2012/06/18/introducing-redis-store/
-  - /2012/06/18/introducing-redis-store.html
 ---
 
 <p><strong>[ I wrote this post for Redis ToGo, you can find the original article <a href="http://blog.togo.io/introducing/redis-store/">here</a> and the related discussion on <a href="http://news.ycombinator.com/item?id=4124246">Hacker News</a>. ]</strong></p>
