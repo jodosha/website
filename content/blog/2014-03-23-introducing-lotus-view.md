@@ -7,9 +7,6 @@ description: |
   Lotus::View is based on these simple concepts.
 tags: programming
 title: Introducing Lotus::View
-aliases:
-  - /2014/03/23/introducing-lotus-view/
-  - /2014/03/23/introducing-lotus-view.html
 ---
 
 The missing part of all the Ruby web frameworks is the **distinction between views and templates**.

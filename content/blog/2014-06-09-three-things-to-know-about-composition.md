@@ -6,9 +6,6 @@ description: |
   Inheriting from Ruby's classes can be harmful. Composition should be preferred over inheritance, but beware of the unexpected behaviors.
 tags: software
 title: Three Things To Know About Composition
-aliases:
-  - /2014/06/09/three-things-to-know-about-composition/
-  - /2014/06/09/three-things-to-know-about-composition.html
 ---
 
 A few days ago [Aaron Patterson](https://twitter.com/tenderlove) wrote a in [interesting article](http://tenderlovemaking.com/2014/06/04/yagni-methods-slow-us-down.html) about composition vs inheritance with Ruby.

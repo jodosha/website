@@ -9,9 +9,6 @@ tags:
   - design patterns
   - ruby
 title: The Penguin That Can't Fly
-aliases:
-  - /2016/06/07/the-penguin-that-cannot-fly/
-  - /2016/06/07/the-penguin-that-cannot-fly.html
 ---
 
 #### A short story about OOP, interfaces and _soft typing_

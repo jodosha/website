@@ -9,9 +9,6 @@ tags: software
 title: Thread Safety With Ruby
 categories:
   - featured
-aliases:
-  - /2014/03/27/thread-safety-with-ruby/
-  - /2014/03/27/thread-safety-with-ruby.html
 ---
 
 **Moore's law is over**.

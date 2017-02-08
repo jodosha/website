@@ -6,9 +6,6 @@ description: |
   Lotus development is going well. This month, I’m proud to announce Lotus::Controller. It’s a small, powerful and fast Rack framework.
 tags: lotus
 title: Introducing Lotus::Controller
-aliases:
-  - /2014/02/23/introducing-lotus-controller/
-  - /2014/02/23/introducing-lotus-controller.html
 ---
 
 Lotus development is going well.

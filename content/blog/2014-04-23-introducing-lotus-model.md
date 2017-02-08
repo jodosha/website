@@ -8,9 +8,6 @@ description: |
   Let me introduce Lotus::Model.
 tags: software
 title: Introducing Lotus::Model
-aliases:
-  - /2014/04/23/introducing-lotus-model/
-  - /2014/04/23/introducing-lotus-model.html
 ---
 
 Almost all the Ruby frameworks for the Model layer mix up business logic with database details.

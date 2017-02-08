@@ -6,9 +6,6 @@ description: |
   MRuby is a lightweight Ruby. It was created by Matz with the purpose of having an embeddable version of the language. This article covers how to enable Redis scripting with Ruby.
 tags: programming
 title: Redis Scripting with MRuby
-aliases:
-  - /2014/02/26/redis-scripting-with-mruby-pt1/
-  - /2014/02/26/redis-scripting-with-mruby-pt1.html
 ---
 
 [MRuby](http://www.mruby.org) is a lightweight Ruby.

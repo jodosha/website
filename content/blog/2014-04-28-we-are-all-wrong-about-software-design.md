@@ -6,9 +6,6 @@ description: |
   All these discussions about software design are missing one detail: we are all wrong. Everyone has a vision that can be found great by some people, and deprecable by others. When it comes to talk about opinions this is the way that things work. If nobody's right, we're all wrong.
 tags: software
 title: We Are All Wrong About Software Design
-aliases:
-  - /2014/04/28/we-are-all-wrong-about-software-design/
-  - /2014/04/28/we-are-all-wrong-about-software-design.html
 ---
 
 We are all wrong. When it comes to talk about opinions this is the way that things work.
