@@ -51,7 +51,7 @@ logo = "assets/img/logo-default.png"
 twitterName = "jodosha"
 [permalinks]
 fixed = ":title/"
-blog = "/:year/:month/:day/:slug"
+post = "/:year/:month/:day/:slug"
 [taxonomies]
 tag = "tags"
 category = "categories"
