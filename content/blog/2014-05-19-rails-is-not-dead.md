@@ -4,7 +4,8 @@ thumbnail: /thumbnails/rails-is-not-dead.jpg
 date: 2014-05-19
 description: |
   Rails is not dead. Debating about things such as the hexagonal architecture isn't an assault to the framework, but a way to evolve as a community. If they feel under attack, we have a problem. Please speak up.
-tags: software
+tags:
+  - software
 title: Rails Is Not Dead
 ---
 

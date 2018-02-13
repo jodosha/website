@@ -4,7 +4,8 @@ thumbnail: /thumbnails/three-things-to-know-about-composition.jpg
 date: 2014-06-09
 description: |
   Inheriting from Ruby's classes can be harmful. Composition should be preferred over inheritance, but beware of the unexpected behaviors.
-tags: software
+tags:
+  - software
 title: Three Things To Know About Composition
 ---
 

@@ -4,7 +4,8 @@ thumbnail: /thumbnails/lotus-and-microservices.jpg
 date: 2015-05-05
 description: |
   Lotus default architecture is designed for quick dev iterations and easy microservices extraction.
-tags: software
+tags:
+  - software
 title: Lotus And Microservices
 alises:
   - /2015/05/05/lotus-and-microservices/

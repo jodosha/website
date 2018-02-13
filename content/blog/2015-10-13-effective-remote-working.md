@@ -4,7 +4,8 @@ thumbnail: /thumbnails/effective-remote-working.jpg
 date: 2015-10-13
 description: |
   Going remote is a appealing, but it's easy to get lost. What's the right balance between professional and personal life? How to make sure that you’ll finish your tasks by the end of the day? You can get it right without too much effort. Here's my recipe for my last three years of remote working.
-tags: programming
+tags:
+  - programming
 title: Effective Remote Working
 categories:
   - featured

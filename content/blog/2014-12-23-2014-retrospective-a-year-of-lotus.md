@@ -4,7 +4,8 @@ thumbnail: /thumbnails/2014-retrospective-a-year-of-lotus.jpg
 date: 2014-12-23
 description: |
   This has been a great year for Lotus: it went from a tiny side project to one of the most appreciated and promising web frameworks for Ruby. Today we release a new version which brings new features, code generators and the first supported architecture named container.
-tags: software
+tags:
+  - software
 title: '2014 Retrospective: A Year Of Lotus'
 ---
 

@@ -5,7 +5,8 @@ date: 2011-02-13
 excerpt: In the past months our geolocation service has been changed from a somewhat
   flaky IP lookup to the new HTML5 W3C draft. Our users noticed the difference and
   they are happier of the new level of precision.
-tags: programming
+tags:
+  - programming
 title: HTML5 Geolocation Testing with Cucumber
 ---
 

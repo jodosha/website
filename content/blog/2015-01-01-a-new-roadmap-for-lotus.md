@@ -4,7 +4,8 @@ thumbnail: /thumbnails/a-new-roadmap-for-lotus.jpg
 date: 2015-01-01
 description: |
   Learn from past mistakes, clarify goals, communicate intent, Core Team and priorities such as stability and security. This is the new Lotus roadmap.
-tags: software
+tags:
+  - software
 title: A New Roadmap For Lotus
 alises:
   - /2015/01/01/a-new-roadmap-for-lotus/

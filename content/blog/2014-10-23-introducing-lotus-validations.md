@@ -4,7 +4,8 @@ thumbnail: /thumbnails/introducing-lotus-validations.jpg
 date: 2014-10-23
 description: |
   Data validation is an important piece in software architecture. Adding this responsibility to models increase the cost of maintenance. Lotus offers a different and powerful approach to the problem.
-tags: software
+tags:
+  - software
 title: Introducing Lotus::Validations
 ---
 

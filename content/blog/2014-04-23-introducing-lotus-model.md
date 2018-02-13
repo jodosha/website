@@ -6,7 +6,8 @@ description: |
   Almost all the Ruby frameworks for the Model layer mix up business logic with database details. This kind of architecture leads to god classes, slow build times and to a general poor design.
   What if we assign these roles to smaller components that are able to collaborate together? Imagine how life changing would be to work just with object, without worrying how to persist them. How easy and fast would be testing them? How small and well defined would be your objects?
   Let me introduce Lotus::Model.
-tags: software
+tags:
+  - software
 title: Introducing Lotus::Model
 ---
 

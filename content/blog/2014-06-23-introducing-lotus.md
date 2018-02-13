@@ -4,7 +4,8 @@ thumbnail: /thumbnails/introducing-lotus.jpg
 date: 2014-06-23
 description: |
   Lotus is a complete web framework for Ruby with a strong emphasis on object oriented design and testability. If you use it, you employ less DSLs and more objects, zero monkey-patching, separation of concerns between MVC layers. Each library is designed to be small, fast and testable.
-tags: software
+tags:
+  - software
 title: Introducing Lotus
 ---
 

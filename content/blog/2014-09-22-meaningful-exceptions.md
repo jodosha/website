@@ -6,7 +6,8 @@ description: |
   Writing detailed documentation helps to improve software design.
   Explaining the intent mitigates inconsistencies and helps other people to understand our initial idea.
   We'll discover why the semantic of the raised exceptions is important to write solid API interfaces.
-tags: software
+tags:
+  - software
 title: Meaningful Exceptions
 aliases:
   - /2014/09/22/meaningful-exceptions/

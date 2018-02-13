@@ -4,7 +4,8 @@ thumbnail: /thumbnails/introducing-lotus-controller.jpg
 date: 2014-02-23
 description: |
   Lotus development is going well. This month, I’m proud to announce Lotus::Controller. It’s a small, powerful and fast Rack framework.
-tags: lotus
+tags:
+  - lotus
 title: Introducing Lotus::Controller
 ---
 

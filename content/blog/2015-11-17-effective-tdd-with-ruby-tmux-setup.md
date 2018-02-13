@@ -4,7 +4,8 @@ thumbnail: /thumbnails/effective-tdd-with-ruby-tmux-setup.jpg
 date: 2015-11-17
 description: |
   Do you find TDD good in theory but hard to practice? Do you think it requires too much discipline and you don’t have time? You can improve a lot, by borrowing well tested tricks from me. They are simple, effective and easy to learn.
-tags: programming
+tags:
+  - programming
 title: 'Effective TDD With Ruby: Tmux Setup'
 ---
 

@@ -6,7 +6,8 @@ excerpt: When I joined the IFAD team last September, I had big problems to deal 
   all this amount of informations and to clone projects from GitHub then make them
   running on my dev machine. The most common issue is the missing and/or outdated
   documentation.
-tags: programming
+tags:
+  - programming
 title: Lean Rails App Setup
 ---
 

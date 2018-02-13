@@ -5,7 +5,8 @@ date: 2014-03-23
 description: |
   The missing part of all the Ruby web frameworks is the distinction between views and templates. Keeping things separated, helps to declutter templates and models from presentation logic. Also, since views are objects they are easily testable. If you ever used Mustache, you are already aware of the advantages.
   Lotus::View is based on these simple concepts.
-tags: programming
+tags:
+  - programming
 title: Introducing Lotus::View
 ---
 

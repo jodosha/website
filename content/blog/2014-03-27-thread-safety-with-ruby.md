@@ -5,7 +5,8 @@ date: 2014-03-27
 description: |
   Moore's law is over. Modern computation is exploited by running processes on multiple cores. Ruby has always ignored this trend, and the community didn't put enough attention on this topic.
   The VM allocates a memory heap, which is shared and writable by threads. If incorrectly coordinated, those threads can lead to unexpected behaviors.
-tags: software
+tags:
+  - software
 title: Thread Safety With Ruby
 categories:
   - featured

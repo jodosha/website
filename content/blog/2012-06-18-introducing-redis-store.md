@@ -6,7 +6,8 @@ descirption: Redis Store aims to be a toolkit for your Ruby applications, it nat
   supports sharding, master/slave replication, marshalling, timeouts and namespaces.
   Plus, it's really easy to use with the most popular frameworks, such as Ruby on
   Rails.
-tags: programming
+tags:
+  - programming
 title: Introducing Redis Store
 ---
 

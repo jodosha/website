@@ -4,7 +4,8 @@ thumbnail: /thumbnails/announcing-lotus.jpg
 date: 2014-01-01
 description: |
   Lotus is a full stack web framework for Ruby, built with lightness, performances and testability in mind. It aims to bring back Object Oriented Programming to web development, leveraging on stable APIs, a minimal DSL, and plain objects.
-tags: lotus
+tags:
+  - lotus
 title: Announcing Lotus
 ---
 

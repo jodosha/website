@@ -4,7 +4,8 @@ thumbnail: /thumbnails/on-happiness.jpg
 date: 2013-12-17
 description: The end of the year is the perfect circumstance to look back and spend some
   time thinking about life, achievements and all the preeminent aspects of life.
-tags: life
+tags:
+  - life
 title: On Happiness
 ---
 
