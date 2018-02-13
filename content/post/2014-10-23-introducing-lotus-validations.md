@@ -1,5 +1,5 @@
 ---
-cover: /covers/introducing-lotus-validations.jpg
+image: /covers/introducing-lotus-validations.jpg
 thumbnail: /thumbnails/introducing-lotus-validations.jpg
 date: 2014-10-23
 description: |

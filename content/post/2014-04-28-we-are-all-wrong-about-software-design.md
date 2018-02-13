@@ -1,5 +1,5 @@
 ---
-cover: /covers/we-are-all-wrong-about-software-design.jpg
+image: /covers/we-are-all-wrong-about-software-design.jpg
 thumbnail: /thumbnails/we-are-all-wrong-about-software-design.jpg
 date: 2014-04-28
 description: |

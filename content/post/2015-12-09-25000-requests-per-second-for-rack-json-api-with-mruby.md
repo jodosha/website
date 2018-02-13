@@ -1,5 +1,5 @@
 ---
-cover: /covers/25000-requests-per-second-for-rack-json-api-with-mruby.jpg
+image: /covers/25000-requests-per-second-for-rack-json-api-with-mruby.jpg
 thumbnail: /thumbnails/25000-requests-per-second-for-rack-json-api-with-mruby.jpg
 date: 2015-12-09
 description: |

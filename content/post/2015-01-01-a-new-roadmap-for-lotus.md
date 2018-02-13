@@ -1,5 +1,5 @@
 ---
-cover: /covers/a-new-roadmap-for-lotus.jpg
+image: /covers/a-new-roadmap-for-lotus.jpg
 thumbnail: /thumbnails/a-new-roadmap-for-lotus.jpg
 date: 2015-01-01
 description: |

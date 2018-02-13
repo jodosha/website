@@ -1,5 +1,5 @@
 ---
-cover: /covers/json-api-apps-with-lotus.jpg
+image: /covers/json-api-apps-with-lotus.jpg
 thumbnail: /thumbnails/json-api-apps-with-lotus.jpg
 date: 2015-11-24
 description: |

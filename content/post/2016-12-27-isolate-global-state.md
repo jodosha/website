@@ -1,5 +1,5 @@
 ---
-cover: /covers/isolate-global-state.jpg
+image: /covers/isolate-global-state.jpg
 thumbnail: /thumbnails/isolate-global-state.jpg
 date: 2016-12-27
 description: |

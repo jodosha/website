@@ -1,5 +1,5 @@
 ---
-cover: /covers/introducing-lotus-model.jpg
+image: /covers/introducing-lotus-model.jpg
 thumbnail: /thumbnails/introducing-lotus-model.jpg
 date: 2014-04-23
 description: |

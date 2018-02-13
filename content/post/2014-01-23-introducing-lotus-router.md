@@ -1,5 +1,5 @@
 ---
-cover: /covers/introducing-lotus-router.jpg
+image: /covers/introducing-lotus-router.jpg
 thumbnail: /thumbnails/introducing-lotus-router.jpg
 date: 2014-01-23
 description: |

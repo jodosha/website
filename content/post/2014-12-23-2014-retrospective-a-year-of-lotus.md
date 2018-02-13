@@ -1,5 +1,5 @@
 ---
-cover: /covers/2014-retrospective-a-year-of-lotus.jpg
+image: /covers/2014-retrospective-a-year-of-lotus.jpg
 thumbnail: /thumbnails/2014-retrospective-a-year-of-lotus.jpg
 date: 2014-12-23
 description: |

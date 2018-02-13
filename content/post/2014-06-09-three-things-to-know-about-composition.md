@@ -1,5 +1,5 @@
 ---
-cover: /covers/three-things-to-know-about-composition.jpg
+image: /covers/three-things-to-know-about-composition.jpg
 thumbnail: /thumbnails/three-things-to-know-about-composition.jpg
 date: 2014-06-09
 description: |

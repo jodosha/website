@@ -1,5 +1,5 @@
 ---
-cover: /covers/introducing-redis-store.jpg
+image: /covers/introducing-redis-store.jpg
 thumbnail: /thumbnails/introducing-redis-store.jpg
 date: 2012-06-18
 descirption: Redis Store aims to be a toolkit for your Ruby applications, it natively

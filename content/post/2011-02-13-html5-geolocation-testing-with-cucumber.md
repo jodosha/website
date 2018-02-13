@@ -1,5 +1,5 @@
 ---
-cover: /covers/html5-geolocation-testing-with-cucumber.jpg
+image: /covers/html5-geolocation-testing-with-cucumber.jpg
 thumbnail: /thumbnails/html5-geolocation-testing-with-cucumber.jpg
 date: 2011-02-13
 excerpt: In the past months our geolocation service has been changed from a somewhat

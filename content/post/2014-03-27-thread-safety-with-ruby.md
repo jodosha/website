@@ -1,5 +1,5 @@
 ---
-cover: /covers/thread-safety-with-ruby.jpg
+image: /covers/thread-safety-with-ruby.jpg
 thumbnail: /thumbnails/thread-safety-with-ruby.jpg
 date: 2014-03-27
 description: |

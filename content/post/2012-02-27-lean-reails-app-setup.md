@@ -1,5 +1,5 @@
 ---
-cover: /covers/lean-rails-app-setup.jpg
+image: /covers/lean-rails-app-setup.jpg
 thumbnail: /thumbnails/lean-rails-app-setup.jpg
 date: 2012-02-27
 excerpt: When I joined the IFAD team last September, I had big problems to deal with

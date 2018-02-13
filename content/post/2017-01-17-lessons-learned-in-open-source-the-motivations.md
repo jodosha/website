@@ -1,6 +1,6 @@
 ---
 title: "Lessons Learned In Open Source: The Motivations"
-cover: /covers/lessons-learned-in-open-source-the-motivations.jpg
+image: /covers/lessons-learned-in-open-source-the-motivations.jpg
 thumbnail: /thumbnails/lessons-learned-in-open-source-the-motivations.jpg
 date: 2017-01-17
 description: |

@@ -1,5 +1,5 @@
 ---
-cover: /covers/redis-scripting-with-mruby-pt1.jpg
+image: /covers/redis-scripting-with-mruby-pt1.jpg
 thumbnail: /thumbnails/redis-scripting-with-mruby-pt1.jpg
 date: 2014-02-26
 description: |

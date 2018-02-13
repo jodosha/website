@@ -1,5 +1,5 @@
 ---
-cover: /covers/effective-remote-working.jpg
+image: /covers/effective-remote-working.jpg
 thumbnail: /thumbnails/effective-remote-working.jpg
 date: 2015-10-13
 description: |

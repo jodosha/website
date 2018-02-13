@@ -1,5 +1,5 @@
 ---
-cover: /covers/rails-is-not-dead.jpg
+image: /covers/rails-is-not-dead.jpg
 thumbnail: /thumbnails/rails-is-not-dead.jpg
 date: 2014-05-19
 description: |

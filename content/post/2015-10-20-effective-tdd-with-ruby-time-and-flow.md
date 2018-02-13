@@ -1,5 +1,5 @@
 ---
-cover: /covers/effective-tdd-with-ruby-time-and-flow.jpg
+image: /covers/effective-tdd-with-ruby-time-and-flow.jpg
 thumbnail: /thumbnails/effective-tdd-with-ruby-time-and-flow.jpg
 date: 2015-10-20
 description: |

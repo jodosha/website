@@ -1,6 +1,6 @@
 ---
 title: "How To Test Ruby CLI: Code Generators"
-cover: /covers/how-to-test-ruby-cli-code-generators.jpg
+image: /covers/how-to-test-ruby-cli-code-generators.jpg
 thumbnail: /thumbnails/how-to-test-ruby-cli-code-generators.jpg
 date: 2017-02-01
 description: |

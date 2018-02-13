@@ -1,5 +1,5 @@
 ---
-cover: /covers/lotus-and-microservices.jpg
+image: /covers/lotus-and-microservices.jpg
 thumbnail: /thumbnails/lotus-and-microservices.jpg
 date: 2015-05-05
 description: |

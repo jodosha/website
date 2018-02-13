@@ -1,6 +1,6 @@
 ---
 title: "How To Test Ruby CLI: The Setup"
-cover: /covers/how-to-test-ruby-cli-the-setup.jpg
+image: /covers/how-to-test-ruby-cli-the-setup.jpg
 thumbnail: /thumbnails/how-to-test-ruby-cli-the-setup.jpg
 date: 2017-01-20
 description: |

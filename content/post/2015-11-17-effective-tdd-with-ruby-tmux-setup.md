@@ -1,5 +1,5 @@
 ---
-cover: /covers/effective-tdd-with-ruby-tmux-setup.jpg
+image: /covers/effective-tdd-with-ruby-tmux-setup.jpg
 thumbnail: /thumbnails/effective-tdd-with-ruby-tmux-setup.jpg
 date: 2015-11-17
 description: |

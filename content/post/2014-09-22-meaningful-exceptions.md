@@ -1,5 +1,5 @@
 ---
-cover: /covers/meaningful-exceptions.jpg
+image: /covers/meaningful-exceptions.jpg
 thumbnail: /thumbnails/meaningful-exceptions.jpg
 date: 2014-09-22
 description: |

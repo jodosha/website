@@ -1,6 +1,6 @@
 ---
 title: "How To Test Ruby CLI: Console"
-cover: /covers/how-to-test-ruby-cli-console.jpg
+image: /covers/how-to-test-ruby-cli-console.jpg
 thumbnail: /thumbnails/how-to-test-ruby-cli-console.jpg
 date: 2017-02-08
 description: |

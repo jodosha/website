@@ -1,5 +1,5 @@
 ---
-cover: /covers/building-sinatra-with-lotus.jpg
+image: /covers/building-sinatra-with-lotus.jpg
 thumbnail: /thumbnails/building-sinatra-with-lotus.jpg
 date: 2014-01-28
 description: |

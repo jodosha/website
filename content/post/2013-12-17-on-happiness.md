@@ -1,5 +1,5 @@
 ---
-cover: /covers/on-happiness.jpg
+image: /covers/on-happiness.jpg
 thumbnail: /thumbnails/on-happiness.jpg
 date: 2013-12-17
 description: The end of the year is the perfect circumstance to look back and spend some

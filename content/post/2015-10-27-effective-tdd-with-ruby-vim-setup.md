@@ -1,5 +1,5 @@
 ---
-cover: /covers/effective-tdd-with-ruby-vim-setup.jpg
+image: /covers/effective-tdd-with-ruby-vim-setup.jpg
 thumbnail: /thumbnails/effective-tdd-with-ruby-vim-setup.jpg
 date: 2015-10-27
 description: |

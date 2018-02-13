@@ -1,5 +1,5 @@
 ---
-cover: /covers/the-penguin-that-cannot-fly.jpg
+image: /covers/the-penguin-that-cannot-fly.jpg
 thumbnail: /thumbnails/the-penguin-that-cannot-fly.jpg
 date: 2016-06-07
 description: |

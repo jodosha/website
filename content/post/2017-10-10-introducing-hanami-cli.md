@@ -1,6 +1,6 @@
 ---
 title: "Introducing hanami-cli"
-cover: /covers/introducing-hanami-cli.jpg
+image: /covers/introducing-hanami-cli.jpg
 thumbnail: /thumbnails/introducing-hanami-cli.jpg
 date: 2017-10-10
 description: |

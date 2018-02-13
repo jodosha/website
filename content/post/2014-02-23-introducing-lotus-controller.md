@@ -1,5 +1,5 @@
 ---
-cover: /covers/introducing-lotus-controller.jpg
+image: /covers/introducing-lotus-controller.jpg
 thumbnail: /thumbnails/introducing-lotus-controller.jpg
 date: 2014-02-23
 description: |
