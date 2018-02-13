@@ -49,14 +49,14 @@ Let's build a small CLI utility to convert money from one currency to another.
 
 As first thing we generate a new gem via [Bundler](http://bundler.io/):
 
-```shell
+```bash
 $ gem install bundler
 $ bundler gem curex
 ```
 
 Then we create the executable for our gem:
 
-```shell
+```bash
 $ mkdir exe
 $ vim exe/curex
 ```
@@ -73,19 +73,19 @@ Curex::CLI.new.call
 
 Don't forget to give it the right permissions:
 
-```shell
+```bash
 $ chmod +x exe/curex
 ```
 
 Now we need to setup the `curex.gemspec` file. The fastest way is:
 
-```shell
+```bash
 $ curl https://raw.githubusercontent.com/jodosha/curex/master/curex.gemspec > curex.gemspec
 ```
 
 At this point we can try to run the executable:
 
-```shell
+```bash
 $ ./exe/curex
 ./exe/curex:5:in `<main>': uninitialized constant Curex::CLI (NameError)
 ```
@@ -105,7 +105,7 @@ end
 
 By running the code now, it doesn't raise an exception anymore:
 
-```shell
+```bash
 $ ./exe/curex
 
 ```
@@ -140,7 +140,7 @@ end
 
 We can try it again:
 
-```shell
+```bash
 $ ./exe/curex
 Commands:
   curex convert
@@ -148,7 +148,7 @@ Commands:
 
 This output indicates the available (sub)commands, in our case we have only `convert`:
 
-```shell
+```bash
 $ ./exe/curex convert
 converting..
 ```
@@ -196,7 +196,7 @@ end
 
 Let's try it again:
 
-```shell
+```bash
 $ ./exe/curex convert
 ERROR: "curex convert" was called with no arguments
 Usage: "curex convert AMOUNT FROM TO"
@@ -204,7 +204,7 @@ Usage: "curex convert AMOUNT FROM TO"
 
 It now tells us which args are required to run the subcommand:
 
-```shell
+```bash
 $ ./exe/curex convert 100 USD EUR
 100 USD == 84,76 EUR
 ```

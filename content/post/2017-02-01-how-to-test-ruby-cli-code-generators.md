@@ -20,7 +20,7 @@ One of the most **interesting challenges** I met during [Hanami](http://hanamirb
 
 Code generators is a helpful feature that allows to generate code files. The main purpose is to speedup the development process. Hanami has [code generators](http://hanamirb.org/guides/command-line/generators) for projects, apps, actions, models, and migrations. Here's an example:
 
-```shell
+```bash
 ➜ hanami generate model book
       create  lib/bookshelf/entities/book.rb
       create  lib/bookshelf/repositories/book_repository.rb
