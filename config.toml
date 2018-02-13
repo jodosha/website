@@ -49,6 +49,7 @@ weight = -120
   cover = "images/cover.jpg"
   githubName = "jodosha"
   googleAnalyticsUserID = "UA-235843-4"
+  RSSLink = "http://feeds.feedburner.com/LucaGuidi"
   hideHUGOSupport = false
   logo = "assets/img/logo-default.png"
   twitterName = "jodosha"
