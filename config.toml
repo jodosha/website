@@ -51,7 +51,7 @@ weight = -120
   googleAnalyticsUserID = "UA-235843-4"
   RSSLink = "http://feeds.feedburner.com/LucaGuidi"
   hideHUGOSupport = false
-  logo = "assets/img/logo-default.png"
+  logo = "images/logo.png"
   twitterName = "jodosha"
   hjsStyle="ocean"
 
