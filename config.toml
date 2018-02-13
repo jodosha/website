@@ -1,48 +1,62 @@
-baseurl             = "https://lucaguidi.com/"
-builddrafts         = false
-canonifyurls        = true
-contentdir          = "content"
-languageCode        = "en-US"
-layoutdir           = "layouts"
-publishdir          = "public"
-#staticdir           = "assets"
-author              = "Luca Guidi"
-title               = "Luca Guidi"
-theme               = "jodosha"
-copyright           = "Copyright Luca Guidi"
-pygmentsuseclasses  = true
-pygmentscodefences  = true
-disqusshortname     = "lucaguidi" # Comment out to disable Disqus.
-#pluralizelisttitles = false
-#googleAnalytics     = "UA-123-45"
+baseurl = "https://lucaguidi.com/"
+copyright = "All rights reserved - 2018"
+disqusshortname = "lucaguidi"
+languagecode = "en-US"
+paginate = 5
+pluralizelisttitles = false
+theme = "hugo-theme-casper"
+title = "Luca Guidi"
+[[menu.main]]
+name = "Twitter"
+url = "https://twitter.com/jodosha"
+pre = "<h3>Follow me</h3>"
+weight = 200
+[[menu.main]]
+name = "Github"
+url = "https://github.com/jodosha"
+weight = 190
+[[menu.main]]
+name = "Keybase"
+url = "https://keybase.io/jodosha"
+weight = 180
+[[menu.main]]
+name = "Facebook"
+url = "https://www.facebook.com/Luca-Guidi-1603307663019001"
+weight = 170
+[[menu.main]]
+name = "Instagram"
+url = "https://www.instagram.com/jodosha/"
+weight = 160
+[[menu.main]]
+name = "Snapchat"
+url = "https://www.snapchat.com/add/jodosha23"
+weight = 150
+[[menu.main]]
+identifier = "blog"
+name = "Blog"
+url = "/"
+weight = -120
 
+[params]
+author = "Luca Guidi"
+authorlocation = "Rome, Italy"
+authorwebsite = "https://lucaguidi.com"
+description = "Family man, software engineer, Open Source indie developer, speaker."
+authorbio = "Family man, software engineer, Open Source indie developer, speaker."
+cover = "images/cover.jpg"
+githubName = "jodosha"
+googleAnalyticsUserID = "UA-235843-4"
+hideHUGOSupport = false
+logo = "assets/img/logo-default.png"
+twitterName = "jodosha"
 [permalinks]
 fixed = ":title/"
 blog = "/:year/:month/:day/:slug"
-
 [taxonomies]
 tag = "tags"
 category = "categories"
 series = "series"
-
-[params]
-author       = "Luca Guidi"
-cachebuster  = true # add the current unix timestamp in query string for cache busting css assets
-dateform     = "Jan 2, 2006"
-dateformfull = "Mon Jan 2 2006 15:04:05 MST"
-description  = "Don't panic"
-email        = "me@lucaguidi.com"
-faviconfile  = "img/leaf.ico"
-fbappid      = "1879847808918360"
-fbpageid     = "1603307663019001"
-fbpagename   = "Luca-Guidi-1603307663019001"
-highlightjs  = true
-lang         = "en"
-twitter      = "jodosha"
-snapchat     = "jodosha23"
-instagram    = "jodosha"
-github       = "jodosha"
-feedburner   = "LucaGuidi"
-lead         = "Luca Guidi – Family man, software engineer, Open Source indie developer, speaker"
-gravatar     = "https://s.gravatar.com/avatar/76aa5b311fb40fdc2bb70c0282d66af3"
-keywords     = "luca,guidi,luca guidi,engineer,software engineer,programmer,developer,speaker,open source,ruby,hanami,hanamirb,web,web framework,web development,rome,italy,javascript,go,golang,redis,oop,tdd,bdd,security,unix,lotus,lotusrb"
+[sitemap]
+ChangeFreq = ""
+Filename = "sitemap.xml"
+Priority = "-1"
