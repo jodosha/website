@@ -4,8 +4,11 @@ disqusshortname = "lucaguidi"
 languagecode = "en-US"
 paginate = 5
 pluralizelisttitles = false
-theme = "hugo-theme-casper"
+theme = "casper"
 title = "Luca Guidi"
+pygmentsuseclasses  = true
+pygmentscodefences  = true
+
 [[menu.main]]
 name = "Twitter"
 url = "https://twitter.com/jodosha"
@@ -38,25 +41,29 @@ url = "/"
 weight = -120
 
 [params]
-author = "Luca Guidi"
-authorlocation = "Rome, Italy"
-authorwebsite = "https://lucaguidi.com"
-description = "Family man, software engineer, Open Source indie developer, speaker."
-authorbio = "Family man, software engineer, Open Source indie developer, speaker."
-cover = "images/cover.jpg"
-githubName = "jodosha"
-googleAnalyticsUserID = "UA-235843-4"
-hideHUGOSupport = false
-logo = "assets/img/logo-default.png"
-twitterName = "jodosha"
+  author = "Luca Guidi"
+  authorlocation = "Rome, Italy"
+  authorwebsite = "https://lucaguidi.com"
+  description = "Family man, software engineer, Open Source indie developer, speaker."
+  authorbio = "Family man, software engineer, Open Source indie developer, speaker."
+  cover = "images/cover.jpg"
+  githubName = "jodosha"
+  googleAnalyticsUserID = "UA-235843-4"
+  hideHUGOSupport = false
+  logo = "assets/img/logo-default.png"
+  twitterName = "jodosha"
+  hjsStyle="ocean"
+
 [permalinks]
-fixed = ":title/"
-post = "/:year/:month/:day/:slug"
+  fixed = ":title/"
+  post = "/:year/:month/:day/:slug"
+
 [taxonomies]
-tag = "tags"
-category = "categories"
-series = "series"
+  tag = "tags"
+  category = "categories"
+  series = "series"
+
 [sitemap]
-ChangeFreq = ""
-Filename = "sitemap.xml"
-Priority = "-1"
+  ChangeFreq = ""
+  Filename = "sitemap.xml"
+  Priority = "-1"
