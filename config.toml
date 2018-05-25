@@ -38,7 +38,12 @@ weight = 150
 identifier = "blog"
 name = "Blog"
 url = "/"
-weight = -120
+weight = 120
+[[menu.main]]
+name = "Privacy Policy"
+url = "/privacy.html"
+pre = "<h3>Misc</h3>"
+weight = 110
 
 [params]
   author = "Luca Guidi"
