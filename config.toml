@@ -1,5 +1,5 @@
 baseurl = "https://lucaguidi.com/"
-copyright = "All rights reserved - 2018"
+copyright = "All rights reserved - 2020"
 disqusshortname = "lucaguidi"
 languagecode = "en-US"
 paginate = 5
@@ -8,6 +8,7 @@ theme = "casper"
 title = "Luca Guidi"
 pygmentsuseclasses  = true
 pygmentscodefences  = true
+enableGitInfo = true
 
 [[menu.main]]
 name = "Twitter"
@@ -40,10 +41,14 @@ name = "Blog"
 url = "/"
 weight = 120
 [[menu.main]]
-name = "Privacy Policy"
-url = "/privacy.html"
+name = "Now"
+url = "/now"
 pre = "<h3>Misc</h3>"
 weight = 110
+[[menu.main]]
+name = "Privacy Policy"
+url = "/privacy.html"
+weight = 100
 
 [params]
   mainSections = ["post"]
