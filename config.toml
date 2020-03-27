@@ -46,6 +46,7 @@ pre = "<h3>Misc</h3>"
 weight = 110
 
 [params]
+  mainSections = ["post"]
   author = "Luca Guidi"
   authorlocation = "Rome, Italy"
   authorwebsite = "https://lucaguidi.com"

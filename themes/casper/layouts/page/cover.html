@@ -79,15 +79,15 @@
 {{if or ($currentNode.IsMenuCurrent "main" .) ($currentNode.HasMenuCurrent "main" .)}}
       {{ range .Children }}
       <ul>
-      <li><a href="{{.URL}}">{{.Name}}</a>
+      <li><a href="{{.Permalink}}">{{.Name}}</a>
       {{ if .HasChildren }}
         <ul>
         {{ range .Children }}
-          <li><a href="{{.URL}}">{{.Name}}</a>
+          <li><a href="{{.Permalink}}">{{.Name}}</a>
           {{ if .HasChildren }}
             <ul>
             {{ range .Children }}
-            <li><a href="{{.URL}}">{{ .Name }}</a></li>
+            <li><a href="{{.Permalink}}">{{ .Name }}</a></li>
             {{ end }}
             </ul>
           {{ end }}
