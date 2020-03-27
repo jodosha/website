@@ -86,6 +86,11 @@
           <time class="post-date" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
             {{ .Date.Format "Jan 2, 2006" }}
           </time>
+        {{else}}
+          Updated on
+          <time class="post-date" datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
+            {{ .Lastmod.Format "Jan 2, 2006" }}
+          </time>
         {{end}}
          {{ range .Params.tags }}
           <span class="post-tag small"><a href="{{$.Site.BaseURL}}/tags/{{ . | urlize }}/">#{{ . }}</a></span>
@@ -164,7 +169,9 @@
 
     {{ partial "share.html" . }}
 
-    {{ partial "disqus.html" . }}
+    {{ if eq .Section "post"}}
+      {{ partial "disqus.html" . }}
+    {{ end }}
 
   </footer>
 </article>

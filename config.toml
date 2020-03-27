@@ -8,6 +8,7 @@ theme = "casper"
 title = "Luca Guidi"
 pygmentsuseclasses  = true
 pygmentscodefences  = true
+enableGitInfo = true
 
 [[menu.main]]
 name = "Twitter"
