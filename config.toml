@@ -46,9 +46,13 @@ url = "/now"
 pre = "<h3>Misc</h3>"
 weight = 110
 [[menu.main]]
+name = "Sponsors"
+url = "/sponsors"
+weight = 100
+[[menu.main]]
 name = "Privacy Policy"
 url = "/privacy.html"
-weight = 100
+weight = 90
 
 [params]
   mainSections = ["post"]
