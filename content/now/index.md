@@ -7,30 +7,27 @@ description: |
   My focus right now ● Inspired by https://sivers.org/now
 ---
 
-### Lockdown
-
-Due to the COVID-19 outbreak, which is serious in Italy, I'm in lockdown for the third week in a row.
-My family, friends, relatives & I are doing well. I'm really greateful for that.
-
-If you want me to do **remote presentations / Q&A** about Ruby, [Hanami](https://hanamirb.org), remote work, software, DM me on [Twitter](https://twitter.com/jodosha).
-
 ### Job
 
-I'm working at [Toptal](https://toptal.com) as Back-end Architect to envision a SOA architecture for the company.
+I'm working at [Toptal](https://toptal.com) as Backend Architect. With my team, we envision and execute the SOA architecture of the company.
 
-Currently, I'm overviewing initiatives that involve [Apache Kafka](https://kafka.apache.org/) and advanced usage of [GraphQL](https://graphql.org/) with a [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction/).
+Currently, I'm overviewing initiatives that involve large SOA service extraction from a Ruby on Rails monolith, company public pages, and advanced usage of [GraphQL](https://graphql.org/) with a [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction/).
 
 ### Open Source
 
-I'm working on **Hanami 2.0** and the new **Hanami::API**.
+**Hanami 2.0** looks great, we count to release a new alpha during Q1 2021.
 
-The Hanami, [ROM](https://rom-rb.org/), and [dry-rb](https://dry-rb.org/) teams joined the efforts to deliver **together** Hanami 2.0.
+**Hanami 1.0** reached to its technological end, as we're locked to old dependencies that prevent us to support Ruby 3 on Hanami 1.0.
+
+**dry-rb** `dry-cli` and `dry-inflector` gems are pretty stable. No groundbreaking changes there.
 
 ### Personal
 
-I'm metidating again (using [Calm](https://www.calm.com/) app).
+Medidation and Personal OKR experiments didn't work.
 
-Wrapping up the first quarter using [OKRs](https://en.wikipedia.org/wiki/OKR) to track both professional and personal goals.
-The outcome are decent. From other people's experience, it will take a few quarters to adapt to the system.
+I've got a really small annual agenda where I wrote on broad personal and professional goals for 2021.
+From there I go to monthly goals and then weekly ones.
+Each day I jot down a few notes regarding the day.
 
-I'm learning how to techno music.
+I'm learning how to ~~techno~~ electronic music.
+The learning process is made of discovery, limiting to a single genre doesn't allow a 360 growth.

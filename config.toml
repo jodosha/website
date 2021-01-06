@@ -1,5 +1,5 @@
 baseurl = "https://lucaguidi.com/"
-copyright = "All rights reserved - 2020"
+copyright = "All rights reserved - 2021"
 disqusshortname = "lucaguidi"
 languagecode = "en-US"
 paginate = 5
@@ -59,8 +59,8 @@ weight = 90
   author = "Luca Guidi"
   authorlocation = "Rome, Italy"
   authorwebsite = "https://lucaguidi.com"
-  description = "Family man, software engineer, Open Source indie developer, speaker."
-  authorbio = "Family man, software engineer, Open Source indie developer, speaker."
+  description = "Family man, software architect, Open Source indie developer, speaker."
+  authorbio = "Family man, software architect, Open Source indie developer, speaker."
   cover = "images/cover.jpg"
   githubName = "jodosha"
   googleAnalyticsUserID = "UA-235843-4"
