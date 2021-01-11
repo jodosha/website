@@ -21,9 +21,3 @@ I'm currently working on [Hanami 2](https://github.com/hanami/hanami/issues/1067
 ### Sponsorship
 
 **If you want to support my initiatives, please consider to sponsor me via: [GitHub Sponsors](https://github.com/sponsors/jodosha).**
-
-### Sponsors
-
-Here's the list of people that sponsor my activities:
-
-  * [Benjamin Klotz](https://github.com/tak1n)

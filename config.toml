@@ -32,9 +32,13 @@ name = "Instagram"
 url = "https://www.instagram.com/jodosha/"
 weight = 160
 [[menu.main]]
-name = "Snapchat"
-url = "https://www.snapchat.com/add/jodosha23"
+name = "YouTube (code)"
+url = "https://www.youtube.com/channel/UCAprzjCQpYdzyN9Bv-Iq1sA"
 weight = 150
+[[menu.main]]
+name = "YouTube (music)"
+url = "https://www.youtube.com/c/jodosha"
+weight = 140
 [[menu.main]]
 identifier = "blog"
 name = "Blog"
