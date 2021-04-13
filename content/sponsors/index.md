@@ -18,6 +18,10 @@ I'm in the [dry-rb](https://github.com/dry-rb) core team as well.
 
 I'm currently working on [Hanami 2](https://github.com/hanami/hanami/issues/1067) and [Hanami::API 1](https://github.com/hanami/api). 🌸
 
+### Sponsors
+
+[![LegalForce](/images/sponsors/legalforce.png)](https://www.legalforce.co.jp/)
+
 ### Sponsorship
 
 **If you want to support my initiatives, please consider to sponsor me via: [GitHub Sponsors](https://github.com/sponsors/jodosha).**
