@@ -21,7 +21,7 @@ I'm currently working on [Hanami 2](https://github.com/hanami/hanami/issues/1067
 ### Sponsors
 
 [![LegalForce](/images/sponsors/legalforce.png)](https://www.legalforce.co.jp/)
-
+[![Hanami Mastery](/images/sponsors/hanamimastery.jpeg)](https://hanamimastery.com/)
 ### Sponsorship
 
 **If you want to support my initiatives, please consider to sponsor me via: [GitHub Sponsors](https://github.com/sponsors/jodosha).**
