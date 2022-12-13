@@ -24,7 +24,7 @@ As a software architect who has worked in Agile environments for several years, 
 
 However, there is also value in challenging this principle and considering the potential drawbacks of prioritizing people over processes in certain situations.
 
-One of the main arguments for prioritizing people over processes is that it allows for more flexibility and adaptability in the development process. By focusing on team members' individual talents and skills, Agile teams can respond quickly to changes and challenges as they arise. This approach can be especially beneficial in fast-paced industries where the market and technology constantly evolve.
+One of the main arguments for prioritizing people over processes is that it allows for more flexibility and adaptability in the development cycle. By focusing on team members' talents and skills, Agile teams can respond quickly to changes and challenges as they arise. This approach can be especially beneficial in fast-paced industries where the market and technology constantly evolve.
 
 Prioritizing people over processes can also have its drawbacks. 
 
