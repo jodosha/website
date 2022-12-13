@@ -40,6 +40,12 @@
     <meta name="description" content="{{ .Site.Params.metadescription | default .Site.Params.description }}" />
     {{ end }}
 
+    {{ if .IsPage }}
+      {{ if .Params.keywords }}
+    <meta name="keywords" content="{{ delimit .Params.keywords ", " }}" />
+      {{ end }}
+    {{ end }}
+
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
