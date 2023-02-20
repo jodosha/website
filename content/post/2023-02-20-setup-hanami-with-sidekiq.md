@@ -228,3 +228,7 @@ Go to the browser, and you should see the performed jobs.
 ## Conclusion
 
 We set up Hanami with Sidekiq in few simple steps.
+
+## Update
+
+If you want to learn this topic from a different angle, check this [Hanami Mastery episode](https://hanamimastery.com/episodes/27-integrate-sidekiq-with-hanami).
