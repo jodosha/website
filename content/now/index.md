@@ -23,7 +23,7 @@ Read more about it in my latest [Open Source update](/2021/04/12/open-source-upd
 
 ### Personal
 
-Medidating a few times per week.
+Meditating a few times per week.
 
 Studying stoicism.
 
