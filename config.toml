@@ -2,7 +2,8 @@ baseurl = "https://lucaguidi.com/"
 copyright = "All rights reserved - 2021"
 disqusshortname = "lucaguidi"
 languagecode = "en-US"
-paginate = 5
+[pagination]
+pagerSize = 5
 pluralizelisttitles = false
 theme = "casper"
 title = "Luca Guidi"
