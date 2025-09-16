@@ -2,7 +2,6 @@
 title: "Sponsors"
 image: /covers/sponsors.jpg
 thumbnail: /thumbnails/sponsors.jpg
-lastmod: [":git", "lastmod", "date", "publishDate"]
 description: |
   Luca Guidi Sponsors | Sponsor my Community work
 ---

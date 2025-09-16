@@ -2,7 +2,6 @@
 title: "Now"
 image: /covers/now.jpg
 thumbnail: /thumbnails/now.jpg
-lastmod: [":git", "lastmod", "date", "publishDate"]
 description: |
   My focus right now ● Inspired by https://sivers.org/now
 ---
