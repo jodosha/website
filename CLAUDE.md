@@ -31,11 +31,6 @@ nix develop -c hugo server -D        # Include drafts in development
 nix develop -c hugo                  # Build static site to public/ directory
 ```
 
-### Deployment
-```bash
-./bin/deploy          # Generate site and deploy to GitHub Pages
-```
-
 ## Architecture
 
 ### Content Structure
@@ -61,6 +56,5 @@ Blog posts use YAML frontmatter with these key fields:
 - `image` and `thumbnail` for cover images (stored in `/covers/` and `/thumbnails/`)
 
 ### Deployment
-- Deployment script (`bin/deploy`) builds site and force-pushes to `jodosha.github.io` repository
-- Uses Hugo's built-in minification and optimization
-- Site served via GitHub Pages at lucaguidi.com domain
+- Deploys via Netlify
+- Site at lucaguidi.com domain
