@@ -1,0 +1,23 @@
+{{ define "main" }}
+<article class="post">
+    <header class="post-header">
+        <h1 class="post-title">{{ .Title }}</h1>
+        {{ if .Date }}
+        <section class="post-meta">
+            <time class="post-date" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+                {{ .Date.Format "January 2, 2006" }}
+            </time>
+        </section>
+        {{ end }}
+    </header>
+
+    <section class="post-content">
+        {{ .Content }}
+    </section>
+
+    <footer class="post-footer">
+        {{ partial "share.html" . }}
+        {{ partial "author.html" . }}
+    </footer>
+</article>
+{{ end }}

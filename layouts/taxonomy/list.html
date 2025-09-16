@@ -1,0 +1,17 @@
+{{ define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.description }}
+    <p>{{ . }}</p>
+    {{ end }}
+</header>
+
+<main class="content">
+    {{ $paginator := .Paginate .Pages }}
+    {{ range $paginator.Pages }}
+        {{ partial "li.html" . }}
+    {{ end }}
+    
+    {{ partial "pagination.html" . }}
+</main>
+{{ end }}

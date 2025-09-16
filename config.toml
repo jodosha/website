@@ -84,6 +84,13 @@ weight = 90
   category = "categories"
   series = "series"
 
+# Remove outputs configuration to use theme defaults
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [sitemap]
   ChangeFreq = ""
   Filename = "sitemap.xml"
