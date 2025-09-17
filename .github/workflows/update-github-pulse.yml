@@ -1,0 +1,124 @@
+---
+name: Update GitHub Pulse
+
+'on':
+  schedule:
+    # Run daily at 6:00 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+  # Allow manual trigger via gh CLI
+
+jobs:
+  update-pulse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch GitHub contributions and update now.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get current date for the commit message and last_updated_at
+          CURRENT_DATE=$(date +%Y-%m-%d)
+
+          # Fetch last 5 public events for user jodosha
+          echo "Fetching GitHub events..."
+          EVENTS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/users/jodosha/events/public?per_page=100")
+
+          # Filter for PULL_REQUEST, RELEASE and direct PUSH events to
+          # main/master and get the last 5
+          echo "Processing events..."
+          node -e "
+          const events = JSON.parse(process.env.EVENTS || '[]');
+          const validEvents = events
+            .filter(event => {
+              if (event.type === 'PullRequestEvent' ||
+                  event.type === 'ReleaseEvent') {
+                return true;
+              }
+              // Include PushEvent only if it's to main or master branch
+              if (event.type === 'PushEvent') {
+                const ref = event.payload.ref;
+                return ref === 'refs/heads/main' ||
+                       ref === 'refs/heads/master';
+              }
+              return false;
+            })
+            .slice(0, 5)
+            .map(event => {
+              let eventType, title, url;
+
+              if (event.type === 'PullRequestEvent') {
+                eventType = 'PULL_REQUEST';
+                title = event.payload.pull_request.title;
+                url = event.payload.pull_request.html_url;
+              } else if (event.type === 'ReleaseEvent') {
+                eventType = 'RELEASE';
+                title = event.payload.release.name ||
+                        event.payload.release.tag_name;
+                url = event.payload.release.html_url;
+              } else if (event.type === 'PushEvent') {
+                eventType = 'COMMIT';
+                // Use the first commit message as title
+                const firstCommit = event.payload.commits[0];
+                title = firstCommit ?
+                        firstCommit.message.split('\n')[0] :
+                        'Direct commit';
+                // Create URL to the commit
+                url = \`https://github.com/\${event.repo.name}/commit/\` +
+                      \`\${firstCommit.sha}\`;
+              }
+
+              return {
+                event: eventType,
+                title: title,
+                repository: event.repo.name,
+                url: url,
+                created_at: event.created_at.split('T')[0]
+              };
+            });
+
+          // Read current now.json
+          const fs = require('fs');
+          const nowData = JSON.parse(fs.readFileSync('data/now.json', 'utf8'));
+
+          // Update pulse section and last_updated_at
+          nowData.pulse = validEvents;
+          nowData.last_updated_at = '$CURRENT_DATE';
+
+          // Write updated data back to file
+          fs.writeFileSync('data/now.json',
+                           JSON.stringify(nowData, null, 2) + '\n');
+
+          console.log('Updated pulse with', validEvents.length, 'events');
+          " EVENTS="$EVENTS" CURRENT_DATE="$CURRENT_DATE"
+
+      - name: Commit and push changes
+        run: |
+          CURRENT_DATE=$(date +%Y-%m-%d)
+
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if there are changes to commit
+          if git diff --quiet data/now.json; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Add and commit changes
+          git add data/now.json
+          git commit -m "Updated GitHub pulse ($CURRENT_DATE)"
+
+          # Push changes
+          git push

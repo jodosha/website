@@ -15,6 +15,7 @@
           buildInputs = with pkgs; [
             hugo
             dart-sass
+            yamllint
           ];
 
           # shellHook = ''

@@ -1,0 +1,162 @@
+---
+name: Update Social Pulse
+
+'on':
+  schedule:
+    - cron: '0 7 * * *'  # Daily at 7 AM UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-social-pulse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install axios
+
+      - name: Fetch social media posts
+        run: |
+          node << 'EOF'
+          const fs = require('fs');
+          const axios = require('axios');
+
+          async function fetchBlueSkyRSS() {
+            try {
+              console.log('📘 Fetching BlueSky posts...');
+              const response = await axios.get(
+                'https://bsky.app/profile/did:plc:vpqqjz6lgyfgek5fsjmo3b2i/rss',
+                {
+                  timeout: 10000,
+                  headers: {
+                    'User-Agent':
+                      'Mozilla/5.0 (compatible; social-pulse-bot/1.0)'
+                  }
+                }
+              );
+
+              const xml = response.data;
+
+              // Simple XML parsing for RSS items
+              const items = [];
+              const itemMatches = xml.match(/<item>(.*?)<\/item>/gs) || [];
+
+              for (const itemMatch of itemMatches.slice(0, 10)) {
+                const titleMatch = itemMatch.match(
+                  /<title><!\[CDATA\[(.*?)\]\]><\/title>/
+                );
+                const linkMatch = itemMatch.match(/<link>(.*?)<\/link>/);
+                const pubDateMatch = itemMatch.match(
+                  /<pubDate>(.*?)<\/pubDate>/
+                );
+                const descriptionMatch = itemMatch.match(
+                  /<description><!\[CDATA\[(.*?)\]\]><\/description>/
+                );
+
+                if (titleMatch && linkMatch && pubDateMatch) {
+                  const text = descriptionMatch ?
+                    descriptionMatch[1].replace(/<[^>]*>/g, '').trim() :
+                    titleMatch[1];
+                  const pubDate = new Date(pubDateMatch[1]);
+
+                  // Only include posts from the last 30 days
+                  const thirtyDaysAgo = new Date();
+                  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                  if (pubDate > thirtyDaysAgo && text.length > 20) {
+                    items.push({
+                      source: 'bluesky',
+                      url: linkMatch[1],
+                      text: text.substring(0, 280),
+                      created_at: pubDate.toISOString().split('T')[0]
+                    });
+                  }
+                }
+              }
+
+              console.log(`✅ Found ${items.length} BlueSky posts`);
+              return items;
+            } catch (error) {
+              console.log(`❌ BlueSky fetch failed: ${error.message}`);
+              return [];
+            }
+          }
+
+          async function updateSocialPulse() {
+            try {
+              // Fetch from BlueSky only
+              const blueSkyPosts = await fetchBlueSkyRSS();
+
+              if (blueSkyPosts.length === 0) {
+                console.log('❌ No posts fetched from BlueSky');
+                process.exit(1);
+              }
+
+              // Sort by date (newest first) and take top 5
+              blueSkyPosts.sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+              );
+              const topPosts = blueSkyPosts.slice(0, 5);
+
+              console.log(
+                `📊 Selected ${topPosts.length} posts for social pulse`
+              );
+
+              // Read current now.json
+              const nowData = JSON.parse(
+                fs.readFileSync('data/now.json', 'utf8')
+              );
+
+              // Update social section and timestamp
+              nowData.social = topPosts;
+              nowData.last_updated_at =
+                new Date().toISOString().split('T')[0];
+
+              // Write back to file
+              fs.writeFileSync(
+                'data/now.json',
+                JSON.stringify(nowData, null, 2)
+              );
+
+              console.log('✅ Updated data/now.json with social pulse');
+              console.log('📝 Source: bluesky');
+
+            } catch (error) {
+              console.error(
+                `💥 Error updating social pulse: ${error.message}`
+              );
+              process.exit(1);
+            }
+          }
+
+          updateSocialPulse();
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          CURRENT_DATE=$(date +%Y-%m-%d)
+
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if there are changes to commit
+          if git diff --quiet data/now.json; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Add and commit changes
+          git add data/now.json
+          git commit -m "Updated Social pulse ($CURRENT_DATE)"
+
+          # Push changes
+          git push
