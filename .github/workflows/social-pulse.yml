@@ -21,64 +21,59 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install axios
+          npm install axios rss-parser
 
       - name: Fetch social media posts
         run: |
           node << 'EOF'
           const fs = require('fs');
-          const axios = require('axios');
+          const Parser = require('rss-parser');
 
           async function fetchBlueSkyRSS() {
             try {
               console.log('📘 Fetching BlueSky posts...');
-              const response = await axios.get(
-                'https://bsky.app/profile/did:plc:vpqqjz6lgyfgek5fsjmo3b2i/rss',
-                {
-                  timeout: 10000,
-                  headers: {
-                    'User-Agent':
-                      'Mozilla/5.0 (compatible; social-pulse-bot/1.0)'
-                  }
+              const parser = new Parser({
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (compatible; social-pulse-bot/1.0)'
                 }
+              });
+
+              const feed = await parser.parseURL(
+                'https://bsky.app/profile/did:plc:vpqqjz6lgyfgek5fsjmo3b2i/rss'
               );
 
-              const xml = response.data;
+              console.log('🔍 RSS feed title:', feed.title);
+              console.log('🔍 Found', feed.items.length, 'RSS items');
 
-              // Simple XML parsing for RSS items
               const items = [];
-              const itemMatches = xml.match(/<item>(.*?)<\/item>/gs) || [];
+              const thirtyDaysAgo = new Date();
+              thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-              for (const itemMatch of itemMatches.slice(0, 10)) {
-                const titleMatch = itemMatch.match(
-                  /<title><!\[CDATA\[(.*?)\]\]><\/title>/
-                );
-                const linkMatch = itemMatch.match(/<link>(.*?)<\/link>/);
-                const pubDateMatch = itemMatch.match(
-                  /<pubDate>(.*?)<\/pubDate>/
-                );
-                const descriptionMatch = itemMatch.match(
-                  /<description><!\[CDATA\[(.*?)\]\]><\/description>/
-                );
+              for (const item of feed.items.slice(0, 10)) {
+                console.log('🔍 Processing item:');
+                console.log('  - title:', item.title || 'No title');
+                console.log('  - link:', item.link);
+                console.log('  - pubDate:', item.pubDate);
 
-                if (titleMatch && linkMatch && pubDateMatch) {
-                  const text = descriptionMatch ?
-                    descriptionMatch[1].replace(/<[^>]*>/g, '').trim() :
-                    titleMatch[1];
-                  const pubDate = new Date(pubDateMatch[1]);
+                const pubDate = new Date(item.pubDate);
+                const text = item.contentSnippet || item.content || item.title || '';
+                const cleanText = text.replace(/<[^>]*>/g, '').trim();
 
-                  // Only include posts from the last 30 days
-                  const thirtyDaysAgo = new Date();
-                  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                console.log('  - text length:', cleanText.length);
+                console.log('  - text preview:', cleanText.substring(0, 100));
+                console.log('  - date check passed:', pubDate > thirtyDaysAgo);
+                console.log('  - length check passed:', cleanText.length > 20);
 
-                  if (pubDate > thirtyDaysAgo && text.length > 20) {
-                    items.push({
-                      source: 'bluesky',
-                      url: linkMatch[1],
-                      text: text.substring(0, 280),
-                      created_at: pubDate.toISOString().split('T')[0]
-                    });
-                  }
+                if (pubDate > thirtyDaysAgo && cleanText.length > 20) {
+                  items.push({
+                    source: 'bluesky',
+                    url: item.link,
+                    text: cleanText.substring(0, 280),
+                    created_at: pubDate.toISOString().split('T')[0]
+                  });
+                  console.log('  ✅ Item added to results');
+                } else {
+                  console.log('  ❌ Item filtered out');
                 }
               }
 
@@ -96,8 +91,8 @@ jobs:
               const blueSkyPosts = await fetchBlueSkyRSS();
 
               if (blueSkyPosts.length === 0) {
-                console.log('❌ No posts fetched from BlueSky');
-                process.exit(1);
+                console.log('⚠️ No posts fetched from BlueSky - skipping social pulse update');
+                return;
               }
 
               // Sort by date (newest first) and take top 5
