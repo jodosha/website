@@ -41,44 +41,51 @@ jobs:
           echo "$EVENTS" | head -c 500
           echo ""
           echo "DEBUG: Checking if response is valid JSON..."
-          echo "$EVENTS" | node -e "try { JSON.parse(require('fs').readFileSync(0, 'utf8')); console.log('✓ Valid JSON'); } catch(e) { console.log('✗ Invalid JSON:', e.message); }"
+          echo "$EVENTS" | node -e "
+            try {
+              JSON.parse(require('fs').readFileSync(0, 'utf8'));
+              console.log('✓ Valid JSON');
+            } catch(e) {
+              console.log('✗ Invalid JSON:', e.message);
+            }"
 
           # Filter for PULL_REQUEST, RELEASE and direct PUSH events to
           # main/master and get the last 5
           echo "Processing events..."
-          
+
           # Debug: Check environment variable
           echo "DEBUG: EVENTS env var length: ${#EVENTS}"
           echo "DEBUG: First 200 chars of EVENTS env var:"
           echo "${EVENTS:0:200}"
-          
-          
-          # Set environment variables and run Node.js
-          export EVENTS="$EVENTS"
-          export CURRENT_DATE="$CURRENT_DATE"
-          node -e "$(cat << 'EOF'
-          console.log('DEBUG: process.env.EVENTS length:', (process.env.EVENTS || '').length);
+
+          # Write Node.js script to file and execute
+          cat > process_events.js << 'JSEOF'
+          console.log('DEBUG: process.env.EVENTS length:',
+                      (process.env.EVENTS || '').length);
           console.log('DEBUG: First 200 chars of process.env.EVENTS:');
           console.log((process.env.EVENTS || '').substring(0, 200));
-          
+
           const events = JSON.parse(process.env.EVENTS || '[]');
-          
+
           console.log('DEBUG: Total events fetched:', events.length);
           console.log('DEBUG: Event types found:');
           const eventTypeCounts = {};
           events.forEach(event => {
-            eventTypeCounts[event.type] = (eventTypeCounts[event.type] || 0) + 1;
+            const count = eventTypeCounts[event.type] || 0;
+            eventTypeCounts[event.type] = count + 1;
           });
           console.log(JSON.stringify(eventTypeCounts, null, 2));
-          
+
           console.log('DEBUG: First 3 events:');
           events.slice(0, 3).forEach((event, i) => {
-            console.log(\`Event \${i+1}: \${event.type} in \${event.repo?.name || 'unknown repo'}\`);
+            const repoName = event.repo?.name || 'unknown repo';
+            console.log(`Event ${i+1}: ${event.type} in ${repoName}`);
             if (event.type === 'PushEvent') {
-              console.log(\`  - Push ref: \${event.payload?.ref || 'unknown ref'}\`);
+              const ref = event.payload?.ref || 'unknown ref';
+              console.log(`  - Push ref: ${ref}`);
             }
           });
-          
+
           const validEvents = events
             .filter(event => {
               const isValid = (() => {
@@ -94,9 +101,10 @@ jobs:
                 }
                 return false;
               })();
-              
+
               if (isValid) {
-                console.log(\`DEBUG: Accepting \${event.type} in \${event.repo?.name}\`);
+                const repo = event.repo?.name;
+                console.log(`DEBUG: Accepting ${event.type} in ${repo}`);
               }
               return isValid;
             })
@@ -121,8 +129,8 @@ jobs:
                         firstCommit.message.split('\n')[0] :
                         'Direct commit';
                 // Create URL to the commit
-                url = \`https://github.com/\${event.repo.name}/commit/\` +
-                      \`\${firstCommit.sha}\`;
+                url = `https://github.com/${event.repo.name}/commit/` +
+                      `${firstCommit.sha}`;
               }
 
               return {
@@ -149,11 +157,20 @@ jobs:
           console.log('DEBUG: Final processed events:', validEvents.length);
           console.log('DEBUG: Events being saved:');
           validEvents.forEach((event, i) => {
-            console.log(\`  \${i+1}. \${event.event} - \${event.title} (\${event.repository})\`);
+            const title = event.title;
+            const repo = event.repository;
+            console.log(`  ${i+1}. ${event.event} - ${title} (${repo})`);
           });
           console.log('Updated pulse with', validEvents.length, 'events');
-EOF
-)"
+          JSEOF
+
+          # Set environment variables and run the script
+          export EVENTS="$EVENTS"
+          export CURRENT_DATE="$CURRENT_DATE"
+          node process_events.js
+
+          # Clean up
+          rm process_events.js
 
       - name: Commit and push changes
         run: |
