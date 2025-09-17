@@ -54,16 +54,26 @@ jobs:
               console.log('🔍 Found', itemMatches.length, 'raw RSS items');
 
               for (const itemMatch of itemMatches.slice(0, 10)) {
-                const titleMatch = itemMatch.match(
+                // Try CDATA format first, then fallback to regular format
+                let titleMatch = itemMatch.match(
                   /<title><!\[CDATA\[(.*?)\]\]><\/title>/
                 );
+                if (!titleMatch) {
+                  titleMatch = itemMatch.match(/<title>(.*?)<\/title>/);
+                }
+                
                 const linkMatch = itemMatch.match(/<link>(.*?)<\/link>/);
                 const pubDateMatch = itemMatch.match(
                   /<pubDate>(.*?)<\/pubDate>/
                 );
-                const descriptionMatch = itemMatch.match(
+                
+                // Try CDATA format first, then fallback to regular format
+                let descriptionMatch = itemMatch.match(
                   /<description><!\[CDATA\[(.*?)\]\]><\/description>/
                 );
+                if (!descriptionMatch) {
+                  descriptionMatch = itemMatch.match(/<description>(.*?)<\/description>/);
+                }
 
                 console.log('🔍 Processing item:');
                 console.log('  - title found:', !!titleMatch);
