@@ -46,7 +46,21 @@ jobs:
           # Filter for PULL_REQUEST, RELEASE and direct PUSH events to
           # main/master and get the last 5
           echo "Processing events..."
-          node -e "
+          
+          # Debug: Check environment variable
+          echo "DEBUG: EVENTS env var length: ${#EVENTS}"
+          echo "DEBUG: First 200 chars of EVENTS env var:"
+          echo "${EVENTS:0:200}"
+          
+          
+          # Set environment variables and run Node.js
+          export EVENTS="$EVENTS"
+          export CURRENT_DATE="$CURRENT_DATE"
+          node -e "$(cat << 'EOF'
+          console.log('DEBUG: process.env.EVENTS length:', (process.env.EVENTS || '').length);
+          console.log('DEBUG: First 200 chars of process.env.EVENTS:');
+          console.log((process.env.EVENTS || '').substring(0, 200));
+          
           const events = JSON.parse(process.env.EVENTS || '[]');
           
           console.log('DEBUG: Total events fetched:', events.length);
@@ -126,7 +140,7 @@ jobs:
 
           // Update pulse section and last_updated_at
           nowData.pulse = validEvents;
-          nowData.last_updated_at = '$CURRENT_DATE';
+          nowData.last_updated_at = process.env.CURRENT_DATE;
 
           // Write updated data back to file
           fs.writeFileSync('data/now.json',
@@ -138,7 +152,8 @@ jobs:
             console.log(\`  \${i+1}. \${event.event} - \${event.title} (\${event.repository})\`);
           });
           console.log('Updated pulse with', validEvents.length, 'events');
-          " EVENTS="$EVENTS" CURRENT_DATE="$CURRENT_DATE"
+EOF
+)"
 
       - name: Commit and push changes
         run: |
