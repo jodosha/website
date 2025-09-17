@@ -12,13 +12,6 @@
   "social": [],
   "pulse": [
     {
-      "event": "COMMIT",
-      "title": "Revamped `README.md` (#1)",
-      "repository": "jodosha/jodosha",
-      "url": "https://github.com/jodosha/jodosha/commit/d07c4db18263bc24ffa2adc81431e71e0a8a9e82",
-      "created_at": "2025-09-15"
-    },
-    {
       "event": "PULL_REQUEST",
       "title": "Revamped `README.md`",
       "repository": "jodosha/jodosha",
