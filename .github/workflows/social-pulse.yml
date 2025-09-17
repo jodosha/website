@@ -44,10 +44,14 @@ jobs:
               );
 
               const xml = response.data;
+              console.log('🔍 RSS response status:', response.status);
+              console.log('🔍 RSS content length:', xml.length);
+              console.log('🔍 RSS content preview:', xml.substring(0, 500));
 
               // Simple XML parsing for RSS items
               const items = [];
               const itemMatches = xml.match(/<item>(.*?)<\/item>/gs) || [];
+              console.log('🔍 Found', itemMatches.length, 'raw RSS items');
 
               for (const itemMatch of itemMatches.slice(0, 10)) {
                 const titleMatch = itemMatch.match(
@@ -61,15 +65,29 @@ jobs:
                   /<description><!\[CDATA\[(.*?)\]\]><\/description>/
                 );
 
+                console.log('🔍 Processing item:');
+                console.log('  - title found:', !!titleMatch);
+                console.log('  - link found:', !!linkMatch);
+                console.log('  - pubDate found:', !!pubDateMatch);
+                console.log('  - description found:', !!descriptionMatch);
+
                 if (titleMatch && linkMatch && pubDateMatch) {
                   const text = descriptionMatch ?
                     descriptionMatch[1].replace(/<[^>]*>/g, '').trim() :
                     titleMatch[1];
                   const pubDate = new Date(pubDateMatch[1]);
 
+                  console.log('  - text length:', text.length);
+                  console.log('  - pubDate:', pubDate);
+                  console.log('  - text preview:', text.substring(0, 100));
+
                   // Only include posts from the last 30 days
                   const thirtyDaysAgo = new Date();
                   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                  console.log('  - thirty days ago:', thirtyDaysAgo);
+                  console.log('  - date check passed:', pubDate > thirtyDaysAgo);
+                  console.log('  - length check passed:', text.length > 20);
 
                   if (pubDate > thirtyDaysAgo && text.length > 20) {
                     items.push({
@@ -78,7 +96,12 @@ jobs:
                       text: text.substring(0, 280),
                       created_at: pubDate.toISOString().split('T')[0]
                     });
+                    console.log('  ✅ Item added to results');
+                  } else {
+                    console.log('  ❌ Item filtered out');
                   }
+                } else {
+                  console.log('  ❌ Missing required fields');
                 }
               }
 
@@ -96,8 +119,8 @@ jobs:
               const blueSkyPosts = await fetchBlueSkyRSS();
 
               if (blueSkyPosts.length === 0) {
-                console.log('❌ No posts fetched from BlueSky');
-                process.exit(1);
+                console.log('⚠️ No posts fetched from BlueSky - skipping social pulse update');
+                return;
               }
 
               // Sort by date (newest first) and take top 5
