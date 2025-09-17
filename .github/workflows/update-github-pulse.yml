@@ -34,24 +34,57 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/users/jodosha/events/public?per_page=100")
 
+          # Debug: Show raw response
+          echo "DEBUG: Raw API response status and length:"
+          echo "Events length: $(echo "$EVENTS" | wc -c)"
+          echo "First 500 chars of response:"
+          echo "$EVENTS" | head -c 500
+          echo ""
+          echo "DEBUG: Checking if response is valid JSON..."
+          echo "$EVENTS" | node -e "try { JSON.parse(require('fs').readFileSync(0, 'utf8')); console.log('✓ Valid JSON'); } catch(e) { console.log('✗ Invalid JSON:', e.message); }"
+
           # Filter for PULL_REQUEST, RELEASE and direct PUSH events to
           # main/master and get the last 5
           echo "Processing events..."
           node -e "
           const events = JSON.parse(process.env.EVENTS || '[]');
+          
+          console.log('DEBUG: Total events fetched:', events.length);
+          console.log('DEBUG: Event types found:');
+          const eventTypeCounts = {};
+          events.forEach(event => {
+            eventTypeCounts[event.type] = (eventTypeCounts[event.type] || 0) + 1;
+          });
+          console.log(JSON.stringify(eventTypeCounts, null, 2));
+          
+          console.log('DEBUG: First 3 events:');
+          events.slice(0, 3).forEach((event, i) => {
+            console.log(\`Event \${i+1}: \${event.type} in \${event.repo?.name || 'unknown repo'}\`);
+            if (event.type === 'PushEvent') {
+              console.log(\`  - Push ref: \${event.payload?.ref || 'unknown ref'}\`);
+            }
+          });
+          
           const validEvents = events
             .filter(event => {
-              if (event.type === 'PullRequestEvent' ||
-                  event.type === 'ReleaseEvent') {
-                return true;
+              const isValid = (() => {
+                if (event.type === 'PullRequestEvent' ||
+                    event.type === 'ReleaseEvent') {
+                  return true;
+                }
+                // Include PushEvent only if it's to main or master branch
+                if (event.type === 'PushEvent') {
+                  const ref = event.payload.ref;
+                  return ref === 'refs/heads/main' ||
+                         ref === 'refs/heads/master';
+                }
+                return false;
+              })();
+              
+              if (isValid) {
+                console.log(\`DEBUG: Accepting \${event.type} in \${event.repo?.name}\`);
               }
-              // Include PushEvent only if it's to main or master branch
-              if (event.type === 'PushEvent') {
-                const ref = event.payload.ref;
-                return ref === 'refs/heads/main' ||
-                       ref === 'refs/heads/master';
-              }
-              return false;
+              return isValid;
             })
             .slice(0, 5)
             .map(event => {
@@ -99,6 +132,11 @@ jobs:
           fs.writeFileSync('data/now.json',
                            JSON.stringify(nowData, null, 2) + '\n');
 
+          console.log('DEBUG: Final processed events:', validEvents.length);
+          console.log('DEBUG: Events being saved:');
+          validEvents.forEach((event, i) => {
+            console.log(\`  \${i+1}. \${event.event} - \${event.title} (\${event.repository})\`);
+          });
           console.log('Updated pulse with', validEvents.length, 'events');
           " EVENTS="$EVENTS" CURRENT_DATE="$CURRENT_DATE"
 
