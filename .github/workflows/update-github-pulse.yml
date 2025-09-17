@@ -49,8 +49,7 @@ jobs:
               console.log('✗ Invalid JSON:', e.message);
             }"
 
-          # Filter for PULL_REQUEST, RELEASE and direct PUSH events to
-          # main/master and get the last 5
+          # Filter for PULL_REQUEST and RELEASE events and get the last 5
           echo "Processing events..."
 
           # Debug: Check environment variable
@@ -80,27 +79,12 @@ jobs:
           events.slice(0, 3).forEach((event, i) => {
             const repoName = event.repo?.name || 'unknown repo';
             console.log(`Event ${i+1}: ${event.type} in ${repoName}`);
-            if (event.type === 'PushEvent') {
-              const ref = event.payload?.ref || 'unknown ref';
-              console.log(`  - Push ref: ${ref}`);
-            }
           });
 
           const validEvents = events
             .filter(event => {
-              const isValid = (() => {
-                if (event.type === 'PullRequestEvent' ||
-                    event.type === 'ReleaseEvent') {
-                  return true;
-                }
-                // Include PushEvent only if it's to main or master branch
-                if (event.type === 'PushEvent') {
-                  const ref = event.payload.ref;
-                  return ref === 'refs/heads/main' ||
-                         ref === 'refs/heads/master';
-                }
-                return false;
-              })();
+              const isValid = event.type === 'PullRequestEvent' ||
+                              event.type === 'ReleaseEvent';
 
               if (isValid) {
                 const repo = event.repo?.name;
@@ -121,16 +105,6 @@ jobs:
                 title = event.payload.release.name ||
                         event.payload.release.tag_name;
                 url = event.payload.release.html_url;
-              } else if (event.type === 'PushEvent') {
-                eventType = 'COMMIT';
-                // Use the first commit message as title
-                const firstCommit = event.payload.commits[0];
-                title = firstCommit ?
-                        firstCommit.message.split('\n')[0] :
-                        'Direct commit';
-                // Create URL to the commit
-                url = `https://github.com/${event.repo.name}/commit/` +
-                      `${firstCommit.sha}`;
               }
 
               return {
