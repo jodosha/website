@@ -1,4 +1,4 @@
-baseurl = "https://lucaguidi.com/"
+baseurl = "/"
 languageCode = "en-US"
 theme = "terminal"
 title = "Luca Guidi"
