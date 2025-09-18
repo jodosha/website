@@ -1,9 +1,10 @@
 {{ define "main" }}
 <article class="post">
-  <header>
-    <h1>{{ .Title }}</h1>
-  </header>
-  
+  <h1 class="post-title">
+    <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+  </h1>
+  <div class="post-meta"></div>
+
   <div class="post-content">
     {{ $data := .Site.Data.now }}
     
@@ -24,7 +25,7 @@
     {{ if $data.social }}
       <ul>
       {{ range $data.social }}
-      <li>{{.text}}<br><a href="{{ .url }}">{{ .source }}</a> <em>({{ .created_at }})</em></li>
+      <li>{{.text}}<br><a href="{{ .url }}">{{ .source }}</a> <em><small>({{ .created_at }})</small></em></li>
       {{ end }}
       </ul>
     {{ end }}
@@ -36,7 +37,7 @@
     {{ if $data.pulse }}
       <ul>
       {{ range $data.pulse }}
-      <li><strong>{{ .event | title }}</strong>: <a href="{{ .url }}">{{ .title }}</a> in <a href="https://github.com/{{.repository}}">{{ .repository }}</a> <em>({{ .created_at }})</em></li>
+      <li>{{ .event | title }}: <a href="{{ .url }}">{{ .title }}</a> in <a href="https://github.com/{{.repository}}">{{ .repository }}</a> <em><small>({{ .created_at }})</small></em></li>
       {{ end }}
       </ul>
     {{ end }}
