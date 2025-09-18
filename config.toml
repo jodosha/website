@@ -19,8 +19,8 @@ unsafe = true
   author = "Luca Guidi"
   authorlocation = "Rome, Italy"
   authorwebsite = "https://lucaguidi.com"
-  description = "Family man, software architect, Open Source indie developer, speaker."
-  authorbio = "Family man, software architect, Open Source indie developer, speaker."
+  description = "Family man, senior software architect, Open Source indie developer, speaker."
+  authorbio = "Family man, senior software architect, Open Source indie developer, speaker."
   cover = "images/cover.jpg"
   githubName = "jodosha"
   googleAnalyticsUserID = "UA-235843-4"
@@ -33,9 +33,9 @@ unsafe = true
 [languages]
   [languages.en]
     title = "Luca Guidi"
-    subtitle = "Family man, software architect, Open Source indie developer, speaker."
+    subtitle = "Family man, senior software architect, Open Source indie developer, speaker."
     keywords = ""
-    copyright = "All rights reserved - 2021"
+    copyright = "All rights reserved - 2025"
     menuMore = "Show more"
     readMore = "Read more"
     readOtherPosts = "Read other posts"
