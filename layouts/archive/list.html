@@ -1,0 +1,162 @@
+{{ define "main" }}
+<div class="archive">
+  <header class="archive-header">
+    <h1>Archive 
+      <a href="{{ "rss.xml" | absURL }}" class="archive-rss" title="RSS Feed">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 0v2c6.6 0 12 5.4 12 12h2C16 6.3 9.7 0 2 0zM2 4v2c4.4 0 8 3.6 8 8h2C12 9.8 8.2 6 2 6V4zM4.5 11C3.7 11 3 11.7 3 12.5S3.7 14 4.5 14 6 13.3 6 12.5 5.3 11 4.5 11z"/>
+        </svg>
+      </a>
+    </h1>
+  </header>
+
+  <div class="archive-content">
+    <!-- Get all posts and sort by date descending -->
+    {{ $posts := slice }}
+    {{ range .Site.RegularPages }}
+      {{ if in .File.Path "posts/" }}
+        {{ $posts = $posts | append . }}
+      {{ end }}
+    {{ end }}
+    {{ $posts = sort $posts "Date" "desc" }}
+    
+    <div class="archive-list">
+      {{ $currentYear := "" }}
+      {{ range $posts }}
+        {{ $year := .Date.Format "2006" }}
+        
+        <div class="archive-entry">
+          <div class="entry-year">
+            {{ if ne $year $currentYear }}
+              {{ $year }}
+              {{ $currentYear = $year }}
+            {{ end }}
+          </div>
+          <div class="entry-content">
+            <a href="{{ .Permalink }}" class="entry-title">{{ .Title }}</a>
+            <span class="entry-date">{{ .Date.Format "Jan 2" }}</span>
+            {{ if .ReadingTime }}<span class="entry-reading-time">{{ .ReadingTime }} min</span>{{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<style>
+.archive {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: var(--foreground);
+}
+
+.archive-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.archive-header h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.archive-rss {
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.archive-rss:hover {
+  opacity: 1;
+}
+
+.archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.archive-entry {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(var(--accent-rgb, 223, 112, 32), 0.1);
+  align-items: baseline;
+}
+
+.archive-entry:last-child {
+  border-bottom: none;
+}
+
+.entry-year {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-align: right;
+}
+
+.entry-content {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.entry-title {
+  color: var(--foreground);
+  text-decoration: none;
+  font-weight: 400;
+  flex: 1;
+  min-width: 0;
+  transition: color 0.2s;
+}
+
+.entry-title:hover {
+  color: var(--accent);
+}
+
+.entry-date {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.entry-reading-time {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .archive-entry {
+    grid-template-columns: 60px 1fr;
+    gap: 1rem;
+  }
+  
+  .entry-year {
+    font-size: 0.8rem;
+  }
+  
+  .entry-content {
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-start;
+  }
+  
+  .entry-title {
+    margin-bottom: 0.25rem;
+  }
+}
+</style>
+{{ end }}

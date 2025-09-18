@@ -1,66 +1,21 @@
 baseurl = "https://lucaguidi.com/"
-copyright = "All rights reserved - 2021"
-disqusshortname = "lucaguidi"
-languagecode = "en-US"
-[pagination]
-pagerSize = 5
-pluralizelisttitles = false
-theme = "casper"
+languageCode = "en-US"
+theme = "terminal"
 title = "Luca Guidi"
-pygmentsuseclasses  = true
-pygmentscodefences  = true
 enableGitInfo = true
 
-[[menu.main]]
-name = "Twitter"
-url = "https://twitter.com/jodosha"
-pre = "<h3>Follow me</h3>"
-weight = 200
-[[menu.main]]
-name = "Github"
-url = "https://github.com/jodosha"
-weight = 190
-[[menu.main]]
-name = "Keybase"
-url = "https://keybase.io/jodosha"
-weight = 180
-[[menu.main]]
-name = "Facebook"
-url = "https://www.facebook.com/Luca-Guidi-1603307663019001"
-weight = 170
-[[menu.main]]
-name = "Instagram"
-url = "https://www.instagram.com/jodosha/"
-weight = 160
-[[menu.main]]
-name = "YouTube (code)"
-url = "https://www.youtube.com/channel/UCAprzjCQpYdzyN9Bv-Iq1sA"
-weight = 150
-[[menu.main]]
-name = "YouTube (music)"
-url = "https://www.youtube.com/c/jodosha"
-weight = 140
-[[menu.main]]
-identifier = "blog"
-name = "Blog"
-url = "/"
-weight = 120
-[[menu.main]]
-name = "Now"
-url = "/now"
-pre = "<h3>Misc</h3>"
-weight = 110
-[[menu.main]]
-name = "Sponsors"
-url = "/sponsors"
-weight = 100
-[[menu.main]]
-name = "Privacy Policy"
-url = "/privacy.html"
-weight = 90
+[pagination]
+pagerSize = 5
+
+[markup.goldmark.renderer]
+unsafe = true
+
 
 [params]
-  mainSections = ["post"]
+  contentTypeName = "posts"
+  showMenuItems = 4
+  fullWidthTheme = false
+  centerTheme = false
   author = "Luca Guidi"
   authorlocation = "Rome, Italy"
   authorwebsite = "https://lucaguidi.com"
@@ -75,9 +30,45 @@ weight = 90
   twitterName = "jodosha"
   hjsStyle="ocean"
 
+[languages]
+  [languages.en]
+    title = "Luca Guidi"
+    subtitle = "Family man, software architect, Open Source indie developer, speaker."
+    keywords = ""
+    copyright = "All rights reserved - 2021"
+    menuMore = "Show more"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoText = "Luca Guidi"
+      logoHomeLink = "/"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "blog"
+        name = "Blog"
+        url = "/"
+      [[languages.en.menu.main]]
+        identifier = "archive"
+        name = "Archive"
+        url = "/archive"
+      [[languages.en.menu.main]]
+        identifier = "now"
+        name = "Now"
+        url = "/now"
+      [[languages.en.menu.main]]
+        identifier = "sponsors"
+        name = "Sponsors"
+        url = "/sponsors"
+      [[languages.en.menu.main]]
+        identifier = "github"
+        name = "GitHub"
+        url = "https://github.com/jodosha"
+
 [permalinks]
   fixed = ":title/"
-  post = "/:year/:month/:day/:slug"
+  posts = "/:year/:month/:day/:slug"
 
 [taxonomies]
   tag = "tags"
@@ -91,11 +82,6 @@ weight = 90
   [outputFormats.RSS]
     baseName = "rss"
     mediaType = "application/rss+xml"
-
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
 
 [sitemap]
   ChangeFreq = ""
