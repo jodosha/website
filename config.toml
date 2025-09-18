@@ -1,71 +1,30 @@
-baseurl = "https://lucaguidi.com/"
-copyright = "All rights reserved - 2021"
-disqusshortname = "lucaguidi"
-languagecode = "en-US"
-[pagination]
-pagerSize = 5
-pluralizelisttitles = false
-theme = "casper"
+baseurl = "/"
+languageCode = "en-US"
+theme = "terminal"
 title = "Luca Guidi"
-pygmentsuseclasses  = true
-pygmentscodefences  = true
 enableGitInfo = true
 
-[[menu.main]]
-name = "Twitter"
-url = "https://twitter.com/jodosha"
-pre = "<h3>Follow me</h3>"
-weight = 200
-[[menu.main]]
-name = "Github"
-url = "https://github.com/jodosha"
-weight = 190
-[[menu.main]]
-name = "Keybase"
-url = "https://keybase.io/jodosha"
-weight = 180
-[[menu.main]]
-name = "Facebook"
-url = "https://www.facebook.com/Luca-Guidi-1603307663019001"
-weight = 170
-[[menu.main]]
-name = "Instagram"
-url = "https://www.instagram.com/jodosha/"
-weight = 160
-[[menu.main]]
-name = "YouTube (code)"
-url = "https://www.youtube.com/channel/UCAprzjCQpYdzyN9Bv-Iq1sA"
-weight = 150
-[[menu.main]]
-name = "YouTube (music)"
-url = "https://www.youtube.com/c/jodosha"
-weight = 140
-[[menu.main]]
-identifier = "blog"
-name = "Blog"
-url = "/"
-weight = 120
-[[menu.main]]
-name = "Now"
-url = "/now"
-pre = "<h3>Misc</h3>"
-weight = 110
-[[menu.main]]
-name = "Sponsors"
-url = "/sponsors"
-weight = 100
-[[menu.main]]
-name = "Privacy Policy"
-url = "/privacy.html"
-weight = 90
+[pagination]
+pagerSize = 5
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.highlight]
+noClasses = false
+style = ""
+
 
 [params]
-  mainSections = ["post"]
+  contentTypeName = "posts"
+  showMenuItems = 4
+  fullWidthTheme = false
+  centerTheme = false
   author = "Luca Guidi"
   authorlocation = "Rome, Italy"
   authorwebsite = "https://lucaguidi.com"
-  description = "Family man, software architect, Open Source indie developer, speaker."
-  authorbio = "Family man, software architect, Open Source indie developer, speaker."
+  description = "Family man, senior software architect, Open Source indie developer, speaker."
+  authorbio = "Family man, senior software architect, Open Source indie developer, speaker."
   cover = "images/cover.jpg"
   githubName = "jodosha"
   googleAnalyticsUserID = "UA-235843-4"
@@ -75,9 +34,32 @@ weight = 90
   twitterName = "jodosha"
   hjsStyle="ocean"
 
+[languages]
+  [languages.en]
+    title = "Luca Guidi"
+    subtitle = "Family man, senior software architect, Open Source indie developer, speaker."
+    keywords = ""
+    menuMore = "Show more"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoText = "Luca Guidi"
+      logoHomeLink = "/"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "blog"
+        name = "Blog"
+        url = "/blog"
+      [[languages.en.menu.main]]
+        identifier = "now"
+        name = "What I'm Doing Now"
+        url = "/now"
+
 [permalinks]
   fixed = ":title/"
-  post = "/:year/:month/:day/:slug"
+  posts = "/:year/:month/:day/:slug"
 
 [taxonomies]
   tag = "tags"
@@ -91,11 +73,6 @@ weight = 90
   [outputFormats.RSS]
     baseName = "rss"
     mediaType = "application/rss+xml"
-
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
 
 [sitemap]
   ChangeFreq = ""

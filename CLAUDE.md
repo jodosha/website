@@ -41,7 +41,7 @@ nix develop -c hugo                  # Build static site to public/ directory
 - `public/` - Generated site output (not tracked in git)
 
 ### Theme
-- Uses `themes/casper/` - Modified Casper theme for Hugo
+- Uses `themes/terminal/` - Modified Terminal theme for Hugo
 - Theme includes responsive design, syntax highlighting, social sharing
 - Custom CSS in `static/css/` overrides theme defaults
 

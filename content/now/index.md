@@ -1,5 +1,5 @@
 ---
-title: "What I'm doing right Now"
+title: "What I'm doing Now"
 image: /covers/now.jpg
 thumbnail: /thumbnails/now.jpg
 description: |

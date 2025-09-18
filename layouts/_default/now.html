@@ -1,0 +1,48 @@
+{{ define "main" }}
+<article class="post">
+  <h1 class="post-title">
+    <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+  </h1>
+  <div class="post-meta"></div>
+
+  <div class="post-content">
+    {{ $data := .Site.Data.now }}
+    
+    <p><em>Last updated {{ time.Format "Jan 2, 2006" $data.last_updated_at }} from {{ $data.location }}. {{ $data.update }}</em></p>
+
+    {{ if $data.current }}
+      {{ range $data.current }}
+        <h3>{{ .title }}</h3>
+        {{ .text | markdownify }}
+        <br><br>
+      {{ end }}
+    {{ end }}
+
+    <hr>
+
+    <h2>Social</h2>
+    
+    {{ if $data.social }}
+      <ul>
+      {{ range $data.social }}
+      <li>{{.text}}<br><a href="{{ .url }}">{{ .source }}</a> <em><small>({{ .created_at }})</small></em></li>
+      {{ end }}
+      </ul>
+    {{ end }}
+
+    <hr>
+
+    <h2>Code Pulse</h2>
+    
+    {{ if $data.pulse }}
+      <ul>
+      {{ range $data.pulse }}
+      <li>{{ .event | title }}: <a href="{{ .url }}">{{ .title }}</a> in <a href="https://github.com/{{.repository}}">{{ .repository }}</a> <em><small>({{ .created_at }})</small></em></li>
+      {{ end }}
+      </ul>
+    {{ end }}
+    
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}
