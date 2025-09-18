@@ -1,3 +1,14 @@
 {{ if .IsHome }}
 <link rel="stylesheet" href="{{ "css/profile-home.css" | absURL }}">
 {{ end }}
+
+<!-- Google Analytics for Home, Blog list, Blog article, and Now sections -->
+{{ with .Site.Params.googleAnalyticsUserID }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ . }}');
+</script>
+{{ end }}
