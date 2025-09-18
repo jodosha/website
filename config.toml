@@ -10,6 +10,10 @@ pagerSize = 5
 [markup.goldmark.renderer]
 unsafe = true
 
+[markup.highlight]
+noClasses = false
+style = ""
+
 
 [params]
   contentTypeName = "posts"
@@ -35,7 +39,6 @@ unsafe = true
     title = "Luca Guidi"
     subtitle = "Family man, senior software architect, Open Source indie developer, speaker."
     keywords = ""
-    copyright = "All rights reserved - 2025"
     menuMore = "Show more"
     readMore = "Read more"
     readOtherPosts = "Read other posts"

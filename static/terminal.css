@@ -3,3 +3,145 @@
   --foreground: #45372b;
   --accent: #df7020;
 }
+
+/* Catppuccin Latte code blocks */
+pre, pre.chroma {
+  background: #eff1f5 !important;
+  color: #4c4f69 !important;
+}
+
+pre code, code {
+  background: #eff1f5 !important;
+  color: #4c4f69 !important;
+}
+
+.highlight {
+  background: #eff1f5 !important;
+}
+
+/* Catppuccin Latte syntax highlighting */
+.chroma .k,   /* Keywords */
+.chroma .kc,  /* Keyword constants */
+.chroma .kd,  /* Keyword declarations */
+.chroma .kn,  /* Keyword namespace */
+.chroma .kp,  /* Keyword pseudo */
+.chroma .kr,  /* Keyword reserved */
+.chroma .kt   /* Keyword type */ {
+  color: #8839ef !important; /* Mauve */
+}
+
+.chroma .n,   /* Names */
+.chroma .ni,  /* Name entity */
+.chroma .nl,  /* Name label */
+.chroma .nx,  /* Name other */
+.chroma .nv,  /* Name variable */
+.chroma .vc,  /* Name variable class */
+.chroma .vg,  /* Name variable global */
+.chroma .vi,  /* Name variable instance */
+.chroma .vm   /* Name variable magic */ {
+  color: #4c4f69 !important; /* Text */
+}
+
+.chroma .na,  /* Name attribute */
+.chroma .nf,  /* Name function */
+.chroma .fm,  /* Name function magic */
+.chroma .py   /* Name property */ {
+  color: #1e66f5 !important; /* Blue */
+}
+
+.chroma .nb,  /* Name builtin */
+.chroma .bp,  /* Name builtin pseudo */
+.chroma .ne   /* Name exception */ {
+  color: #d20f39 !important; /* Red */
+}
+
+.chroma .nc,  /* Name class */
+.chroma .nn   /* Name namespace */ {
+  color: #df8e1d !important; /* Yellow */
+}
+
+.chroma .no   /* Name constant */ {
+  color: #fe640b !important; /* Peach */
+}
+
+.chroma .nd   /* Name decorator */ {
+  color: #ea76cb !important; /* Pink */
+}
+
+.chroma .nt   /* Name tag */ {
+  color: #8839ef !important; /* Mauve */
+}
+
+.chroma .s,   /* Strings */
+.chroma .sa,  /* String affix */
+.chroma .sb,  /* String backtick */
+.chroma .sc,  /* String char */
+.chroma .dl,  /* String delimiter */
+.chroma .sd,  /* String doc */
+.chroma .s2,  /* String double */
+.chroma .sh,  /* String heredoc */
+.chroma .si,  /* String interpol */
+.chroma .sx,  /* String other */
+.chroma .sr,  /* String regex */
+.chroma .s1,  /* String single */
+.chroma .ss   /* String symbol */ {
+  color: #40a02b !important; /* Green */
+}
+
+.chroma .se   /* String escape */ {
+  color: #ea76cb !important; /* Pink */
+}
+
+.chroma .m,   /* Numbers */
+.chroma .mb,  /* Number bin */
+.chroma .mf,  /* Number float */
+.chroma .mh,  /* Number hex */
+.chroma .mi,  /* Number integer */
+.chroma .il,  /* Number integer long */
+.chroma .mo   /* Number oct */ {
+  color: #fe640b !important; /* Peach */
+}
+
+.chroma .o    /* Operators */ {
+  color: #179299 !important; /* Teal */
+}
+
+.chroma .ow   /* Operator word */ {
+  color: #8839ef !important; /* Mauve */
+}
+
+.chroma .p    /* Punctuation */ {
+  color: #5c5f77 !important; /* Subtext1 */
+}
+
+.chroma .c,   /* Comments */
+.chroma .ch,  /* Comment hashbang */
+.chroma .cm,  /* Comment multiline */
+.chroma .c1,  /* Comment single */
+.chroma .cs   /* Comment special */ {
+  color: #6c6f85 !important; /* Overlay0 */
+}
+
+.chroma .cp,  /* Comment preproc */
+.chroma .cpf  /* Comment preproc file */ {
+  color: #ea76cb !important; /* Pink */
+}
+
+.chroma .gd   /* Generic deleted */ {
+  color: #d20f39 !important; /* Red */
+}
+
+.chroma .gi   /* Generic inserted */ {
+  color: #40a02b !important; /* Green */
+}
+
+/* Line numbers */
+.chroma .lnt, /* Line number table */
+.chroma .ln   /* Line numbers */ {
+  color: #9ca0b0 !important; /* Surface2 */
+}
+
+/* Line highlighting */
+.chroma .hl {
+  background-color: #e6e9ef !important; /* Mantle */
+}

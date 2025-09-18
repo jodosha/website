@@ -35,7 +35,7 @@
           <div class="entry-content">
             <a href="{{ .Permalink }}" class="entry-title">{{ .Title }}</a>
             <span class="entry-date">{{ .Date.Format "Jan 2" }}</span>
-            {{ if .ReadingTime }}<span class="entry-reading-time">{{ .ReadingTime }} min</span>{{ end }}
+            {{ if .ReadingTime }}<span class="entry-reading-time">({{ .ReadingTime }} min)</span>{{ end }}
           </div>
         </div>
       {{ end }}
