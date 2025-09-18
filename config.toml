@@ -69,7 +69,7 @@ weight = 90
   cover = "images/cover.jpg"
   githubName = "jodosha"
   googleAnalyticsUserID = "UA-235843-4"
-  RSSLink = "https://feeds.feedburner.com/LucaGuidi"
+  RSSLink = "/rss.xml"
   hideHUGOSupport = false
   logo = "images/logo.png"
   twitterName = "jodosha"
@@ -84,7 +84,13 @@ weight = 90
   category = "categories"
   series = "series"
 
-# Remove outputs configuration to use theme defaults
+[outputs]
+  home = ["HTML", "RSS"]
+
+[outputFormats]
+  [outputFormats.RSS]
+    baseName = "rss"
+    mediaType = "application/rss+xml"
 
 [markup]
   [markup.goldmark]
