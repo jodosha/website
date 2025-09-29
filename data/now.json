@@ -4,6 +4,11 @@
   "update": "It's getting fresher but still ejoying last bits of summer.",
   "current": [
     {
+      "title": "🐳 Docker tinkering",
+      "text": "I've been exploring Docker more deeply, learning about multi-stage builds and optimizing my images for better performance.",
+      "created_at": "2025-09-29"
+    },
+    {
       "title": "❄️ Nix obsession",
       "text": "Since a year now, I'm obssessed with reproducible systems and Nix is my tool of choice. I use it for everything, from my personal projects to work stuff.",
       "created_at": "2025-09-20"
