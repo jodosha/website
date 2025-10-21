@@ -27,6 +27,12 @@
   "social": [
     {
       "source": "bluesky",
+      "url": "https://bsky.app/profile/jodosha.bsky.social/post/3m3nlx23yn22e",
+      "text": "First day using custom Claude Code Skills… mind blown 🤯\nhttps://media.tenor.com/3eIvVsG3yPYAAAAC/the-universe-tim-and-eric-mind-blown.gif?hh=317&ww=498",
+      "created_at": "2025-10-20"
+    },
+    {
+      "source": "bluesky",
       "url": "https://bsky.app/profile/jodosha.bsky.social/post/3m2k22gyr2c2m",
       "text": "Is it just me, or is the mental overload of dealing with Kubernetes too much?",
       "created_at": "2025-10-06"
