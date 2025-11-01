@@ -27,6 +27,12 @@
   "social": [
     {
       "source": "bluesky",
+      "url": "https://bsky.app/profile/jodosha.bsky.social/post/3m4hwjnd5mc2r",
+      "text": "The hiatus from OSS allowed me to think and experiment.\n\nAfter many trials and errors, there is one exciting project.\n\nIt’s the dev exp tool I have always wanted but never had. So I built it.\n\nThis can be helpful for many dev friends out there.\n\nI’ll open it soon.\nAnyone interest",
+      "created_at": "2025-10-31"
+    },
+    {
+      "source": "bluesky",
       "url": "https://bsky.app/profile/jodosha.bsky.social/post/3m3wmxujn2c2i",
       "text": "Your #Golang CLI loads the entire database client just to print a version number.\n\nI spent months refining a pattern to fix this: two-phase initialization.\nCommand metadata at startup, deps only on execution.\n\nFast startup, clean tests.\nFull pattern breakdown: https://lucaguidi.c",
       "created_at": "2025-10-24"
