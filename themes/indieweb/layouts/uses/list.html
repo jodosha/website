@@ -1,0 +1,25 @@
+{{ define "main" }}
+<h1 class="page-title">{{ .Title | default "Uses" }}</h1>
+<p class="page-intro">{{ with .Description }}{{ . }}{{ else }}Not what's new — what I actually keep. Updated when something earns its place.{{ end }}</p>
+
+{{ partial "rule.html" "" }}
+
+{{- with .Params.crates }}
+<div class="crates">
+  {{- range . }}
+  <div class="crate">
+    <div class="crate__label">{{ .label }}</div>
+    <div class="crate__items">{{ .items | safeHTML }}</div>
+  </div>
+  {{- end }}
+</div>
+{{- end }}
+
+{{- with .Content }}
+<div class="prose" style="margin-top:24px">{{ . }}</div>
+{{- end }}
+
+{{- with .Params.note }}
+<p class="more-note" style="margin-top:32px">{{ . }}</p>
+{{- end }}
+{{ end }}

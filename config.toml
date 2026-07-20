@@ -1,6 +1,6 @@
 baseurl = "/"
 languageCode = "en-US"
-theme = "terminal"
+theme = "indieweb"
 title = "Luca Guidi"
 enableGitInfo = true
 
@@ -16,6 +16,20 @@ style = ""
 
 
 [params]
+  # --- IndieWeb theme ---
+  accent = "#c77c2c"        # amber; options: #3a7d44 green, #2c7a8c teal, #6b5e8f purple
+  accentDark = "#e09a4f"    # accent used in dark mode
+  bio = "Family man, software architect, open source indie dev. I write about technology, slowing down, and owning your corner of the web — from Rome, since 2006."
+  location = "Rome, Italy"
+  nowSnippet = "tinkering with Nix, drawing portraits, shipping dxup. Rome, sunny."
+  cursorBlink = true
+  copyrightStart = "2006"
+  github = "https://github.com/jodosha"
+  githubSponsors = "https://github.com/sponsors/jodosha"
+  bluesky = "https://bsky.app/profile/jodosha.bsky.social"
+  linkedin = "https://linkedin.com/in/lucaguidi"
+  email = "me@lucaguidi.com"
+
   contentTypeName = "posts"
   showMenuItems = 4
   fullWidthTheme = false

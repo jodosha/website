@@ -1,0 +1,20 @@
+{{ define "main" }}
+<p class="breadcrumb"><a href="{{ (printf "/%s/" .Data.Plural) | relURL }}">~/{{ .Data.Plural }}/</a></p>
+<h1 class="page-title" style="margin-top:10px">{{ .Title }}</h1>
+<p class="page-intro">{{ len .Pages }} {{ cond (eq (len .Pages) 1) "entry" "entries" }} tagged “{{ .Title }}”.</p>
+
+{{ partial "rule.html" "" }}
+
+{{- range .Pages.GroupByDate "2006" }}
+<div class="year">{{ .Key }}</div>
+<div class="entries">
+  {{- range .Pages }}
+  <div class="entry">
+    <a class="entry__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <span class="entry__leader" aria-hidden="true"></span>
+    <span class="entry__date">{{ .Date.Format "Jan 2" }}</span>
+  </div>
+  {{- end }}
+</div>
+{{- end }}
+{{ end }}

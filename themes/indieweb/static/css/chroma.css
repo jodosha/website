@@ -1,0 +1,54 @@
+/* Chroma syntax highlighting — mapped to IndieWeb palette variables so
+   code blocks adapt to light/dark automatically. Generated from Hugo's
+   class output (markup.highlight.noClasses = false). */
+
+.highlight { margin: 0 0 22px; }
+
+.highlight pre.chroma,
+pre.chroma {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 16px 18px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+.prose pre.chroma code,
+pre.chroma code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* line highlight / line numbers table */
+.chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+.chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+.chroma .hl { background: var(--code-line); display: block; }
+.chroma .ln, .chroma .lnt { color: var(--code-comment); margin-right: 12px; padding: 0 4px; user-select: none; }
+
+/* tokens */
+.chroma .err { color: var(--code-keyword); }
+.chroma .c, .chroma .ch, .chroma .cm, .chroma .c1, .chroma .cs,
+.chroma .cp, .chroma .cpf { color: var(--code-comment); font-style: italic; }
+.chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp,
+.chroma .kr { color: var(--code-keyword); }
+.chroma .kt { color: var(--code-func); }
+.chroma .o, .chroma .ow { color: var(--code-keyword); }
+.chroma .s, .chroma .sa, .chroma .sb, .chroma .sc, .chroma .dl,
+.chroma .sd, .chroma .s2, .chroma .se, .chroma .sh, .chroma .si,
+.chroma .sx, .chroma .sr, .chroma .s1, .chroma .ss { color: var(--code-string); }
+.chroma .m, .chroma .mb, .chroma .mf, .chroma .mh, .chroma .mi,
+.chroma .il, .chroma .mo { color: var(--code-number); }
+.chroma .na, .chroma .nb, .chroma .bp { color: var(--code-func); }
+.chroma .nf, .chroma .fm { color: var(--code-func); }
+.chroma .nc, .chroma .nn, .chroma .ne, .chroma .ni { color: var(--code-name); }
+.chroma .nd, .chroma .nl, .chroma .nt { color: var(--code-keyword); }
+.chroma .nv, .chroma .vc, .chroma .vg, .chroma .vi, .chroma .nx { color: var(--code-name); }
+.chroma .gd { color: #b5602a; }
+.chroma .gi { color: #5f7a3a; }
+.chroma .gh, .chroma .gu { color: var(--code-comment); font-weight: 600; }
+.chroma .ge { font-style: italic; }
+.chroma .gs { font-weight: 600; }

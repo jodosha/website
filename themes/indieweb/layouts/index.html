@@ -1,0 +1,31 @@
+{{ define "main" }}
+{{- $p := .Site.Params -}}
+{{- $name := $p.author | default .Site.Title -}}
+{{- $cursorStatic := eq $p.cursorBlink false -}}
+{{- $posts := first 3 (where .Site.RegularPages "Section" "posts") -}}
+<div class="splash">
+  <h1 class="splash__name">{{ $name }}<span class="cursor{{ if $cursorStatic }} cursor--static{{ end }}" aria-hidden="true"></span></h1>
+  <p class="splash__bio">{{ $p.bio | default .Site.Params.description }}</p>
+  <div class="linkrow">
+    {{ partial "social.html" (dict "site" .Site "arrow" true) }}
+  </div>
+</div>
+
+{{ partial "rule.html" "" }}
+
+<p class="label">$ tail journal</p>
+<div class="taillist">
+  {{- range $posts }}
+  <div class="taillist__row">
+    <a class="t" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <span class="d">{{ .Date.Format "Jan 2006" }}</span>
+  </div>
+  {{- else }}
+  <div class="taillist__row"><span class="t">No entries yet.</span></div>
+  {{- end }}
+</div>
+
+{{ with $p.nowSnippet }}
+<a class="nowbox" href="{{ "/now/" | relURL }}"><b>now:</b> {{ . }} <span class="arrow">→ /now</span></a>
+{{ end }}
+{{ end }}

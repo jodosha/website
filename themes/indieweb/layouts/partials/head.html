@@ -1,0 +1,46 @@
+{{- $site := .Site -}}
+{{- $isHome := .IsHome -}}
+{{- $title := cond $isHome $site.Title (printf "%s · %s" .Title $site.Title) -}}
+{{- $desc := cond (ne .Description "") .Description ($site.Params.description | default $site.Params.bio) -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}">
+{{- with $site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
+<meta name="theme-color" content="#f5f1e6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#201f1a" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{- /* Open Graph / Twitter */ -}}
+<meta property="og:site_name" content="{{ $site.Title }}">
+<meta property="og:title" content="{{ cond $isHome $site.Title .Title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta name="twitter:card" content="summary">
+
+{{- /* Fonts: IBM Plex Mono */ -}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+{{- /* Stylesheets */ -}}
+<link rel="stylesheet" href="{{ "css/indieweb.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/chroma.css" | relURL }}">
+
+{{- /* Configurable accent (amber by default) */ -}}
+<style>:root{--lga:{{ $site.Params.accent | default "#c77c2c" }}}[data-theme="dark"]{--lga:{{ $site.Params.accentDark | default "#e09a4f" }}}</style>
+
+{{- /* RSS */ -}}
+{{ range .AlternativeOutputFormats -}}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}" title="{{ $site.Title }}">
+{{ end -}}
+{{ with $site.Home.OutputFormats.Get "rss" -}}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink | safeURL }}" title="{{ $site.Title }}">
+{{ end -}}
+
+{{- with $site.Params.googleAnalyticsUserID }}{{ if hugo.IsProduction }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ . }}');</script>
+{{ end }}{{ end }}
+{{ partial "theme-init.html" . }}

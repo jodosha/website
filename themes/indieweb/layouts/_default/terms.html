@@ -1,0 +1,12 @@
+{{ define "main" }}
+<h1 class="page-title">{{ .Title }}</h1>
+<p class="page-intro">Browse by {{ .Data.Singular }}.</p>
+
+{{ partial "rule.html" "" }}
+
+<div class="linkrow" style="font-size:0.875rem;gap:12px 22px">
+  {{- range .Data.Terms.Alphabetical }}
+  <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }} <span class="more-note">· {{ .Count }}</span></a>
+  {{- end }}
+</div>
+{{ end }}

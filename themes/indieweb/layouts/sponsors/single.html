@@ -1,0 +1,26 @@
+{{ define "main" }}
+<article>
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{ with .Params.intro }}<p class="page-intro">{{ . }}</p>{{ end }}
+
+  {{ partial "rule.html" "" }}
+
+  {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+  {{ with .Params.donate }}
+  <div class="cards"{{ if $.Content }} style="margin-top:32px"{{ end }}>
+    {{- range . }}
+    {{- $c := . }}
+    <div class="card">
+      <div class="card__label">{{ .label }}</div>
+      {{ with .body }}<p>{{ . }}</p>{{ end }}
+      {{- with .url }}<a class="btn" href="{{ . }}">{{ $c.cta | default "Sponsor →" }}</a>{{ end }}
+      {{- with .chip }}<span class="chip">{{ . | safeHTML }}{{ with $c.chipNote }} <span class="mut">· {{ . }}</span>{{ end }}</span>{{ end }}
+    </div>
+    {{- end }}
+  </div>
+  {{ end }}
+
+  {{ with .Params.closing }}<p class="aside-note" style="margin-top:34px">{{ . }}</p>{{ end }}
+</article>
+{{ end }}

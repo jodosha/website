@@ -1,0 +1,27 @@
+{{ define "main" }}
+{{- $title := .Title | default "Journal" -}}
+{{- $rss := "" -}}
+{{- with .OutputFormats.Get "rss" }}{{ $rss = .RelPermalink }}{{ else }}{{ with .Site.Home.OutputFormats.Get "rss" }}{{ $rss = .RelPermalink }}{{ end }}{{ end -}}
+<h1 class="page-title">{{ $title }}</h1>
+<p class="page-intro">
+  {{ with .Description }}{{ . }}{{ else }}Thoughts on tech, slowing down, and the free web. The older entries are tech tutorials.{{ end }}
+  {{ with $rss }}<span class="more-note">· <a href="{{ . }}">rss</a></span>{{ end }}
+</p>
+
+{{ partial "rule.html" "" }}
+
+{{- $pages := .Pages -}}
+{{- if not $pages }}{{ $pages = where .Site.RegularPages "Section" "posts" }}{{ end -}}
+{{- range $pages.GroupByDate "2006" }}
+<div class="year">{{ .Key }}</div>
+<div class="entries">
+  {{- range .Pages }}
+  <div class="entry">
+    <a class="entry__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <span class="entry__leader" aria-hidden="true"></span>
+    <span class="entry__date">{{ .Date.Format "Jan 2" }}</span>
+  </div>
+  {{- end }}
+</div>
+{{- end }}
+{{ end }}

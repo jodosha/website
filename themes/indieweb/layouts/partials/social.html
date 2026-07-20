@@ -1,0 +1,10 @@
+{{- /* Renders the social anchor list. Call with:
+       (dict "site" .Site "arrow" true|false)
+       The parent element supplies the styling context. */ -}}
+{{- $p := .site.Params -}}
+{{- $arrow := .arrow -}}
+{{- $suffix := cond $arrow " ↗" "" -}}
+{{- with $p.github }}<a href="{{ . }}"{{ if $arrow }} rel="me noopener" target="_blank"{{ end }}>github{{ $suffix }}</a>{{ end }}
+{{- with $p.bluesky }}<a href="{{ . }}"{{ if $arrow }} rel="me noopener" target="_blank"{{ end }}>bluesky{{ $suffix }}</a>{{ end }}
+{{- with $p.linkedin }}<a href="{{ . }}"{{ if $arrow }} rel="me noopener" target="_blank"{{ end }}>linkedin{{ $suffix }}</a>{{ end }}
+{{- with $p.email }}<a href="mailto:{{ . }}">email{{ $suffix }}</a>{{ end }}

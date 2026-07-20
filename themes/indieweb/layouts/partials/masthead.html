@@ -1,0 +1,20 @@
+{{- /* Nav items: label, url, and the section key that marks it active.
+       "home" is matched via .IsHome. Edit here to change the nav. */ -}}
+{{- $items := slice
+  (dict "label" "home"    "url" "/"          "key" "home")
+  (dict "label" "journal" "url" "/posts/"    "key" "posts")
+  (dict "label" "notes"   "url" "/notes/"    "key" "notes")
+  (dict "label" "now"     "url" "/now/"      "key" "now")
+  (dict "label" "uses"    "url" "/uses/"     "key" "uses")
+  (dict "label" "donate"  "url" "/sponsors/" "key" "sponsors")
+-}}
+{{- $active := cond .IsHome "home" .Section -}}
+<header class="masthead">
+  <a class="masthead__brand" href="{{ "/" | relURL }}">~/lucaguidi.com</a>
+  <nav class="nav" aria-label="Primary">
+    {{- range $items }}
+    <a href="{{ .url | relURL }}"{{ if eq $active .key }} class="is-active" aria-current="page"{{ end }}>{{ .label }}</a>
+    {{- end }}
+    <button type="button" class="nav__toggle" data-theme-toggle aria-label="Switch to dark mode">☾</button>
+  </nav>
+</header>

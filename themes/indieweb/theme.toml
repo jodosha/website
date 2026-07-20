@@ -1,0 +1,11 @@
+name = "IndieWeb"
+license = "MIT"
+description = "A warm-terminal, text-first Hugo theme for a personal site on the free web. IBM Plex Mono, paper palette, light/dark, fully responsive."
+homepage = "https://lucaguidi.com/"
+tags = ["blog", "minimal", "personal", "responsive", "dark", "terminal", "indieweb", "text-only"]
+features = ["blog", "responsive", "dark mode", "syntax highlighting"]
+min_version = "0.116.0"
+
+[author]
+  name = "Luca Guidi"
+  homepage = "https://lucaguidi.com/"

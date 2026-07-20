@@ -1,0 +1,9 @@
+{{- $start := .Site.Params.copyrightStart | default "2006" -}}
+{{- $rss := "/rss.xml" -}}
+{{- with .Site.Home.OutputFormats.Get "rss" }}{{ $rss = .RelPermalink }}{{ end -}}
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>© {{ $start }}–{{ now.Year }} · <a href="{{ $rss }}">rss</a> · text-only by choice</span>
+    <span class="site-footer__social">{{ partial "social.html" (dict "site" .Site "arrow" false) }}</span>
+  </div>
+</footer>

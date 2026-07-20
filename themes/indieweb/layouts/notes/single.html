@@ -1,0 +1,19 @@
+{{ define "main" }}
+{{- $notes := "/notes/" | relURL -}}
+<article>
+  <p class="breadcrumb"><a href="{{ $notes }}">~/notes/</a></p>
+  {{ with .Title }}<h1 class="article__title">{{ . }}</h1>{{ end }}
+  <p class="article__meta">{{ .Date.Format "Jan 2, 2006 · 15:04" }}</p>
+
+  {{ partial "rule.html" "tight" }}
+
+  <div class="prose">
+    <span class="note__prompt" aria-hidden="true">❯ </span>{{ .Content }}
+  </div>
+
+  <nav class="pager" aria-label="Note navigation">
+    <span></span>
+    <a href="{{ $notes }}">notes →</a>
+  </nav>
+</article>
+{{ end }}

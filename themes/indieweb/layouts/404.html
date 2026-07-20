@@ -1,0 +1,10 @@
+{{ define "main" }}
+<div class="notfound">
+  <div class="notfound__code">404<span class="cursor" aria-hidden="true"></span></div>
+  <p class="splash__bio">This path doesn't resolve. The page may have moved, or never existed.</p>
+  <div class="linkrow" style="margin-top:26px">
+    <a href="{{ "/" | relURL }}">home ↗</a>
+    <a href="{{ "/posts/" | relURL }}">journal ↗</a>
+  </div>
+</div>
+{{ end }}

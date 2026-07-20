@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{- $loc := .Site.Params.location -}}
+{{- $updated := .Lastmod | default .Date -}}
+<h1 class="page-title">{{ .Title | default "Now" }}</h1>
+<div class="stamp">last updated <b>{{ $updated.Format "Jan 2, 2006" }}</b>{{ with $loc }} · {{ . }}{{ end }}{{ with .Params.weather }} · {{ . }}{{ end }}</div>
+
+{{ partial "rule.html" "" }}
+
+{{- with .Params.blocks }}
+<div class="blocks">
+  {{- range . }}
+  <div class="block">
+    <div class="block__title">{{ .title }}</div>
+    <p>{{ .body | markdownify }}</p>
+  </div>
+  {{- end }}
+</div>
+{{- end }}
+
+{{- with .Content }}
+<div class="prose">{{ . }}</div>
+{{- end }}
+
+<p class="aside-note" style="margin-top:38px">This page follows <a href="https://nownownow.com/about">Derek Sivers' /now idea</a>.</p>
+{{ end }}

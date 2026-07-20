@@ -1,0 +1,29 @@
+{{ define "main" }}
+{{- $journal := "/posts/" | relURL -}}
+{{- $email := .Site.Params.email -}}
+{{- $loc := .Site.Params.location -}}
+<article>
+  <p class="breadcrumb"><a href="{{ $journal }}">~/journal/{{ .Date.Format "2006" }}/</a></p>
+  <h1 class="article__title">{{ .Title }}</h1>
+  <p class="article__meta">
+    {{ .Date.Format "Jan 2, 2006" }}
+    {{ with .ReadingTime }} · {{ . }} min{{ end }}
+    {{ with $loc }} · {{ . }}{{ end }}
+  </p>
+
+  {{ partial "rule.html" "tight" }}
+
+  <div class="prose">
+    {{ .Content }}
+  </div>
+
+  {{ with $email }}
+  <div class="replybox">❧ Thoughts? <a href="mailto:{{ . }}?subject={{ $.Title | urlquery }}">Reply by email</a></div>
+  {{ end }}
+
+  <nav class="pager" aria-label="Post navigation">
+    {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
+    <a href="{{ $journal }}">index →</a>
+  </nav>
+</article>
+{{ end }}

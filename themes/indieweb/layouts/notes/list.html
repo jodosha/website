@@ -1,0 +1,24 @@
+{{ define "main" }}
+<h1 class="page-title">{{ .Title | default "Notes" }}</h1>
+<p class="page-intro">{{ with .Description }}{{ . }}{{ else }}Short, unpolished, frequent. When a thought outgrows this stream, it becomes a journal entry.{{ end }}</p>
+
+{{ partial "rule.html" "" }}
+
+{{- $notes := .Pages -}}
+{{- if not $notes }}{{ $notes = where .Site.RegularPages "Section" "notes" }}{{ end -}}
+{{- if $notes }}
+<div class="notes">
+  {{- range $notes }}
+  <div class="note">
+    <span class="note__prompt" aria-hidden="true">❯</span>
+    <div class="note__body">
+      {{ .Content }}
+      <div class="note__date">{{ .Date.Format "Jan 2, 2006 · 15:04" }}</div>
+    </div>
+  </div>
+  {{- end }}
+</div>
+{{- else }}
+<div class="notes"><div class="note"><span class="note__prompt" aria-hidden="true">❯</span><div class="note__body"><p>No notes yet — this stream is ready when you are.</p></div></div></div>
+{{- end }}
+{{ end }}

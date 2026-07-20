@@ -1,0 +1,12 @@
+{{ define "main" }}
+<article>
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{ with .Params.intro }}<p class="page-intro">{{ . }}</p>{{ end }}
+
+  {{ partial "rule.html" "" }}
+
+  <div class="prose">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

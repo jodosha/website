@@ -1,0 +1,21 @@
+{{ define "main" }}
+<h1 class="page-title">{{ .Title }}</h1>
+{{ with .Description }}<p class="page-intro">{{ . }}</p>{{ end }}
+
+{{ partial "rule.html" "" }}
+
+{{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+{{- $pages := .Pages -}}
+{{- if $pages }}
+<div class="entries" style="margin-top:24px">
+  {{- range $pages }}
+  <div class="entry">
+    <a class="entry__title" href="{{ .RelPermalink }}">{{ .Title | default .RelPermalink }}</a>
+    <span class="entry__leader" aria-hidden="true"></span>
+    <span class="entry__date">{{ with .Date }}{{ .Format "Jan 2, 2006" }}{{ end }}</span>
+  </div>
+  {{- end }}
+</div>
+{{- end }}
+{{ end }}
