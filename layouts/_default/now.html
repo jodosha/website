@@ -6,7 +6,7 @@
   <div class="post-meta"></div>
 
   <div class="post-content">
-    {{ $data := .Site.Data.now }}
+    {{ $data := hugo.Data.now }}
     
     <p><em>Last updated {{ time.Format "Jan 2, 2006" $data.last_updated_at }} from {{ $data.location }}. {{ $data.update }}</em></p>
 
