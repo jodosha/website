@@ -10,10 +10,10 @@ donate:
     body: "Monthly or one-time, through the platform where the code lives."
     cta: "$ sponsor @jodosha →"
     url: "https://github.com/sponsors/jodosha"
-  - label: "// digital wallet"
-    body: "One-time, no account gymnastics."
-    chip: "paypal.me/<b>lucaguidi</b>"
-    chipNote: "placeholder — send me the real handle"
+  # - label: "// digital wallet"
+  #   body: "One-time, no account gymnastics."
+  #   chip: "paypal.me/<b>lucaguidi</b>"
+  #   chipNote: "placeholder — send me the real handle"
 ---
 
 ### My Work
