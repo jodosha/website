@@ -27,9 +27,9 @@
   "social": [
     {
       "source": "bluesky",
-      "url": "https://bsky.app/profile/jodosha.bsky.social/post/3m52hflclcc22",
-      "text": "Been working on something for a while.\nStarting to share progress at @dxupsh\n\nBeta in ~6 weeks. 🚀\n\n[contains quote post or other embedded content]",
-      "created_at": "2025-11-07"
+      "url": "https://bsky.app/profile/jodosha.bsky.social/post/3mrdfe6nfps2g",
+      "text": "First time the dotfiles just worked.\n\nProvisioned a fresh Hetzner VPS as a secondary dev box today, and for the first time my dotfiles landed exactly as intended.\n\nKudos to Nix and Home Manager.\n\nhttps://github.com/jodosha/dotfiles",
+      "created_at": "2026-07-23"
     }
   ],
   "pulse": []
