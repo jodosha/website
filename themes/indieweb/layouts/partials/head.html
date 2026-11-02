@@ -1,6 +1,7 @@
 {{- $site := .Site -}}
 {{- $isHome := .IsHome -}}
-{{- $title := cond $isHome $site.Title (printf "%s · %s" .Title $site.Title) -}}
+{{- $pageTitle := cond (and .IsPage (eq .Section "notes")) (.Title | default "Note") .Title -}}
+{{- $title := cond $isHome $site.Title (printf "%s · %s" $pageTitle $site.Title) -}}
 {{- $desc := cond (ne .Description "") .Description ($site.Params.description | default $site.Params.bio) -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -13,7 +14,7 @@
 
 {{- /* Open Graph / Twitter */ -}}
 <meta property="og:site_name" content="{{ $site.Title }}">
-<meta property="og:title" content="{{ cond $isHome $site.Title .Title }}">
+<meta property="og:title" content="{{ cond $isHome $site.Title $pageTitle }}">
 <meta property="og:description" content="{{ $desc }}">
 <meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
 <meta property="og:url" content="{{ .Permalink }}">

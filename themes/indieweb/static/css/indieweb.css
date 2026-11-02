@@ -406,6 +406,8 @@ button:focus-visible,
 .note__body p { font-size: 0.90625rem; line-height: 1.75; color: var(--txt); margin: 0 0 12px; }
 .note__body > *:last-child { margin-bottom: 0; }
 .note__date { font-size: 0.75rem; color: var(--fnt); margin-top: 8px; }
+.note__date a { color: inherit; }
+.note__date a:hover { color: var(--lga); }
 
 /* ---- Now page ------------------------------------------------------------ */
 .stamp {
