@@ -4,7 +4,7 @@
 {{- with .OutputFormats.Get "rss" }}{{ $rss = .RelPermalink }}{{ else }}{{ with .Site.Home.OutputFormats.Get "rss" }}{{ $rss = .RelPermalink }}{{ end }}{{ end -}}
 <h1 class="page-title">{{ $title }}</h1>
 <p class="page-intro">
-  {{ with .Description }}{{ . }}{{ else }}Thoughts on tech, slowing down, and the free web. The older entries are tech tutorials.{{ end }}
+  {{ with .Description }}{{ . }}{{ else }}Thoughts and tutorials on tech, slowing down, and the free web.{{ end }}
   {{ with $rss }}<span class="more-note">· <a href="{{ . }}">rss</a></span>{{ end }}
 </p>
 
