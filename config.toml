@@ -1,5 +1,5 @@
 baseurl = "/"
-languageCode = "en-US"
+locale = "en-US"
 theme = "indieweb"
 title = "Luca Guidi"
 enableGitInfo = true
