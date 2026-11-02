@@ -1,8 +1,8 @@
 {{ define "main" }}
-{{- $loc := .Site.Params.location -}}
+{{- $loc := .Params.location | default .Site.Params.location -}}
 {{- $updated := .Lastmod | default .Date -}}
 <h1 class="page-title">{{ .Title | default "Now" }}</h1>
-<div class="stamp">last updated <b>{{ $updated.Format "Jan 2, 2006" }}</b>{{ with $loc }} · {{ . }}{{ end }}{{ with .Params.weather }} · {{ . }}{{ end }}</div>
+<div class="stamp">last updated <b>{{ $updated.Format "Jan 2, 2006" }}</b>{{ with $loc }} · {{ . }}{{ end }}{{ with .Params.status }} · {{ . }}{{ end }}</div>
 
 {{ partial "rule.html" "" }}
 
@@ -19,6 +19,39 @@
 
 {{- with .Content }}
 <div class="prose">{{ . }}</div>
+{{- end }}
+
+{{- $data := hugo.Data.now -}}
+{{- if or $data.social $data.pulse }}
+{{ partial "rule.html" "" }}
+{{- end }}
+
+{{- with $data.social }}
+<section class="pulse">
+  <p class="label">$ tail bluesky</p>
+  <div class="taillist">
+    {{- range . }}
+    <div class="taillist__row">
+      <a class="t" href="{{ .url }}">{{ .text | replaceRE `\s+` " " | truncate 140 }}</a>
+      <span class="d">{{ (time.AsTime .created_at).Format "Jan 2, 2006" }}</span>
+    </div>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- with $data.pulse }}
+<section class="pulse">
+  <p class="label">$ tail github</p>
+  <div class="taillist">
+    {{- range . }}
+    <div class="taillist__row">
+      <a class="t" href="{{ .url }}">{{ .title }}</a>
+      <span class="d">{{ cond (eq .event "RELEASE") "release" "pr" }} · {{ .repository }} · {{ (time.AsTime .created_at).Format "Jan 2, 2006" }}</span>
+    </div>
+    {{- end }}
+  </div>
+</section>
 {{- end }}
 
 <p class="aside-note" style="margin-top:38px">This page follows <a href="https://nownownow.com/about">Derek Sivers' /now idea</a>.</p>

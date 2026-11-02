@@ -424,6 +424,8 @@ button:focus-visible,
 .block__title { font-size: 0.9375rem; font-weight: 600; color: var(--lga); }
 .block p { font-size: 0.875rem; line-height: 1.75; color: var(--txt); margin: 8px 0 0; }
 
+.pulse + .pulse { margin-top: 36px; }
+
 .aside-note { font-size: 0.78125rem; color: var(--mut); font-style: italic; }
 
 /* ---- Uses grid ----------------------------------------------------------- */

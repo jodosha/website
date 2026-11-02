@@ -110,15 +110,19 @@ jobs:
                 fs.readFileSync('data/now.json', 'utf8')
               );
 
-              // Update social section and timestamp
+              // Skip the write when nothing changed: every commit is a deploy
+              if (JSON.stringify(nowData.social) === JSON.stringify(topPosts)) {
+                console.log('Social pulse unchanged');
+                return;
+              }
+
+              // Update social section
               nowData.social = topPosts;
-              nowData.last_updated_at =
-                new Date().toISOString().split('T')[0];
 
               // Write back to file
               fs.writeFileSync(
                 'data/now.json',
-                JSON.stringify(nowData, null, 2)
+                JSON.stringify(nowData, null, 2) + '\n'
               );
 
               console.log('✅ Updated data/now.json with social pulse');

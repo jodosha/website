@@ -25,9 +25,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Get current date for the commit message and last_updated_at
-          CURRENT_DATE=$(date +%Y-%m-%d)
-
           # Fetch last 5 public events for user jodosha
           echo "Fetching GitHub events..."
           EVENTS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
@@ -81,48 +78,91 @@ jobs:
             console.log(`Event ${i+1}: ${event.type} in ${repoName}`);
           });
 
-          const validEvents = events
+          // One entry per PR or release: the API emits an event per action
+          // (opened, assigned, merged, ...), newest first.
+          const seen = new Set();
+          const selected = events
             .filter(event => {
               const isValid = event.type === 'PullRequestEvent' ||
                               event.type === 'ReleaseEvent';
+              if (!isValid) return false;
 
-              if (isValid) {
-                const repo = event.repo?.name;
-                console.log(`DEBUG: Accepting ${event.type} in ${repo}`);
-              }
-              return isValid;
+              const key = event.type === 'PullRequestEvent'
+                ? `${event.repo.name}#${event.payload.number}`
+                : `${event.repo.name}@${event.payload.release?.id}`;
+              if (seen.has(key)) return false;
+              seen.add(key);
+
+              console.log(`DEBUG: Accepting ${event.type} in ${event.repo.name}`);
+              return true;
             })
-            .slice(0, 5)
-            .map(event => {
-              let eventType, title, url;
+            .slice(0, 5);
 
-              if (event.type === 'PullRequestEvent') {
-                eventType = 'PULL_REQUEST';
-                title = event.payload.pull_request.title;
-                url = event.payload.pull_request.html_url;
-              } else if (event.type === 'ReleaseEvent') {
-                eventType = 'RELEASE';
-                title = event.payload.release.name ||
-                        event.payload.release.tag_name;
-                url = event.payload.release.html_url;
-              }
+          // PullRequestEvent payloads no longer include title and html_url:
+          // fetch them from the pull request API.
+          async function pullRequest(event) {
+            const repo = event.repo.name;
+            const number = event.payload.number;
+            const fallback = {
+              title: `${repo}#${number}`,
+              html_url: `https://github.com/${repo}/pull/${number}`
+            };
 
-              return {
-                event: eventType,
-                title: title,
-                repository: event.repo.name,
-                url: url,
-                created_at: event.created_at.split('T')[0]
-              };
-            });
+            try {
+              const response = await fetch(event.payload.pull_request.url, {
+                headers: {
+                  'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+                  'Accept': 'application/vnd.github.v3+json'
+                }
+              });
+              if (!response.ok) return fallback;
+              return await response.json();
+            } catch (error) {
+              console.log(`DEBUG: Failed to fetch ${repo}#${number}:`, error.message);
+              return fallback;
+            }
+          }
+
+          async function toPulse(event) {
+            let eventType, title, url;
+
+            if (event.type === 'PullRequestEvent') {
+              const pr = await pullRequest(event);
+              eventType = 'PULL_REQUEST';
+              title = pr.title;
+              url = pr.html_url;
+            } else if (event.type === 'ReleaseEvent') {
+              const release = event.payload.release;
+              eventType = 'RELEASE';
+              title = release.name || release.tag_name;
+              url = release.html_url ||
+                    `https://github.com/${event.repo.name}/releases/tag/${release.tag_name}`;
+            }
+
+            return {
+              event: eventType,
+              title: title,
+              repository: event.repo.name,
+              url: url,
+              created_at: event.created_at.split('T')[0]
+            };
+          }
+
+          (async () => {
+          const validEvents = await Promise.all(selected.map(toPulse));
 
           // Read current now.json
           const fs = require('fs');
           const nowData = JSON.parse(fs.readFileSync('data/now.json', 'utf8'));
 
-          // Update pulse section and last_updated_at
+          // Skip the write when nothing changed: every commit is a deploy
+          if (JSON.stringify(nowData.pulse) === JSON.stringify(validEvents)) {
+            console.log('Pulse unchanged');
+            return;
+          }
+
+          // Update pulse section
           nowData.pulse = validEvents;
-          nowData.last_updated_at = process.env.CURRENT_DATE;
 
           // Write updated data back to file
           fs.writeFileSync('data/now.json',
@@ -136,11 +176,11 @@ jobs:
             console.log(`  ${i+1}. ${event.event} - ${title} (${repo})`);
           });
           console.log('Updated pulse with', validEvents.length, 'events');
+          })();
           JSEOF
 
           # Set environment variables and run the script
           export EVENTS="$EVENTS"
-          export CURRENT_DATE="$CURRENT_DATE"
           node process_events.js
 
           # Clean up

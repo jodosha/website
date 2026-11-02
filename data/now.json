@@ -1,14 +1,4 @@
 {
-  "last_updated_at": "2026-08-06",
-  "location": "Sardinia, Italy",
-  "update": "Summer vacation, finally!",
-  "current": [
-    {
-      "title": "💫 Mission — a Claude Code workflow for finding your unknowns",
-      "text": "Shipped a workflow for finding your unknowns, as twelve Claude Code commands.",
-      "created_at": "2026-08-06"
-    },
-  ],
   "social": [
     {
       "source": "bluesky",
@@ -17,5 +7,20 @@
       "created_at": "2026-07-23"
     }
   ],
-  "pulse": []
+  "pulse": [
+    {
+      "event": "PULL_REQUEST",
+      "title": "Remove unused Terminal theme",
+      "repository": "jodosha/website",
+      "url": "https://github.com/jodosha/website/pull/32",
+      "created_at": "2026-11-02"
+    },
+    {
+      "event": "PULL_REQUEST",
+      "title": "Bump js-yaml, eslint and eslint-config-airbnb in /themes/terminal",
+      "repository": "jodosha/website",
+      "url": "https://github.com/jodosha/website/pull/31",
+      "created_at": "2025-11-14"
+    }
+  ]
 }
