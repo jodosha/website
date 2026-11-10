@@ -21,7 +21,6 @@ style = ""
   accentDark = "#e09a4f"    # accent used in dark mode
   bio = "Family man, software architect, open source indie dev. I write about technology, slowing down, and owning your corner of the web — from Rome, since 2006."
   location = "Rome, Italy"
-  nowSnippet = "tinkering with Nix, drawing portraits, shipping dxup. Rome, sunny."
   cursorBlink = true
   copyrightStart = "2006"
   github = "https://github.com/jodosha"
