@@ -261,7 +261,7 @@ button:focus-visible,
 .nowbox b { color: var(--lga); font-weight: 600; }
 .nowbox .arrow { color: var(--mut); }
 
-/* ---- Journal (year-grouped archive) ------------------------------------- */
+/* ---- Journal entries (journal archive and home "tail journal") ---------- */
 .year {
   font-size: 0.9375rem;
   font-weight: 600;
@@ -273,15 +273,22 @@ button:focus-visible,
   flex-direction: column;
   gap: 13px;
   font-size: 0.875rem;
-  margin-bottom: 34px;
 }
+.entries + .year { margin-top: 34px; }
+/* One line per entry: long titles end in an ellipsis, the date stays put */
 .entry {
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
-  gap: 6px 12px;
+  gap: 12px;
 }
-.entry__title { font-weight: 500; color: var(--ink); }
+.entry__title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--ink);
+}
 .entry a.entry__title:hover { color: var(--lga); }
 .entry__leader {
   flex: 1 1 40px;
@@ -290,7 +297,7 @@ button:focus-visible,
   align-self: stretch;
   margin-bottom: .35em;
 }
-.entry__date { color: var(--fnt); white-space: nowrap; }
+.entry__date { flex-shrink: 0; color: var(--fnt); white-space: nowrap; }
 
 .more-note { font-size: 0.8125rem; color: var(--mut); }
 
