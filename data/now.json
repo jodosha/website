@@ -10,6 +10,20 @@
   "pulse": [
     {
       "event": "PULL_REQUEST",
+      "title": "fix: run sessions as uid 1000 on any image",
+      "repository": "galaxyloop-labs/moonmchn",
+      "url": "https://github.com/galaxyloop-labs/moonmchn/pull/2",
+      "created_at": "2026-11-10"
+    },
+    {
+      "event": "PULL_REQUEST",
+      "title": "Moon MCHN v0.1.0",
+      "repository": "jodosha/website",
+      "url": "https://github.com/jodosha/website/pull/33",
+      "created_at": "2026-11-10"
+    },
+    {
+      "event": "PULL_REQUEST",
       "title": "chore(deps): bump the cargo group with 5 updates",
       "repository": "galaxyloop-labs/moonmchn",
       "url": "https://github.com/galaxyloop-labs/moonmchn/pull/1",
