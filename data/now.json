@@ -2,9 +2,9 @@
   "social": [
     {
       "source": "bluesky",
-      "url": "https://bsky.app/profile/jodosha.bsky.social/post/3mrdfe6nfps2g",
-      "text": "First time the dotfiles just worked.\n\nProvisioned a fresh Hetzner VPS as a secondary dev box today, and for the first time my dotfiles landed exactly as intended.\n\nKudos to Nix and Home Manager.\n\nhttps://github.com/jodosha/dotfiles",
-      "created_at": "2026-07-23"
+      "url": "https://bsky.app/profile/jodosha.bsky.social/post/3mzxtogtptk2a",
+      "text": "LLMs raised the stakes of running software. Agents can go rogue, and attacks on developers make the news almost every week.\n\nSo I built Moon MCHN, native microVMs for development on macOS and Linux. v0.1.0 is out.\n\nhttps://lucaguidi.com/2026/11/09/moon-mchn-v0.1.0-native-microvms",
+      "created_at": "2026-11-10"
     }
   ],
   "pulse": [
