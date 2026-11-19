@@ -1,7 +1,6 @@
 ---
 title: "Moon MCHN: denied requests could fill the host's disk"
 date: 2026-11-19
-draft: true
 description: |
   Moon MCHN logged every connection it denied a machine, with no limit. A guest that kept retrying could grow the log until the host ran out of disk.
   v0.2.1 caps each machine at 60 log lines a minute and rotates the log at 8 MiB, keeping 16 files.
